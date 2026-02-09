@@ -1,0 +1,4202 @@
+﻿---
+ 
+import { Icon } from 'astro-icon/components';
+import { benefitsConfig } from '../../content/pages/membership/benefits.config';
+
+const { 
+  header, heroStats, roiCalculator, benefits, categories, 
+  comparison, achievements, memberMap, testimonials, 
+  activityFeed, events, journey, shortcuts, cta 
+} = benefitsConfig;
+
+const roiInitialTotal = roiCalculator.items.reduce((sum, item) => sum + item.value, 0);
+const roiInitialSavings = roiInitialTotal - roiCalculator.membershipCost;
+const roiInitialMultiplier = Math.round(roiInitialTotal / roiCalculator.membershipCost);
+
+const unlockedXp = achievements.badges.filter((badge) => badge.unlocked).reduce((sum, badge) => sum + badge.xp, 0);
+const totalXp = achievements.badges.reduce((sum, badge) => sum + badge.xp, 0);
+const xpProgressPercent = totalXp > 0 ? Math.round((unlockedXp / totalXp) * 100) : 0;
+
+const totalMapMembers = memberMap.hotspots.reduce((sum, hotspot) => sum + hotspot.members, 0);
+const uniqueMapCountries = new Set(memberMap.hotspots.map((hotspot) => hotspot.country)).size;
+
+const mapHotspots = memberMap.hotspots.map((hotspot) => {
+  const left = Math.min(92, Math.max(8, ((hotspot.lng + 180) / 360) * 100));
+  const top = Math.min(88, Math.max(10, ((90 - hotspot.lat) / 180) * 100));
+
+  return {
+    ...hotspot,
+    left: `${left}%`,
+    top: `${top}%`,
+  };
+});
+
+const mapLegend = [...memberMap.hotspots]
+  .sort((a, b) => b.members - a.members)
+  .slice(0, 6);
+
+const estimatedOnlineNow = memberMap.hotspots.reduce(
+  (sum, hotspot) => sum + Math.max(6, Math.round(hotspot.members * 0.18)),
+  0,
+);
+
+const countryCodeToFlag = (countryCode: string) =>
+  countryCode
+    .toUpperCase()
+    .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
+
+const activityTypeIcons: Record<string, string> = {
+  join: 'lucide:user-plus',
+  certificate: 'lucide:award',
+  webinar: 'lucide:video',
+  mentor: 'lucide:handshake',
+  job: 'lucide:briefcase',
+  badge: 'lucide:badge-check',
+  forum: 'lucide:message-circle',
+};
+
+const getActivityMessage = (item: (typeof activityFeed)[number]) => {
+  if ('achievement' in item && item.achievement) return `earned ${item.achievement}`;
+  if ('event' in item && item.event) return `joined ${item.event}`;
+  if ('action' in item && item.action) return item.action;
+  if ('location' in item && item.location) return `joined from ${item.location}`;
+  return 'is active in the community';
+};
+
+const formatEventDate = (isoDate: string) => {
+  const date = new Date(isoDate);
+  if (Number.isNaN(date.getTime())) {
+    return { day: '--', month: '---', time: 'TBA' };
+  }
+
+  return {
+    day: date.toLocaleDateString('en-US', { day: '2-digit' }),
+    month: date.toLocaleDateString('en-US', { month: 'short' }),
+    time: date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+  };
+};
+---
+
+<section class="mb-section" id="benefits">
+  <!-- Background -->
+  <div class="mb-bg">
+    <div class="mb-bg-gradient"></div>
+    <div class="mb-bg-grid"></div>
+    <div class="mb-bg-glow"></div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="mb-toast-container" id="mb-toast-container"></div>
+ 
+
+  <!-- ============ HEADER ============ -->
+  <header class="mb-header">
+    <div class="mb-header-badge">
+      <span class="mb-badge-pulse"></span>
+      <span>{header.badge}</span>
+      <span class="mb-badge-tag">{header.tagline}</span>
+    </div>
+
+    <h2 class="mb-header-title">
+      <span class="mb-title-line">{header.title.line1}</span>
+      <span class="mb-title-line mb-title-gradient">{header.title.line2}</span>
+    </h2>
+
+    <p class="mb-header-subtitle">{header.subtitle}</p>
+
+    <!-- Hero Stats with Trends -->
+    <div class="mb-hero-stats">
+      {heroStats.map((stat, i) => (
+        <div class="mb-hero-stat" style={`--delay: ${i * 100}ms`}>
+          <div class="mb-stat-icon-wrap">
+            <Icon name={stat.icon} />
+          </div>
+          <div class="mb-stat-data">
+            <span class="mb-stat-value" data-count={stat.value} data-suffix={stat.suffix}>{stat.value.toLocaleString()}{stat.suffix}</span>
+            <span class="mb-stat-label">{stat.label}</span>
+          </div>
+          <span class="mb-stat-trend">{stat.trend}</span>
+        </div>
+      ))}
+    </div>
+  </header>
+
+  <!-- ============ MAIN BENTO ============ -->
+  <div class="mb-bento">
+    <!-- ROI -->
+    <div class="mb-roi-card">
+      <div class="mb-card-header">
+        <div class="mb-card-title">
+          <Icon name="lucide:calculator" />
+          <span>{roiCalculator.title}</span>
+        </div>
+        <span class="mb-card-subtitle">{roiCalculator.subtitle}</span>
+      </div>
+
+      <div class="mb-roi-items">
+        {roiCalculator.items.map((item) => (
+          <label class="mb-roi-item">
+            <input
+              type="checkbox"
+              class="mb-roi-check"
+              data-roi-value={item.value}
+              checked
+            />
+            <span class="mb-roi-checkbox">
+              <Icon name="lucide:check" />
+            </span>
+            <span class="mb-roi-icon">
+              <Icon name={item.icon} />
+            </span>
+            <span class="mb-roi-info">
+              <span class="mb-roi-label">{item.label}</span>
+              <span class="mb-roi-desc">{item.desc}</span>
+            </span>
+            <span class="mb-roi-value">${item.value.toLocaleString()}</span>
+          </label>
+        ))}
+      </div>
+
+      <div class="mb-roi-result">
+        <div class="mb-roi-total">
+          <span class="mb-roi-total-label">Total Value</span>
+          <span class="mb-roi-total-value" id="mb-roi-total">
+            ${roiInitialTotal.toLocaleString()}
+          </span>
+        </div>
+        <div class="mb-roi-divider"></div>
+        <div class="mb-roi-cost">
+          <span class="mb-roi-cost-label">Your Cost</span>
+          <span class="mb-roi-cost-value">${roiCalculator.membershipCost.toLocaleString()}</span>
+        </div>
+        <div class="mb-roi-divider"></div>
+        <div class="mb-roi-savings">
+          <span class="mb-roi-savings-label">You Save</span>
+          <span class={`mb-roi-savings-value ${roiInitialSavings < 0 ? 'negative' : ''}`} id="mb-roi-savings">
+            ${roiInitialSavings.toLocaleString()}
+          </span>
+          <span class="mb-roi-multiplier" id="mb-roi-multiplier">
+            {roiInitialMultiplier}x ROI
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BENEFITS EXPLORER -->
+    <div class="mb-explorer-card">
+      <div class="mb-card-header">
+        <div class="mb-card-title">
+          <Icon name="lucide:sparkles" />
+          <span>Benefits Explorer</span>
+        </div>
+        <label class="mb-explorer-search">
+          <Icon name="lucide:search" />
+          <input id="mb-benefit-search" type="text" placeholder="Search benefits..." />
+          <span class="mb-search-hint">/</span>
+        </label>
+      </div>
+
+      <div class="mb-explorer-filters">
+        {categories.map((category, i) => (
+          <button
+            type="button"
+            class={`mb-filter-btn ${i === 0 ? 'active' : ''}`}
+            data-category={category.id}
+            style={`--cat-color: ${category.color ?? 'var(--accent)'}`}
+          >
+            <Icon name={category.icon} />
+            <span>{category.label}</span>
+            <span class="mb-filter-count">
+              {category.id === 'all'
+                ? benefits.length
+                : benefits.filter((benefit) => benefit.category === category.id).length}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <div class="mb-explorer-toolbar">
+        <div class="mb-toolbar-left">
+          <span class="mb-results-count">
+            <strong id="mb-visible-count">{benefits.length}</strong> benefits visible
+          </span>
+        </div>
+        <div class="mb-toolbar-right">
+          <button type="button" class="mb-toolbar-btn" id="mb-show-popular">
+            <Icon name="lucide:flame" />
+            <span>Popular</span>
+          </button>
+          <button type="button" class="mb-toolbar-btn" id="mb-show-new">
+            <Icon name="lucide:badge-plus" />
+            <span>New</span>
+          </button>
+          <button type="button" class="mb-toolbar-btn" id="mb-toggle-favorites">
+            <Icon name="lucide:heart" />
+            <span>Favorites</span>
+            <span class="mb-kbd" id="mb-fav-count">0</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-benefits-grid" id="mb-benefits-grid">
+        {benefits.map((benefit) => (
+          <article
+            class="mb-benefit-card"
+            data-id={benefit.id}
+            data-category={benefit.category}
+            data-popular={benefit.popular}
+            data-new={benefit.new}
+          >
+            <div class="mb-benefit-glow"></div>
+            {benefit.popular && (
+              <span class="mb-benefit-badge popular">
+                <Icon name="lucide:flame" />
+                Popular
+              </span>
+            )}
+            {!benefit.popular && benefit.new && (
+              <span class="mb-benefit-badge new">
+                <Icon name="lucide:sparkles" />
+                New
+              </span>
+            )}
+            <button class="mb-benefit-fav" type="button" data-fav={benefit.id} aria-label={`Favorite ${benefit.title}`}>
+              <Icon name="lucide:heart" />
+            </button>
+
+            <div class="mb-benefit-icon">
+              <Icon name={benefit.icon} />
+            </div>
+            <h3 class="mb-benefit-title">{benefit.title}</h3>
+            <p class="mb-benefit-desc">{benefit.desc}</p>
+            <div class="mb-benefit-footer">
+              <span class="mb-benefit-stat">{benefit.stat}</span>
+              <button class="mb-benefit-expand" type="button" aria-label={`Open ${benefit.title}`}>
+                <Icon name="lucide:arrow-up-right" />
+              </button>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <button class="mb-view-toggle" id="mb-view-toggle" type="button" aria-label="Toggle view">
+        <Icon name="lucide:grid-3x3" class="mb-view-grid" />
+        <Icon name="lucide:list" class="mb-view-list" />
+      </button>
+
+      <div class="mb-explorer-empty" id="mb-explorer-empty">
+        <Icon name="lucide:search-x" />
+        <span>No benefits found for the current filters.</span>
+        <button class="mb-reset-search" id="mb-reset-search" type="button">Reset filters</button>
+      </div>
+    </div>
+
+    <!-- COMPARISON -->
+    <div class="mb-comparison-card">
+      <div class="mb-card-header">
+        <div class="mb-card-title">
+          <Icon name="lucide:scale" />
+          <span>{comparison.title}</span>
+        </div>
+        <div class="mb-comparison-toggle">
+          <button type="button" class="mb-toggle-btn active" data-show="both">Both</button>
+          <button type="button" class="mb-toggle-btn" data-show="member">Member</button>
+          <button type="button" class="mb-toggle-btn" data-show="free">Free</button>
+        </div>
+      </div>
+
+      <div class="mb-comparison-body" id="mb-comparison-body" data-mode="both">
+        <div class="mb-comparison-col mb-col-member">
+          <div class="mb-col-header member">
+            <span class="mb-col-label">{comparison.member.label}</span>
+            <span class="mb-col-price">{comparison.member.price}</span>
+            <span class="mb-col-tag">Best Value</span>
+          </div>
+          <ul class="mb-col-features">
+            {comparison.member.features.map((feature) => (
+              <li class="mb-feature-row">
+                <span class="mb-check included">
+                  <Icon name="lucide:check" />
+                </span>
+                <span>{feature.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="mb-comparison-divider">VS</div>
+
+        <div class="mb-comparison-col mb-col-free">
+          <div class="mb-col-header free">
+            <span class="mb-col-label">{comparison.free.label}</span>
+            <span class="mb-col-price">{comparison.free.price}</span>
+          </div>
+          <ul class="mb-col-features">
+            {comparison.free.features.map((feature) => {
+              const state =
+                feature.included === true
+                  ? 'included'
+                  : feature.included === 'partial'
+                    ? 'partial'
+                    : 'not-included';
+              const icon =
+                feature.included === true
+                  ? 'lucide:check'
+                  : feature.included === 'partial'
+                    ? 'lucide:minus'
+                    : 'lucide:x';
+
+              return (
+                <li class="mb-feature-row">
+                  <span class={`mb-check ${state}`}>
+                    <Icon name={icon} />
+                  </span>
+                  <span class={feature.included === false ? 'strikethrough' : undefined}>{feature.text}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACHIEVEMENTS -->
+    <div class="mb-achievements-card">
+      <div class="mb-card-header">
+        <div class="mb-card-title">
+          <Icon name="lucide:trophy" />
+          <span>{achievements.title}</span>
+        </div>
+        <div class="mb-xp-bar">
+          <div class="mb-xp-fill" style={`--xp-progress: ${xpProgressPercent}%`}></div>
+          <span class="mb-xp-text">{unlockedXp}/{totalXp} XP</span>
+        </div>
+      </div>
+
+      <div class="mb-badges-grid">
+        {achievements.badges.map((badge) => (
+          <article class={`mb-badge-item ${badge.unlocked ? 'unlocked' : 'locked'}`}>
+            <span class="mb-badge-icon">
+              <Icon name={badge.icon} />
+              {!badge.unlocked && (
+                <span class="mb-badge-lock">
+                  <Icon name="lucide:lock" />
+                </span>
+              )}
+            </span>
+            <span class="mb-badge-name">{badge.name}</span>
+            <span class="mb-badge-desc">{badge.desc}</span>
+            <span class="mb-badge-xp">+{badge.xp} XP</span>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <!-- MAP -->
+    <div class="mb-map-card">
+      <div class="mb-card-header">
+        <div class="mb-card-title">
+          <Icon name="lucide:globe" />
+          <span>{memberMap.title}</span>
+        </div>
+        <span class="mb-map-stat">
+          <span class="mb-map-count">{totalMapMembers.toLocaleString()}</span> members in {uniqueMapCountries}+ countries
+        </span>
+      </div>
+
+      <div class="mb-map-container">
+        <div class="mb-map-visual">
+          <svg class="mb-world-svg" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path class="mb-world-outline" d="M84 190c40-24 92-32 134-24l52 30 32-8 28 12 18 30-8 26-30 20-56 8-42 22-40-6-48-34-32-8-18-22 10-26z" />
+            <path class="mb-world-outline" d="M394 174l48-18 86 10 38 28 72 10 34 34-14 30-52 18-58-4-42 20-74-8-48-28-10-44 20-48z" />
+            <path class="mb-world-outline" d="M706 214l42-30 72-8 62 18 34 34-6 36-28 26-56 10-48-14-42 8-32-22 2-58z" />
+            <path class="mb-world-outline" d="M804 332l54 10 38 24-8 30-46 14-34-20-18-26 14-32z" />
+          </svg>
+
+          {mapHotspots.map((hotspot) => (
+            <div class="mb-hotspot" style={`left: ${hotspot.left}; top: ${hotspot.top};`}>
+              <span class="mb-hotspot-dot"></span>
+              <span class="mb-hotspot-ring"></span>
+              <span class="mb-hotspot-ring ring-2"></span>
+              <div class="mb-hotspot-tooltip">
+                <span class="mb-tooltip-flag">{countryCodeToFlag(hotspot.flag)}</span>
+                <div>
+                  <div class="mb-tooltip-city">{hotspot.city}, {hotspot.country}</div>
+                  <div class="mb-tooltip-count">{hotspot.members} members</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="mb-map-legend">
+          {mapLegend.map((hotspot) => (
+            <div class="mb-legend-item">
+              <span class="mb-legend-flag">{countryCodeToFlag(hotspot.flag)}</span>
+              <span class="mb-legend-city">{hotspot.city}</span>
+              <span class="mb-legend-count">{hotspot.members}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- TESTIMONIALS -->
+    <div class="mb-testimonials-card">
+      <div class="mb-card-header">
+        <div class="mb-card-title">
+          <Icon name="lucide:quote" />
+          <span>Member Stories</span>
+        </div>
+        <div class="mb-testi-nav">
+          <button class="mb-testi-prev" id="mb-testi-prev" type="button" aria-label="Previous testimonial">
+            <Icon name="lucide:chevron-left" />
+          </button>
+          <span class="mb-testi-counter">
+            <span id="mb-testi-current">1</span> / {Math.max(testimonials.length, 1)}
+          </span>
+          <button class="mb-testi-next" id="mb-testi-next" type="button" aria-label="Next testimonial">
+            <Icon name="lucide:chevron-right" />
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-testi-carousel">
+        {testimonials.length === 0 && (
+          <article class="mb-testi-slide active">
+            <span class="mb-testi-highlight">
+              <Icon name="lucide:info" />
+              No stories yet
+            </span>
+            <p class="mb-testi-quote">We are collecting fresh member stories. Check back soon.</p>
+          </article>
+        )}
+        {testimonials.map((testimonial, i) => (
+          <article class={`mb-testi-slide ${i === 0 ? 'active' : ''}`}>
+            {testimonial.highlight && (
+              <span class="mb-testi-highlight">
+                <Icon name="lucide:sparkles" />
+                {testimonial.highlight}
+              </span>
+            )}
+            <p class="mb-testi-quote">"{testimonial.text}"</p>
+            <div class="mb-testi-rating">
+              {Array.from({ length: 5 }).map((_, starIndex) => (
+                <Icon name="lucide:star" class={starIndex < (testimonial.rating ?? 5) ? 'filled' : ''} />
+              ))}
+            </div>
+            <div class="mb-testi-author">
+              <span class="mb-author-avatar">
+                {testimonial.avatar}
+                <span class="mb-author-flag">{countryCodeToFlag(testimonial.country)}</span>
+              </span>
+              <div>
+                <div class="mb-author-name">{testimonial.author}</div>
+                <div class="mb-author-role">
+                  {testimonial.role}
+                  {testimonial.company ? ` at ${testimonial.company}` : ''}
+                </div>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      {testimonials.length > 1 && (
+        <div class="mb-testi-dots">
+          {testimonials.map((_, i) => (
+            <button
+              type="button"
+              class={`mb-testi-dot ${i === 0 ? 'active' : ''}`}
+              aria-label={`Show testimonial ${i + 1}`}
+            ></button>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <!-- ACTIVITY -->
+    <div class="mb-activity-card">
+      <div class="mb-card-header">
+        <span class="mb-live-badge">
+          <span class="mb-live-dot"></span>
+          LIVE
+        </span>
+        <div class="mb-card-title">
+          <Icon name="lucide:activity" />
+          <span>Member Activity</span>
+        </div>
+        <span class="mb-online-count">
+          <Icon name="lucide:radio" />
+          <span id="mb-online-num">{estimatedOnlineNow}</span> online
+        </span>
+      </div>
+
+      <div class="mb-activity-feed">
+        {activityFeed.map((item) => (
+          <article class="mb-activity-item" data-type={item.type}>
+            <span class="mb-activity-icon">
+              <Icon name={activityTypeIcons[item.type] || 'lucide:sparkles'} />
+            </span>
+            <div class="mb-activity-content">
+              <span class="mb-activity-user">
+                {item.user}
+                <span class="mb-activity-flag">{countryCodeToFlag(item.country)}</span>
+              </span>{' '}
+              <span class="mb-activity-text">{getActivityMessage(item)}</span>
+            </div>
+            <span class="mb-activity-time">{item.time}</span>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <!-- EVENTS -->
+    <div class="mb-events-card">
+      <div class="mb-card-header">
+        <div class="mb-card-title">
+          <Icon name="lucide:calendar-days" />
+          <span>Upcoming Events</span>
+        </div>
+        <a class="mb-view-all" href="/events">
+          View all
+          <Icon name="lucide:arrow-up-right" />
+        </a>
+      </div>
+
+      <div class="mb-events-list">
+        {events.map((event) => {
+          const date = formatEventDate(event.date);
+          const capacity = event.maxAttendees > 0 ? Math.min(100, Math.round((event.attendees / event.maxAttendees) * 100)) : 0;
+
+          return (
+            <article class="mb-event-item">
+              <div class="mb-event-date">
+                <span class="mb-event-day">{date.day}</span>
+                <span class="mb-event-month">{date.month}</span>
+              </div>
+
+              <div class="mb-event-info">
+                <div class="mb-event-tags">
+                  <span class="mb-event-tag">{event.type}</span>
+                  {event.tags.map((tag) => (
+                    <span class="mb-event-tag">{tag}</span>
+                  ))}
+                </div>
+                <span class="mb-event-title">{event.title}</span>
+                <span class="mb-event-type">{date.time}</span>
+              </div>
+
+              <div class="mb-event-speaker">
+                <span class="mb-speaker-avatar">{event.speaker.avatar}</span>
+                <div>
+                  <div class="mb-speaker-name">{event.speaker.name}</div>
+                  <div class="mb-speaker-role">{event.speaker.role}</div>
+                </div>
+              </div>
+
+              <div class="mb-event-capacity">
+                <div class="mb-capacity-bar">
+                  <div class="mb-capacity-fill" style={`width: ${capacity}%`}></div>
+                </div>
+                <span class="mb-capacity-text">{event.attendees}/{event.maxAttendees}</span>
+              </div>
+
+              <button class="mb-event-rsvp" type="button">
+                <Icon name="lucide:ticket" />
+                RSVP
+              </button>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- JOURNEY -->
+    <div class="mb-journey-card" id="mb-journey-card">
+      <div class="mb-card-header">
+        <div class="mb-card-title">
+          <Icon name="lucide:route" />
+          <span>Your Journey</span>
+        </div>
+        <div class="mb-journey-progress">
+          <span class="mb-progress-label">Step <span id="mb-journey-step">1</span> of 5</span>
+          <div class="mb-progress-bar">
+            <div class="mb-progress-fill" id="mb-journey-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-journey-timeline">
+        {journey.map((step, i) => (
+          <div class={`mb-journey-step ${i === 0 ? 'active current' : ''}`} data-step={step.step}>
+            <button class="mb-step-marker" data-marker={step.step}>
+              <span class="mb-marker-num">{step.step}</span>
+              <span class="mb-marker-icon"><Icon name={step.icon} /></span>
+              <span class="mb-marker-ring"></span>
+              <span class="mb-marker-pulse"></span>
+            </button>
+
+            <div class="mb-step-body">
+              <div class="mb-step-header">
+                <span class="mb-step-title">{step.title}</span>
+                <span class="mb-step-time"><Icon name="lucide:clock" /> {step.time}</span>
+              </div>
+              <span class="mb-step-desc">{step.desc}</span>
+
+              <div class="mb-step-details">
+                <ul class="mb-detail-list">
+                  {step.details.map((detail) => (
+                    <li><Icon name="lucide:check-circle" /> {detail}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <button class="mb-step-toggle" data-toggle={step.step}>
+                <span class="mb-toggle-text">Show details</span>
+                <Icon name="lucide:chevron-down" />
+              </button>
+            </div>
+
+            {i < journey.length - 1 && <div class="mb-step-connector"></div>}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- QUICK LINKS -->
+    <div class="mb-quick-card">
+      <div class="mb-quick-links">
+        <a class="mb-quick-link" href={cta.primary.url}>
+          <Icon name="lucide:rocket" />
+          <span>{cta.primary.text}</span>
+          <span class="mb-quick-badge hot">Popular</span>
+        </a>
+        <a class="mb-quick-link" href="/membership/pricing">
+          <Icon name="lucide:receipt-text" />
+          <span>Compare Plans</span>
+          <span class="mb-quick-badge">Transparent</span>
+        </a>
+        <a class="mb-quick-link" href="/support">
+          <Icon name="lucide:life-buoy" />
+          <span>Member Support</span>
+          <span class="mb-quick-badge">24/7</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="mb-cta-section">
+    <div class="mb-cta-urgency">
+      <Icon name="lucide:clock-3" />
+      <span>{cta.primary.urgency}</span>
+    </div>
+
+    <a class="mb-cta-primary" href={cta.primary.url}>
+      <span class="mb-cta-bg"></span>
+      <span class="mb-cta-shine"></span>
+      <span class="mb-cta-inner">
+        <span class="mb-cta-text">
+          <span class="mb-cta-main">{cta.primary.text}</span>
+          <span class="mb-cta-sub">{cta.primary.subtext}</span>
+        </span>
+        <span class="mb-cta-arrow">
+          <Icon name="lucide:arrow-right" />
+        </span>
+      </span>
+    </a>
+
+    <a class="mb-cta-secondary" href={cta.secondary.url}>
+      <Icon name="lucide:compass" />
+      <span>{cta.secondary.text}</span>
+    </a>
+
+    <div class="mb-cta-guarantee">
+      <Icon name="lucide:shield-check" />
+      <span>{cta.guarantee}</span>
+    </div>
+  </div>
+
+  <!-- SHORTCUTS MODAL -->
+  <div class="mb-shortcuts-modal" id="mb-shortcuts-modal">
+    <div class="mb-shortcuts-content">
+      <div class="mb-shortcuts-header">
+        <Icon name="lucide:keyboard" />
+        <span>Keyboard Shortcuts</span>
+        <button class="mb-shortcuts-close" id="mb-shortcuts-close" type="button" aria-label="Close shortcuts">
+          <Icon name="lucide:x" />
+        </button>
+      </div>
+
+      <div class="mb-shortcuts-list">
+        {shortcuts.map((shortcut) => (
+          <div class="mb-shortcut-item">
+            <span class="mb-kbd">{shortcut.key}</span>
+            <span>{shortcut.action}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING ACTIONS -->
+  <div class="mb-floating-actions">
+    <button class="mb-fab" id="mb-fab-shortcuts" type="button" aria-label="Show shortcuts">
+      <Icon name="lucide:keyboard" />
+    </button>
+    <button class="mb-fab" id="mb-fab-top" type="button" aria-label="Back to top">
+      <Icon name="lucide:arrow-up" />
+    </button>
+  </div>
+</section>
+
+<script define:vars={{ roiMembershipCost: roiCalculator.membershipCost }}>
+document.addEventListener('DOMContentLoaded', () => {
+  // ============ TOAST SYSTEM ============
+  const toastContainer = document.getElementById('mb-toast-container');
+  
+  function showToast(message, type = 'info', duration = 3000) {
+    const toast = document.createElement('div');
+    toast.className = `mb-toast mb-toast-${type}`;
+    toast.innerHTML = `
+      <span class="mb-toast-icon">${type === 'success' ? 'OK' : type === 'info' ? 'i' : '!'}</span>
+      <span class="mb-toast-msg">${message}</span>
+    `;
+    toastContainer?.appendChild(toast);
+    
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, duration);
+  }
+ 
+
+  // ============ ANIMATED COUNTERS ============
+  const counters = document.querySelectorAll('.mb-stat-value');
+  if ('IntersectionObserver' in window) {
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const el = entry.target as HTMLElement;
+          const target = parseInt(el.dataset.count || '0');
+          const suffix = el.dataset.suffix || '';
+          animateCounter(el, target, suffix);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach((counter) => counterObserver.observe(counter));
+  } else {
+    counters.forEach((counter) => {
+      const el = counter as HTMLElement;
+      const target = parseInt(el.dataset.count || '0');
+      const suffix = el.dataset.suffix || '';
+      el.textContent = `${target.toLocaleString()}${suffix}`;
+    });
+  }
+
+  function animateCounter(el: HTMLElement, target: number, suffix: string) {
+    let current = 0;
+    const increment = target / 50;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        el.textContent = target.toLocaleString() + suffix;
+        clearInterval(timer);
+      } else {
+        el.textContent = Math.floor(current).toLocaleString() + suffix;
+      }
+    }, 30);
+  }
+
+  // ============ ROI CALCULATOR ============
+  const roiChecks = document.querySelectorAll('.mb-roi-check');
+  const roiTotal = document.getElementById('mb-roi-total');
+  const roiSavings = document.getElementById('mb-roi-savings');
+  const roiMultiplier = document.getElementById('mb-roi-multiplier');
+  const membershipCost = Number(roiMembershipCost);
+
+  function calculateROI() {
+    let total = 0;
+    roiChecks.forEach(check => {
+      if ((check as HTMLInputElement).checked) {
+        total += parseInt((check as HTMLElement).dataset.roiValue || '0');
+      }
+    });
+    
+    const savings = total - membershipCost;
+    const multiplier = membershipCost > 0 ? (total / membershipCost).toFixed(0) : '0';
+    
+    if (roiTotal) roiTotal.textContent = `$${total.toLocaleString()}`;
+    if (roiSavings) {
+      roiSavings.textContent = `$${savings.toLocaleString()}`;
+      roiSavings.classList.toggle('negative', savings < 0);
+    }
+    if (roiMultiplier) roiMultiplier.textContent = `${multiplier}x ROI`;
+  }
+
+  roiChecks.forEach(check => {
+    check.addEventListener('change', () => {
+      calculateROI();
+      const label = check.closest('.mb-roi-item');
+      label?.classList.toggle('unchecked', !(check as HTMLInputElement).checked);
+    });
+  });
+
+  // ============ BENEFIT EXPLORER ============
+  const benefitSearch = document.getElementById('mb-benefit-search') as HTMLInputElement;
+  const benefitCards = document.querySelectorAll('.mb-benefit-card');
+  const filterBtns = document.querySelectorAll('.mb-filter-btn');
+  const visibleCount = document.getElementById('mb-visible-count');
+  const explorerEmpty = document.getElementById('mb-explorer-empty');
+  const favCount = document.getElementById('mb-fav-count');
+  const benefitsGrid = document.getElementById('mb-benefits-grid');
+  
+  let currentCategory = 'all';
+  let searchQuery = '';
+  let showOnlyPopular = false;
+  let showOnlyNew = false;
+  let showOnlyFavorites = false;
+  let favorites: string[] = JSON.parse(localStorage.getItem('mb-favorites') || '[]');
+
+  function filterBenefits() {
+    let visible = 0;
+    
+    benefitCards.forEach(card => {
+      const c = card as HTMLElement;
+      const id = c.dataset.id || '';
+      const category = c.dataset.category || '';
+      const isPopular = c.dataset.popular === 'true';
+      const isNew = c.dataset.new === 'true';
+      const title = c.querySelector('.mb-benefit-title')?.textContent?.toLowerCase() || '';
+      const desc = c.querySelector('.mb-benefit-desc')?.textContent?.toLowerCase() || '';
+      
+      const matchesCategory = currentCategory === 'all' || category === currentCategory;
+      const matchesSearch = !searchQuery || title.includes(searchQuery) || desc.includes(searchQuery);
+      const matchesPopular = !showOnlyPopular || isPopular;
+      const matchesNew = !showOnlyNew || isNew;
+      const matchesFavorites = !showOnlyFavorites || favorites.includes(id);
+      
+      const show = matchesCategory && matchesSearch && matchesPopular && matchesNew && matchesFavorites;
+      c.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    
+    if (visibleCount) visibleCount.textContent = String(visible);
+    explorerEmpty?.classList.toggle('visible', visible === 0);
+    
+    // Update category counts
+    document.querySelectorAll('.mb-filter-btn').forEach(btn => {
+      const cat = (btn as HTMLElement).dataset.category;
+      let count = 0;
+      benefitCards.forEach(card => {
+        const c = card as HTMLElement;
+        if (cat === 'all' || c.dataset.category === cat) {
+          if (!c.classList.contains('hidden')) count++;
+        }
+      });
+      const countEl = btn.querySelector('.mb-filter-count');
+      if (countEl) countEl.textContent = String(count);
+    });
+  }
+
+  // Search
+  benefitSearch?.addEventListener('input', (e) => {
+    searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
+    filterBenefits();
+  });
+
+  // Category filters
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCategory = (btn as HTMLElement).dataset.category || 'all';
+      filterBenefits();
+    });
+  });
+
+  // Popular/New filters
+  document.getElementById('mb-show-popular')?.addEventListener('click', (e) => {
+    showOnlyPopular = !showOnlyPopular;
+    (e.target as HTMLElement).closest('.mb-toolbar-btn')?.classList.toggle('active', showOnlyPopular);
+    filterBenefits();
+  });
+
+  document.getElementById('mb-show-new')?.addEventListener('click', (e) => {
+    showOnlyNew = !showOnlyNew;
+    (e.target as HTMLElement).closest('.mb-toolbar-btn')?.classList.toggle('active', showOnlyNew);
+    filterBenefits();
+  });
+
+  // Favorites
+  document.querySelectorAll('.mb-benefit-fav').forEach(btn => {
+    const id = (btn as HTMLElement).dataset.fav || '';
+    if (favorites.includes(id)) btn.classList.add('active');
+    
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const idx = favorites.indexOf(id);
+      if (idx > -1) {
+        favorites.splice(idx, 1);
+        btn.classList.remove('active');
+        showToast('Removed from favorites', 'info');
+      } else {
+        favorites.push(id);
+        btn.classList.add('active');
+        showToast('Added to favorites!', 'success');
+      }
+      localStorage.setItem('mb-favorites', JSON.stringify(favorites));
+      if (favCount) favCount.textContent = String(favorites.length);
+      if (showOnlyFavorites) filterBenefits();
+    });
+  });
+
+  if (favCount) favCount.textContent = String(favorites.length);
+
+  document.getElementById('mb-toggle-favorites')?.addEventListener('click', (e) => {
+    showOnlyFavorites = !showOnlyFavorites;
+    (e.target as HTMLElement).closest('.mb-toolbar-btn')?.classList.toggle('active', showOnlyFavorites);
+    filterBenefits();
+  });
+
+  // View toggle
+  document.getElementById('mb-view-toggle')?.addEventListener('click', () => {
+    benefitsGrid?.classList.toggle('list-view');
+  });
+
+  // Reset
+  document.getElementById('mb-reset-search')?.addEventListener('click', () => {
+    if (benefitSearch) benefitSearch.value = '';
+    searchQuery = '';
+    currentCategory = 'all';
+    showOnlyPopular = false;
+    showOnlyNew = false;
+    showOnlyFavorites = false;
+    filterBtns.forEach(b => b.classList.remove('active'));
+    document.querySelector('.mb-filter-btn[data-category="all"]')?.classList.add('active');
+    document.querySelectorAll('.mb-toolbar-btn').forEach(b => b.classList.remove('active'));
+    filterBenefits();
+  });
+
+  // ============ COMPARISON TOOL ============
+  const comparisonBody = document.getElementById('mb-comparison-body');
+  document.querySelectorAll('.mb-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.mb-toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const mode = (btn as HTMLElement).dataset.show || 'member';
+      if (comparisonBody) comparisonBody.dataset.mode = mode;
+    });
+  });
+
+  // ============ TESTIMONIALS ============
+  const testiSlides = document.querySelectorAll('.mb-testi-slide');
+  const testiDots = document.querySelectorAll('.mb-testi-dot');
+  const testiCurrent = document.getElementById('mb-testi-current');
+  let currentTesti = 0;
+  let testiInterval: ReturnType<typeof setInterval> | undefined;
+
+  function showTestimonial(index: number) {
+    if (testiSlides.length === 0) return;
+    testiSlides.forEach((s, i) => s.classList.toggle('active', i === index));
+    testiDots.forEach((d, i) => d.classList.toggle('active', i === index));
+    if (testiCurrent) testiCurrent.textContent = String(index + 1);
+    currentTesti = index;
+  }
+
+  function nextTesti() {
+    if (testiSlides.length <= 1) return;
+    showTestimonial((currentTesti + 1) % testiSlides.length);
+  }
+
+  function prevTesti() {
+    if (testiSlides.length <= 1) return;
+    showTestimonial((currentTesti - 1 + testiSlides.length) % testiSlides.length);
+  }
+
+  document.getElementById('mb-testi-next')?.addEventListener('click', () => {
+    nextTesti();
+    resetTestiInterval();
+  });
+
+  document.getElementById('mb-testi-prev')?.addEventListener('click', () => {
+    prevTesti();
+    resetTestiInterval();
+  });
+
+  testiDots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      showTestimonial(i);
+      resetTestiInterval();
+    });
+  });
+
+  function resetTestiInterval() {
+    if (testiSlides.length <= 1) return;
+    if (testiInterval) clearInterval(testiInterval);
+    testiInterval = setInterval(nextTesti, 6000);
+  }
+
+  if (testiSlides.length > 1) {
+    testiInterval = setInterval(nextTesti, 6000);
+  }
+
+  // ============ ACTIVITY FEED ============
+  const activityItems = document.querySelectorAll('.mb-activity-item');
+  let activeActivity = 0;
+
+  function highlightActivity() {
+    if (activityItems.length === 0) return;
+    activityItems.forEach((item, i) => {
+      item.classList.toggle('highlighted', i === activeActivity);
+    });
+    activeActivity = (activeActivity + 1) % activityItems.length;
+  }
+
+  if (activityItems.length > 0) {
+    setInterval(highlightActivity, 2500);
+    highlightActivity();
+  }
+
+  // Online count simulation
+  const onlineNum = document.getElementById('mb-online-num');
+  setInterval(() => {
+    if (onlineNum) {
+      const current = parseInt(onlineNum.textContent || '367');
+      const change = Math.floor(Math.random() * 7) - 3;
+      onlineNum.textContent = String(Math.max(340, Math.min(400, current + change)));
+    }
+  }, 4000);
+
+  // ============ JOURNEY TIMELINE ============
+  const journeySteps = document.querySelectorAll('.mb-journey-step');
+  const journeyFill = document.getElementById('mb-journey-fill');
+  const journeyStepNum = document.getElementById('mb-journey-step');
+  let currentJourneyStep = 0;
+
+  function setJourneyStep(index: number) {
+    if (journeySteps.length === 0) return;
+
+    journeySteps.forEach((step, i) => {
+      step.classList.toggle('active', i <= index);
+      step.classList.toggle('current', i === index);
+    });
+    
+    const stepDenominator = Math.max(journeySteps.length - 1, 1);
+    const progress = (index / stepDenominator) * 100;
+    if (journeyFill) journeyFill.style.width = `${progress}%`;
+    if (journeyStepNum) journeyStepNum.textContent = String(index + 1);
+    currentJourneyStep = index;
+  }
+
+  document.querySelectorAll('.mb-step-marker').forEach((btn, i) => {
+    btn.addEventListener('click', () => setJourneyStep(i));
+  });
+
+  // Step detail toggles
+  document.querySelectorAll('.mb-step-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const step = btn.closest('.mb-journey-step');
+      step?.classList.toggle('expanded');
+      const text = btn.querySelector('.mb-toggle-text');
+      if (text) text.textContent = step?.classList.contains('expanded') ? 'Hide details' : 'Show details';
+    });
+  });
+
+  // Auto-advance journey
+  let journeyInterval: ReturnType<typeof setInterval> | undefined;
+  if (journeySteps.length > 1) {
+    journeyInterval = setInterval(() => {
+      const next = (currentJourneyStep + 1) % journeySteps.length;
+      setJourneyStep(next);
+    }, 4000);
+  }
+
+  // Pause on hover
+  document.getElementById('mb-journey-card')?.addEventListener('mouseenter', () => {
+    if (journeyInterval) clearInterval(journeyInterval);
+  });
+  document.getElementById('mb-journey-card')?.addEventListener('mouseleave', () => {
+    if (journeySteps.length > 1) {
+      journeyInterval = setInterval(() => {
+        const next = (currentJourneyStep + 1) % journeySteps.length;
+        setJourneyStep(next);
+      }, 4000);
+    }
+  });
+ 
+  const shortcutsModal = document.getElementById('mb-shortcuts-modal');
+
+  function toggleShortcuts(show?: boolean) {
+    const isVisible = shortcutsModal?.classList.contains('visible');
+    shortcutsModal?.classList.toggle('visible', show !== undefined ? show : !isVisible);
+  }
+
+  shortcutsModal?.addEventListener('click', (e) => {
+    if (e.target === shortcutsModal) toggleShortcuts(false);
+  });
+
+  document.getElementById('mb-shortcuts-close')?.addEventListener('click', () => toggleShortcuts(false));
+  document.getElementById('mb-fab-shortcuts')?.addEventListener('click', () => toggleShortcuts());
+
+  document.addEventListener('keydown', (e) => {
+    // Don't trigger if typing in input
+    if ((e.target as HTMLElement).tagName === 'INPUT') return;
+
+    switch (e.key) {
+      case '?':
+        toggleShortcuts();
+        break;
+      case 'Escape':
+        toggleShortcuts(false);
+        break;
+      case '/':
+        e.preventDefault();
+        benefitSearch?.focus();
+        break;
+      case '1':
+        document.querySelector('.mb-filter-btn[data-category="learning"]')?.dispatchEvent(new Event('click'));
+        break;
+      case '2':
+        document.querySelector('.mb-filter-btn[data-category="community"]')?.dispatchEvent(new Event('click'));
+        break;
+      case '3':
+        document.querySelector('.mb-filter-btn[data-category="career"]')?.dispatchEvent(new Event('click'));
+        break;
+    }
+  });
+
+  // ============ FLOATING ACTIONS ============
+  document.getElementById('mb-fab-top')?.addEventListener('click', () => {
+    document.getElementById('benefits')?.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Show/hide back to top based on scroll
+  const fabTop = document.getElementById('mb-fab-top');
+  window.addEventListener('scroll', () => {
+    const section = document.getElementById('benefits');
+    if (section) {
+      const rect = section.getBoundingClientRect();
+      fabTop?.classList.toggle('visible', rect.top < -300);
+    }
+  });
+
+  // ============ INTERSECTION ANIMATIONS ============
+  const animObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.mb-roi-card, .mb-explorer-card, .mb-comparison-card, .mb-achievements-card, .mb-map-card, .mb-testimonials-card, .mb-activity-card, .mb-events-card, .mb-journey-card').forEach(el => {
+    animObserver.observe(el);
+  });
+
+  // ============ HOTSPOT HOVER ============
+  document.querySelectorAll('.mb-hotspot').forEach(spot => {
+    spot.addEventListener('mouseenter', () => {
+      spot.classList.add('active');
+    });
+    spot.addEventListener('mouseleave', () => {
+      spot.classList.remove('active');
+    });
+  });
+
+  // ============ BENEFIT CARD HOVER EFFECTS ============
+  benefitCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.classList.add('hovered');
+    });
+    card.addEventListener('mouseleave', () => {
+      card.classList.remove('hovered');
+    });
+  });
+
+  calculateROI();
+  filterBenefits();
+  showTestimonial(0);
+  setJourneyStep(0);
+});
+</script>
+
+<style>
+  /* ============ BASE ============ */
+  .mb-section {
+    position: relative;
+    padding: 100px 24px;
+    overflow: hidden;
+  }
+
+  .mb-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .mb-bg-gradient {
+    position: absolute;
+    top: -300px;
+    right: -200px;
+    width: 900px;
+    height: 900px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    opacity: 0.4;
+  }
+
+  .mb-bg-glow {
+    position: absolute;
+    bottom: -400px;
+    left: -200px;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(var(--indigo-400-rgb), 0.1) 0%, transparent 70%);
+  }
+
+  .mb-bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.03;
+  }
+
+  /* ============ TOAST ============ */
+  .mb-toast-container {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mb-toast {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(var(--black-rgb), 0.15);
+    transform: translateX(120%);
+    transition: transform 0.3s ease;
+  }
+
+  .mb-toast.show { transform: translateX(0); }
+  .mb-toast-success { border-color: var(--green-500); }
+  .mb-toast-success .mb-toast-icon { color: var(--green-500); }
+  .mb-toast-info { border-color: var(--accent); }
+  .mb-toast-info .mb-toast-icon { color: var(--accent); }
+  .mb-toast-msg { font-size: 13px; color: var(--text); }
+
+  /* ============ SHORTCUTS MODAL ============ */
+  .mb-shortcuts-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(var(--black-rgb), 0.6);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .mb-shortcuts-modal.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mb-shortcuts-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    min-width: 320px;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+  }
+
+  .mb-shortcuts-modal.visible .mb-shortcuts-content {
+    transform: scale(1);
+  }
+
+  .mb-shortcuts-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .mb-shortcuts-header :global(svg) {
+    width: 20px;
+    height: 20px;
+    color: var(--accent);
+  }
+
+  .mb-shortcuts-close {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+
+  .mb-shortcuts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .mb-shortcut-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .mb-kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    padding: 4px 8px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* ============ HEADER ============ */
+  .mb-header {
+    position: relative;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 60px;
+  }
+
+  .mb-header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+  }
+
+  .mb-badge-pulse {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: mbPulse 2s infinite;
+  }
+
+  @keyframes mbPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+  }
+
+  .mb-badge-tag {
+    padding: 4px 10px;
+    background: var(--accent-glow);
+    border-radius: 100px;
+    color: var(--accent);
+    font-size: 11px;
+  }
+
+  .mb-header-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+
+  .mb-title-line {
+    display: block;
+    color: var(--text);
+  }
+
+  .mb-title-gradient {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--indigo-400) 50%, var(--pink-400) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .mb-header-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+
+  /* ============ HERO STATS ============ */
+  .mb-hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .mb-hero-stat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    min-width: 180px;
+    animation: mbStatIn 0.5s ease calc(var(--delay)) both;
+    transition: all 0.3s ease;
+  }
+
+  .mb-hero-stat:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(var(--black-rgb), 0.1);
+  }
+
+  @keyframes mbStatIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .mb-stat-icon-wrap {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-glow);
+    border-radius: 12px;
+    color: var(--accent);
+  }
+
+  .mb-stat-icon-wrap :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .mb-stat-data {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mb-stat-value {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .mb-stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .mb-stat-trend {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-size: 10px;
+    color: var(--green-500);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .mb-hero-stat { position: relative; }
+  .mb-hero-stat:hover .mb-stat-trend { opacity: 1; }
+
+  /* ============ BENTO GRID ============ */
+  .mb-bento {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+    max-width: 1400px;
+    margin: 0 auto 64px;
+  }
+
+  /* Card base */
+  [class*="mb-"][class*="-card"] {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.5s ease;
+  }
+
+  [class*="mb-"][class*="-card"].in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .mb-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mb-card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .mb-card-title :global(svg) {
+    width: 18px;
+    height: 18px;
+    color: var(--accent);
+  }
+
+  .mb-card-subtitle {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ============ ROI CALCULATOR ============ */
+  .mb-roi-card {
+    grid-column: span 5;
+    padding: 0 0 24px;
+  }
+
+  .mb-roi-items {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mb-roi-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .mb-roi-item:hover {
+    border-color: var(--accent);
+  }
+
+  .mb-roi-item.unchecked {
+    opacity: 0.5;
+  }
+
+  .mb-roi-check {
+    display: none;
+  }
+
+  .mb-roi-checkbox {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    color: transparent;
+    transition: all 0.2s ease;
+  }
+
+  .mb-roi-check:checked + .mb-roi-checkbox {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--black);
+  }
+
+  .mb-roi-checkbox :global(svg) {
+    width: 12px;
+    height: 12px;
+  }
+
+  .mb-roi-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-glow);
+    border-radius: 8px;
+    color: var(--accent);
+  }
+
+  .mb-roi-icon :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .mb-roi-info {
+    flex: 1;
+  }
+
+  .mb-roi-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .mb-roi-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .mb-roi-value {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--green-500);
+  }
+
+  .mb-roi-result {
+    margin: 0 24px;
+    padding: 20px;
+    background: var(--bg-secondary);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .mb-roi-total, .mb-roi-cost, .mb-roi-savings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mb-roi-total-label, .mb-roi-cost-label, .mb-roi-savings-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .mb-roi-total-value {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .mb-roi-cost-value {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--red-500);
+  }
+
+  .mb-roi-savings-value {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--green-500);
+  }
+
+  .mb-roi-savings-value.negative {
+    color: var(--red-500);
+  }
+
+  .mb-roi-multiplier {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green-500);
+    padding: 4px 10px;
+    background: rgba(var(--green-500-rgb), 0.15);
+    border-radius: 6px;
+    margin-top: 4px;
+  }
+
+  .mb-roi-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border);
+  }
+
+  /* ============ BENEFIT EXPLORER ============ */
+  .mb-explorer-card {
+    grid-column: span 7;
+    padding: 0;
+  }
+
+  .mb-explorer-search {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: all 0.2s ease;
+  }
+
+  .mb-explorer-search:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  .mb-explorer-search :global(svg) {
+    width: 14px;
+    height: 14px;
+    color: var(--text-muted);
+  }
+
+  .mb-explorer-search input {
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 13px;
+    color: var(--text);
+    width: 160px;
+  }
+
+  .mb-search-hint {
+    padding: 2px 6px;
+    background: var(--bg-card);
+    border-radius: 4px;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  .mb-explorer-filters {
+    display: flex;
+    gap: 8px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+  }
+
+  .mb-filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-primary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+
+  .mb-filter-btn:hover {
+    border-color: var(--cat-color, var(--accent));
+    color: var(--cat-color, var(--accent));
+  }
+
+  .mb-filter-btn.active {
+    background: color-mix(in srgb, var(--cat-color, var(--accent)) 15%, transparent);
+    border-color: var(--cat-color, var(--accent));
+    color: var(--cat-color, var(--accent));
+  }
+
+  .mb-filter-btn :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .mb-filter-count {
+    padding: 2px 8px;
+    background: var(--bg-card);
+    border-radius: 6px;
+    font-size: 10px;
+  }
+
+  .mb-filter-btn.active .mb-filter-count {
+    background: var(--cat-color, var(--accent));
+    color: var(--black);
+  }
+
+  .mb-explorer-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mb-toolbar-left, .mb-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mb-results-count {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .mb-toolbar-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 11px;
+    font-family: var(--font-primary);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .mb-toolbar-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .mb-toolbar-btn.active {
+    background: var(--accent-glow);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .mb-toolbar-btn :global(svg) {
+    width: 12px;
+    height: 12px;
+  }
+
+  .mb-view-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 24px 16px auto;
+    width: 32px;
+    height: 32px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+
+  .mb-view-toggle :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .mb-view-list { display: none; }
+  .mb-benefits-grid.list-view + .mb-view-toggle .mb-view-grid { display: none; }
+  .mb-benefits-grid.list-view + .mb-view-toggle .mb-view-list { display: block; }
+
+  /* Benefits grid */
+  .mb-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 20px 24px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .mb-benefits-grid.list-view {
+    grid-template-columns: 1fr;
+  }
+
+  .mb-benefit-card {
+    position: relative;
+    padding: 18px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .mb-benefit-card.hidden {
+    display: none;
+  }
+
+  .mb-benefit-card:hover,
+  .mb-benefit-card.hovered {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(var(--black-rgb), 0.1);
+  }
+
+  .mb-benefit-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--indigo-400));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .mb-benefit-card:hover .mb-benefit-glow {
+    transform: scaleX(1);
+  }
+
+  .mb-benefit-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .mb-benefit-badge.popular {
+    background: rgba(var(--red-500-rgb), 0.15);
+    color: var(--red-500);
+  }
+
+  .mb-benefit-badge.new {
+    background: rgba(var(--green-500-rgb), 0.15);
+    color: var(--green-500);
+  }
+
+  .mb-benefit-badge :global(svg) {
+    width: 10px;
+    height: 10px;
+  }
+
+  .mb-benefit-fav {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.2s ease;
+  }
+
+  .mb-benefit-card:hover .mb-benefit-fav {
+    opacity: 1;
+  }
+
+  .mb-benefit-fav:hover {
+    border-color: var(--red-500);
+    color: var(--red-500);
+  }
+
+  .mb-benefit-fav.active {
+    background: rgba(var(--red-500-rgb), 0.15);
+    border-color: var(--red-500);
+    color: var(--red-500);
+    opacity: 1;
+  }
+
+  .mb-benefit-fav :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .mb-benefit-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-glow);
+    border-radius: 10px;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .mb-benefit-icon :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .mb-benefit-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 4px;
+  }
+
+  .mb-benefit-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .mb-benefit-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  .mb-benefit-stat {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .mb-benefit-expand {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: none;
+    border-radius: 6px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .mb-benefit-expand:hover {
+    background: var(--accent);
+    color: var(--black);
+  }
+
+  .mb-benefit-expand :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .mb-explorer-empty {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 24px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .mb-explorer-empty.visible {
+    display: flex;
+  }
+
+  .mb-explorer-empty :global(svg) {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 12px;
+    opacity: 0.5;
+  }
+
+  .mb-reset-search {
+    margin-top: 12px;
+    padding: 8px 16px;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--black);
+    cursor: pointer;
+  }
+
+  
+  .mb-comparison-card {
+    grid-column: span 6;
+    padding: 0;
+  }
+
+  .mb-comparison-toggle {
+    margin-left: auto;
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--bg-secondary);
+    border-radius: 10px;
+  }
+
+  .mb-toggle-btn {
+    padding: 8px 14px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-primary);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .mb-toggle-btn:hover { color: var(--text); }
+  .mb-toggle-btn.active {
+    background: var(--bg-card);
+    color: var(--accent);
+    box-shadow: 0 2px 8px rgba(var(--black-rgb), 0.1);
+  }
+
+  .mb-comparison-body {
+    display: flex;
+    padding: 24px;
+    gap: 20px;
+  }
+
+  .mb-comparison-body[data-mode="member"] .mb-col-free { display: none; }
+  .mb-comparison-body[data-mode="member"] .mb-comparison-divider { display: none; }
+  .mb-comparison-body[data-mode="free"] .mb-col-member { display: none; }
+  .mb-comparison-body[data-mode="free"] .mb-comparison-divider { display: none; }
+
+  .mb-comparison-col {
+    flex: 1;
+  }
+
+  .mb-col-header {
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+
+  .mb-col-header.member {
+    background: linear-gradient(135deg, var(--accent-glow), rgba(var(--indigo-400-rgb), 0.15));
+    border: 1px solid var(--accent);
+  }
+
+  .mb-col-header.free {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+  }
+
+  .mb-col-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .mb-col-price {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .mb-col-header.free .mb-col-price { color: var(--text-muted); }
+
+  .mb-col-tag {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 4px 10px;
+    background: var(--accent);
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--black);
+  }
+
+  .mb-col-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mb-feature-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .mb-check {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .mb-check :global(svg) { width: 12px; height: 12px; }
+  .mb-check.included { background: rgba(var(--green-500-rgb), 0.15); color: var(--green-500); }
+  .mb-check.not-included { background: rgba(var(--red-500-rgb), 0.15); color: var(--red-500); }
+  .mb-check.partial { background: rgba(var(--amber-500-rgb), 0.15); color: var(--amber-500); }
+
+  .strikethrough { text-decoration: line-through; opacity: 0.5; }
+
+  .mb-comparison-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  /* ============ ACHIEVEMENTS ============ */
+  .mb-achievements-card {
+    grid-column: span 6;
+    padding: 0;
+  }
+
+  .mb-xp-bar {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mb-xp-fill {
+    width: 80px;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mb-xp-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--accent), var(--indigo-400));
+    width: var(--xp-progress, 25%);
+  }
+
+  .mb-xp-text {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .mb-badges-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 20px 24px;
+  }
+
+  .mb-badge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 18px 12px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    transition: all 0.3s ease;
+  }
+
+  .mb-badge-item.locked {
+    opacity: 0.5;
+  }
+
+  .mb-badge-item.unlocked:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
+
+  .mb-badge-icon {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-glow);
+    border-radius: 50%;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .mb-badge-item.locked .mb-badge-icon {
+    background: var(--bg-card);
+    color: var(--text-muted);
+  }
+
+  .mb-badge-icon :global(svg) { width: 22px; height: 22px; }
+
+  .mb-badge-lock {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(var(--black-rgb), 0.5);
+    border-radius: 50%;
+  }
+
+  .mb-badge-lock :global(svg) { width: 16px; height: 16px; color: var(--text-muted); }
+
+  .mb-badge-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .mb-badge-desc {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .mb-badge-xp {
+    margin-top: 8px;
+    padding: 3px 8px;
+    background: var(--accent-glow);
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .mb-badge-item.locked .mb-badge-xp { background: var(--bg-card); color: var(--text-muted); }
+
+  /* ============ MAP ============ */
+  .mb-map-card {
+    grid-column: span 7;
+    padding: 0;
+  }
+
+  .mb-map-stat {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .mb-map-count {
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .mb-map-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px 24px;
+  }
+
+  .mb-map-visual {
+    flex: 1;
+    position: relative;
+    height: 200px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .mb-world-svg {
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+  }
+
+  .mb-world-outline {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1;
+  }
+
+  .mb-hotspot {
+    position: absolute;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  .mb-hotspot-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: block;
+    position: relative;
+    z-index: 2;
+  }
+
+  .mb-hotspot-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: mbRingPulse 2s infinite;
+  }
+
+  .mb-hotspot-ring.ring-2 {
+    width: 30px;
+    height: 30px;
+    animation-delay: 0.5s;
+    opacity: 0.3;
+  }
+
+  @keyframes mbRingPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+    50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0; }
+  }
+
+  .mb-hotspot-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    padding: 10px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 20px rgba(var(--black-rgb), 0.2);
+  }
+
+  .mb-hotspot.active .mb-hotspot-tooltip,
+  .mb-hotspot:hover .mb-hotspot-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-12px);
+  }
+
+  .mb-tooltip-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .mb-tooltip-city {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .mb-tooltip-count {
+    font-size: 11px;
+    color: var(--accent);
+  }
+
+  .mb-map-legend {
+    width: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mb-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+  }
+
+  .mb-legend-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .mb-legend-city {
+    flex: 1;
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  .mb-legend-count {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* ============ TESTIMONIALS ============ */
+  .mb-testimonials-card {
+    grid-column: span 5;
+    padding: 0;
+  }
+
+  .mb-testi-nav {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mb-testi-prev, .mb-testi-next {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .mb-testi-prev:hover, .mb-testi-next:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .mb-testi-prev :global(svg), .mb-testi-next :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .mb-testi-counter {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .mb-testi-carousel {
+    position: relative;
+    min-height: 240px;
+    padding: 24px;
+  }
+
+  .mb-testi-slide {
+    position: absolute;
+    inset: 24px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+  }
+
+  .mb-testi-slide.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mb-testi-highlight {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(var(--green-500-rgb), 0.15);
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green-500);
+    margin-bottom: 16px;
+    align-self: flex-start;
+  }
+
+  .mb-testi-highlight :global(svg) { width: 12px; height: 12px; }
+
+  .mb-testi-quote {
+    font-size: 15px;
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0 0 16px;
+    flex: 1;
+  }
+
+  .mb-testi-rating {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 16px;
+  }
+
+  .mb-testi-rating :global(svg) {
+    width: 14px;
+    height: 14px;
+    color: var(--border);
+  }
+
+  .mb-testi-rating :global(svg.filled) {
+    color: var(--amber-500);
+    fill: var(--amber-500);
+  }
+
+  .mb-testi-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .mb-author-avatar {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--accent), var(--indigo-400));
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--black);
+  }
+
+  .mb-author-flag {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 3px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 10px;
+    line-height: 1;
+    box-shadow: 0 1px 3px rgba(var(--black-rgb), 0.3);
+  }
+
+  .mb-author-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .mb-author-role {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .mb-testi-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding-bottom: 20px;
+  }
+
+  .mb-testi-dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    background: var(--border);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .mb-testi-dot:hover { background: var(--text-muted); }
+  .mb-testi-dot.active {
+    background: var(--accent);
+    transform: scale(1.3);
+  }
+
+  /* ============ ACTIVITY FEED ============ */
+  .mb-activity-card {
+    grid-column: span 5;
+    padding: 0;
+  }
+
+  .mb-live-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: rgba(var(--red-500-rgb), 0.15);
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--red-500);
+    letter-spacing: 0.05em;
+  }
+
+  .mb-live-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--red-500);
+    border-radius: 50%;
+    animation: mbLivePulse 1.5s infinite;
+  }
+
+  @keyframes mbLivePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .mb-online-count {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  .mb-online-count :global(svg) { width: 12px; height: 12px; color: var(--green-500); }
+
+  .mb-activity-feed {
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mb-activity-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--bg-secondary);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .mb-activity-item.highlighted {
+    background: var(--accent-glow);
+    border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+    transform: translateX(6px);
+  }
+
+  .mb-activity-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border-radius: 8px;
+    color: var(--accent);
+  }
+
+  .mb-activity-item[data-type="job"] .mb-activity-icon { color: var(--green-500); background: rgba(var(--green-500-rgb), 0.15); }
+  .mb-activity-item[data-type="certificate"] .mb-activity-icon { color: var(--amber-500); background: rgba(var(--amber-500-rgb), 0.15); }
+  .mb-activity-item[data-type="badge"] .mb-activity-icon { color: var(--indigo-400); background: rgba(var(--indigo-400-rgb), 0.15); }
+
+  .mb-activity-icon :global(svg) { width: 16px; height: 16px; }
+
+  .mb-activity-content {
+    flex: 1;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .mb-activity-user {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .mb-activity-flag {
+    width: 14px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  .mb-activity-text {
+    color: var(--text-muted);
+  }
+
+  .mb-activity-text strong { color: var(--accent); }
+
+  .mb-activity-time {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  /* ============ EVENTS ============ */
+  .mb-events-card {
+    grid-column: span 7;
+    padding: 0;
+  }
+
+  .mb-view-all {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .mb-view-all:hover { color: var(--accent); }
+  .mb-view-all :global(svg) { width: 12px; height: 12px; }
+
+  .mb-events-list {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .mb-event-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    transition: all 0.3s ease;
+  }
+
+  .mb-event-item:hover {
+    border-color: var(--accent);
+    transform: translateX(6px);
+  }
+
+  .mb-event-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 50px;
+    padding: 10px;
+    background: var(--accent-glow);
+    border-radius: 10px;
+  }
+
+  .mb-event-day {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .mb-event-month {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .mb-event-info { flex: 1; }
+
+  .mb-event-tags {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .mb-event-tag {
+    padding: 3px 8px;
+    background: var(--bg-card);
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .mb-event-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .mb-event-type {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .mb-event-speaker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mb-speaker-avatar {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--accent), var(--indigo-400));
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--black);
+  }
+
+  .mb-speaker-name { font-size: 12px; font-weight: 600; color: var(--text); }
+  .mb-speaker-role { font-size: 10px; color: var(--text-muted); }
+
+  .mb-event-capacity {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .mb-capacity-bar {
+    width: 60px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .mb-capacity-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--indigo-400));
+  }
+
+  .mb-capacity-text { font-size: 10px; color: var(--text-muted); }
+
+  .mb-event-rsvp {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: var(--font-primary);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .mb-event-rsvp:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--black);
+  }
+
+  .mb-event-rsvp :global(svg) { width: 14px; height: 14px; }
+
+  /* ============ JOURNEY ============ */
+  .mb-journey-card {
+    grid-column: span 12;
+    padding: 0;
+  }
+
+  .mb-journey-progress {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .mb-progress-label { font-size: 11px; color: var(--text-muted); }
+
+  .mb-progress-bar {
+    width: 100px;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .mb-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--indigo-400));
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+
+  .mb-journey-timeline {
+    display: flex;
+    padding: 32px 24px;
+    gap: 16px;
+  }
+
+  .mb-journey-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .mb-step-marker {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    margin: 0 auto 16px;
+  }
+
+  .mb-journey-step.active .mb-step-marker {
+    background: var(--accent-glow);
+    border-color: var(--accent);
+  }
+
+  .mb-journey-step.current .mb-step-marker {
+    box-shadow: 0 0 0 6px var(--accent-glow);
+  }
+
+  .mb-marker-num {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+  }
+
+  .mb-journey-step.active .mb-marker-num { opacity: 0; position: absolute; }
+
+  .mb-marker-icon {
+    position: absolute;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+
+  .mb-journey-step.active .mb-marker-icon { opacity: 1; }
+  .mb-marker-icon :global(svg) { width: 24px; height: 24px; color: var(--accent); }
+
+  .mb-marker-ring, .mb-marker-pulse {
+    position: absolute;
+    inset: -8px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    opacity: 0;
+  }
+
+  .mb-journey-step.current .mb-marker-pulse {
+    animation: mbMarkerPulse 2s infinite;
+  }
+
+  @keyframes mbMarkerPulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.2); opacity: 0; }
+  }
+
+  .mb-step-body {
+    text-align: center;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+  }
+
+  .mb-journey-step.active .mb-step-body { opacity: 1; }
+
+  .mb-step-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .mb-step-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .mb-step-time {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  .mb-step-time :global(svg) { width: 10px; height: 10px; }
+
+  .mb-step-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .mb-step-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .mb-journey-step.expanded .mb-step-details {
+    max-height: 200px;
+  }
+
+  .mb-detail-list {
+    list-style: none;
+    padding: 16px;
+    margin: 16px 0 0;
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    text-align: left;
+  }
+
+  .mb-detail-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    padding: 6px 0;
+  }
+
+  .mb-detail-list li :global(svg) { width: 12px; height: 12px; color: var(--green-500); }
+
+  .mb-step-toggle {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    font-size: 11px;
+    color: var(--accent);
+    cursor: pointer;
+  }
+
+  .mb-step-toggle :global(svg) {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.3s ease;
+  }
+
+  .mb-journey-step.expanded .mb-step-toggle :global(svg) {
+    transform: rotate(180deg);
+  }
+
+  .mb-step-connector {
+    position: absolute;
+    top: 28px;
+    left: calc(50% + 32px);
+    width: calc(100% - 64px);
+    height: 2px;
+    background: var(--border);
+  }
+
+  .mb-journey-step.active .mb-step-connector {
+    background: linear-gradient(90deg, var(--accent), var(--border));
+  }
+
+  /* ============ QUICK LINKS ============ */
+  .mb-quick-card {
+    grid-column: span 12;
+    padding: 20px 24px;
+  }
+
+  .mb-quick-links {
+    display: flex;
+    gap: 12px;
+  }
+
+  .mb-quick-link {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .mb-quick-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .mb-quick-link :global(svg:first-child) { width: 18px; height: 18px; color: var(--accent); }
+
+  .mb-quick-badge {
+    margin-left: auto;
+    padding: 4px 8px;
+    background: var(--accent-glow);
+    border-radius: 6px;
+    font-size: 10px;
+    color: var(--accent);
+  }
+
+  .mb-quick-badge.hot { background: rgba(var(--red-500-rgb), 0.15); color: var(--red-500); }
+
+  /* ============ CTA ============ */
+  .mb-cta-section {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .mb-cta-urgency {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(var(--red-500-rgb), 0.15);
+    border: 1px solid rgba(var(--red-500-rgb), 0.3);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--red-500);
+    margin-bottom: 24px;
+  }
+
+  .mb-cta-urgency :global(svg) { width: 14px; height: 14px; }
+
+  .mb-cta-primary {
+    position: relative;
+    display: inline-flex;
+    padding: 22px 40px;
+    border-radius: 16px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .mb-cta-primary:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(var(--cyan-400-rgb), 0.3);
+  }
+
+  .mb-cta-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent), var(--indigo-400));
+  }
+
+  .mb-cta-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(var(--white-rgb), 0.2), transparent);
+    animation: mbShine 3s infinite;
+  }
+
+  @keyframes mbShine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  .mb-cta-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .mb-cta-text { display: flex; flex-direction: column; }
+  .mb-cta-main { font-size: 18px; font-weight: 700; color: var(--black); }
+  .mb-cta-sub { font-size: 12px; color: rgba(var(--black-rgb), 0.6); }
+
+  .mb-cta-arrow {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(var(--black-rgb), 0.15);
+    border-radius: 12px;
+    color: var(--black);
+    transition: transform 0.2s ease;
+  }
+
+  .mb-cta-primary:hover .mb-cta-arrow { transform: translateX(4px); }
+  .mb-cta-arrow :global(svg) { width: 20px; height: 20px; }
+
+  .mb-cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 14px 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .mb-cta-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .mb-cta-secondary :global(svg) { width: 16px; height: 16px; }
+
+  .mb-cta-guarantee {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .mb-cta-guarantee :global(svg) { width: 14px; height: 14px; color: var(--green-500); }
+
+  /* ============ FLOATING ACTIONS ============ */
+  .mb-floating-actions {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 100;
+  }
+
+  .mb-fab {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-muted);
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(var(--black-rgb), 0.15);
+    transition: all 0.2s ease;
+  }
+
+  .mb-fab:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .mb-fab :global(svg) { width: 18px; height: 18px; }
+
+  #mb-fab-top {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+  }
+
+  #mb-fab-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 1200px) {
+    .mb-bento { grid-template-columns: repeat(6, 1fr); }
+    .mb-roi-card { grid-column: span 6; }
+    .mb-explorer-card { grid-column: span 6; }
+    .mb-comparison-card { grid-column: span 6; }
+    .mb-achievements-card { grid-column: span 6; }
+    .mb-map-card { grid-column: span 6; }
+    .mb-testimonials-card { grid-column: span 6; }
+    .mb-activity-card { grid-column: span 6; }
+    .mb-events-card { grid-column: span 6; }
+    .mb-journey-card { grid-column: span 6; }
+    .mb-quick-card { grid-column: span 6; }
+    .mb-benefits-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 900px) {
+    .mb-hero-stats { flex-direction: column; align-items: center; }
+    .mb-hero-stat { width: 100%; max-width: 300px; }
+    .mb-benefits-grid { grid-template-columns: 1fr; }
+    .mb-badges-grid { grid-template-columns: repeat(2, 1fr); }
+    .mb-map-container { flex-direction: column; }
+    .mb-map-legend { width: 100%; flex-direction: row; flex-wrap: wrap; }
+    .mb-journey-timeline { flex-direction: column; }
+    .mb-step-connector { display: none; }
+    .mb-journey-step { flex-direction: row; gap: 16px; }
+    .mb-step-marker { margin: 0; }
+    .mb-step-body { text-align: left; }
+    .mb-quick-links { flex-wrap: wrap; }
+    .mb-quick-link { min-width: calc(50% - 6px); }
+    .mb-comparison-body { flex-direction: column; }
+    .mb-comparison-divider { width: 100%; height: 1px; margin: 10px 0; }
+    .mb-event-item { flex-wrap: wrap; }
+    .mb-event-rsvp { width: 100%; justify-content: center; margin-top: 12px; }
+  }
+
+  @media (max-width: 600px) {
+    .mb-section { padding: 60px 16px; }
+    .mb-header-title { font-size: clamp(2rem, 10vw, 3rem); }
+    .mb-bento { grid-template-columns: 1fr; }
+    .mb-roi-card, .mb-explorer-card, .mb-comparison-card, .mb-achievements-card,
+    .mb-map-card, .mb-testimonials-card, .mb-activity-card, .mb-events-card,
+    .mb-journey-card, .mb-quick-card { grid-column: span 1; }
+    .mb-explorer-filters { flex-wrap: nowrap; padding: 12px 16px; }
+    .mb-filter-btn { padding: 8px 12px; }
+    .mb-badges-grid { grid-template-columns: repeat(2, 1fr); }
+    .mb-quick-links { flex-direction: column; }
+    .mb-quick-link { width: 100%; }
+    .mb-floating-actions { bottom: 16px; right: 16px; }
+  }
+
+  /* ============ DAYLIGHT THEME ============ */
+  :global([data-theme="daylight"]) .mb-cta-main,
+  :global([data-theme="daylight"]) .mb-cta-arrow { color: var(--white); }
+  :global([data-theme="daylight"]) .mb-cta-sub { color: rgba(var(--white-rgb), 0.7); }
+
+ 
+.mb-section {
+  padding: 3rem 0 !important;
+}
+
+.mb-container {
+  max-width: 1200px !important;
+  padding: 0 1rem !important;
+}
+
+/* ===== HEADER ===== */
+.mb-header {
+  margin-bottom: 2rem !important;
+}
+
+.mb-header-badge {
+  padding: 0.4rem 0.9rem !important;
+  gap: 0.4rem !important;
+  font-size: 0.7rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.mb-header-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem) !important;
+  margin-bottom: 0.6rem !important;
+}
+
+.mb-header-subtitle {
+  font-size: 0.9rem !important;
+  margin-bottom: 1.2rem !important;
+}
+
+.mb-hero-stats {
+  gap: 0.8rem !important;
+  margin-top: 1.2rem !important;
+}
+
+.mb-hero-stat {
+  padding: 0.7rem 0.9rem !important;
+  gap: 0.6rem !important;
+}
+
+.mb-stat-icon-wrap {
+  width: 36px !important;
+  height: 36px !important;
+}
+
+.mb-stat-icon-wrap :global(svg) {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.mb-stat-value {
+  font-size: 1.2rem !important;
+}
+
+.mb-stat-label {
+  font-size: 0.7rem !important;
+}
+
+.mb-stat-trend {
+  font-size: 0.65rem !important;
+  padding: 0.2rem 0.5rem !important;
+}
+
+/* ===== BENTO GRID ===== */
+.mb-bento {
+  gap: 0.75rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+/* ===== CARD HEADERS ===== */
+.mb-card-header {
+  padding: 0.8rem 0.9rem !important;
+  gap: 0.5rem !important;
+}
+
+.mb-card-title {
+  font-size: 0.85rem !important;
+  gap: 0.4rem !important;
+}
+
+.mb-card-title :global(svg) {
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.mb-card-subtitle {
+  font-size: 0.7rem !important;
+}
+
+/* ===== ROI CALCULATOR ===== */
+.mb-roi-card {
+  padding: 0 !important;
+}
+
+.mb-roi-items {
+  gap: 0.5rem !important;
+  padding: 0.8rem !important;
+}
+
+.mb-roi-item {
+  padding: 0.6rem 0.8rem !important;
+  gap: 0.6rem !important;
+}
+
+.mb-roi-checkbox {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.mb-roi-icon {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.mb-roi-icon :global(svg) {
+  width: 15px !important;
+  height: 15px !important;
+}
+
+.mb-roi-label {
+  font-size: 0.75rem !important;
+}
+
+.mb-roi-desc {
+  font-size: 0.68rem !important;
+}
+
+.mb-roi-value {
+  font-size: 0.8rem !important;
+}
+
+.mb-roi-result {
+  gap: 0.6rem !important;
+  padding: 0.8rem !important;
+}
+
+.mb-roi-total-value {
+  font-size: 1.4rem !important;
+}
+
+.mb-roi-savings-value {
+  font-size: 1.1rem !important;
+}
+
+.mb-roi-multiplier {
+  font-size: 0.65rem !important;
+  padding: 0.2rem 0.5rem !important;
+}
+
+/* ===== BENEFITS EXPLORER ===== */
+.mb-explorer-card {
+  padding: 0 !important;
+}
+
+.mb-explorer-search {
+  padding: 0.5rem 0.7rem !important;
+  gap: 0.5rem !important;
+}
+
+.mb-explorer-search input {
+  font-size: 0.75rem !important;
+  padding: 0.3rem 0 !important;
+}
+
+.mb-search-hint {
+  font-size: 0.65rem !important;
+  padding: 0.2rem 0.4rem !important;
+}
+
+.mb-explorer-filters {
+  gap: 0.5rem !important;
+  padding: 0.7rem !important;
+}
+
+.mb-filter-btn {
+  padding: 0.45rem 0.75rem !important;
+  gap: 0.35rem !important;
+  font-size: 0.7rem !important;
+}
+
+.mb-filter-btn :global(svg) {
+  width: 13px !important;
+  height: 13px !important;
+}
+
+.mb-filter-count {
+  font-size: 0.6rem !important;
+  padding: 0.15rem 0.4rem !important;
+}
+
+.mb-explorer-toolbar {
+  padding: 0.6rem 0.8rem !important;
+  gap: 0.8rem !important;
+}
+
+.mb-toolbar-btn {
+  padding: 0.4rem 0.7rem !important;
+  gap: 0.35rem !important;
+  font-size: 0.7rem !important;
+}
+
+.mb-kbd {
+  font-size: 0.6rem !important;
+  padding: 0.15rem 0.4rem !important;
+}
+
+.mb-benefits-grid {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+  gap: 0.7rem !important;
+  padding: 0.8rem !important;
+}
+
+.mb-benefit-card {
+  padding: 0.8rem !important;
+  gap: 0.5rem !important;
+}
+
+.mb-benefit-icon {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.mb-benefit-icon :global(svg) {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.mb-benefit-label {
+  font-size: 0.8rem !important;
+  margin-bottom: 0.3rem !important;
+}
+
+.mb-benefit-desc {
+  font-size: 0.7rem !important;
+  line-height: 1.4 !important;
+}
+
+.mb-benefit-badge {
+  padding: 0.2rem 0.5rem !important;
+  font-size: 0.6rem !important;
+}
+
+.mb-benefit-actions {
+  gap: 0.4rem !important;
+  margin-top: 0.6rem !important;
+}
+
+.mb-benefit-btn {
+  padding: 0.4rem 0.7rem !important;
+  font-size: 0.7rem !important;
+}
+
+/* ===== COMPARISON ===== */
+.mb-comparison-card {
+  padding: 0.9rem !important;
+}
+
+.mb-comparison-item {
+  padding: 0.6rem !important;
+  gap: 0.5rem !important;
+}
+
+.mb-comparison-label {
+  font-size: 0.75rem !important;
+}
+
+.mb-comparison-value {
+  font-size: 0.7rem !important;
+}
+
+/* ===== ACHIEVEMENTS ===== */
+.mb-achievements-card {
+  padding: 0.9rem !important;
+}
+
+.mb-progress-bar {
+  height: 6px !important;
+  margin: 0.6rem 0 !important;
+}
+
+.mb-progress-label {
+  font-size: 0.7rem !important;
+}
+
+.mb-badges-grid {
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 0.6rem !important;
+  margin-top: 0.8rem !important;
+}
+
+.mb-badge-item {
+  padding: 0.7rem !important;
+  gap: 0.4rem !important;
+}
+
+.mb-badge-icon {
+  width: 36px !important;
+  height: 36px !important;
+}
+
+.mb-badge-icon :global(svg) {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.mb-badge-label {
+  font-size: 0.7rem !important;
+}
+
+.mb-badge-xp {
+  font-size: 0.65rem !important;
+}
+
+/* ===== MAP ===== */
+.mb-map-card {
+  padding: 0 !important;
+}
+
+.mb-map-header {
+  padding: 0.8rem 0.9rem !important;
+}
+
+.mb-map-stats {
+  gap: 0.8rem !important;
+}
+
+.mb-map-stat {
+  gap: 0.35rem !important;
+}
+
+.mb-map-stat-value {
+  font-size: 1rem !important;
+}
+
+.mb-map-stat-label {
+  font-size: 0.65rem !important;
+}
+
+.mb-map-container {
+  height: 280px !important;
+}
+
+.mb-map-legend {
+  gap: 0.6rem !important;
+  padding: 0.7rem !important;
+}
+
+.mb-legend-item {
+  padding: 0.4rem 0.6rem !important;
+  gap: 0.35rem !important;
+  font-size: 0.7rem !important;
+}
+
+.mb-hotspot {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+/* ===== TESTIMONIALS ===== */
+.mb-testimonials-card {
+  padding: 0.9rem !important;
+}
+
+.mb-testimonial {
+  padding: 0.8rem !important;
+  gap: 0.6rem !important;
+}
+
+.mb-testimonial-text {
+  font-size: 0.8rem !important;
+  line-height: 1.5 !important;
+}
+
+.mb-testimonial-avatar {
+  width: 36px !important;
+  height: 36px !important;
+  font-size: 0.85rem !important;
+}
+
+.mb-testimonial-name {
+  font-size: 0.75rem !important;
+}
+
+.mb-testimonial-role {
+  font-size: 0.68rem !important;
+}
+
+/* ===== ACTIVITY FEED ===== */
+.mb-activity-card {
+  padding: 0.9rem !important;
+}
+
+.mb-activity-list {
+  gap: 0.5rem !important;
+}
+
+.mb-activity-item {
+  padding: 0.6rem 0.8rem !important;
+  gap: 0.6rem !important;
+}
+
+.mb-activity-avatar {
+  width: 28px !important;
+  height: 28px !important;
+  font-size: 0.7rem !important;
+}
+
+.mb-activity-message {
+  font-size: 0.72rem !important;
+}
+
+.mb-activity-time {
+  font-size: 0.65rem !important;
+}
+
+/* ===== EVENTS ===== */
+.mb-events-card {
+  padding: 0.9rem !important;
+}
+
+.mb-events-list {
+  gap: 0.6rem !important;
+}
+
+.mb-event-item {
+  padding: 0.7rem !important;
+  gap: 0.7rem !important;
+}
+
+.mb-event-date {
+  width: 48px !important;
+  height: 48px !important;
+}
+
+.mb-event-day {
+  font-size: 1.2rem !important;
+}
+
+.mb-event-month {
+  font-size: 0.65rem !important;
+}
+
+.mb-event-title {
+  font-size: 0.85rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.mb-event-meta {
+  font-size: 0.68rem !important;
+  gap: 0.6rem !important;
+}
+
+.mb-event-rsvp {
+  padding: 0.45rem 0.8rem !important;
+  font-size: 0.7rem !important;
+}
+
+/* ===== JOURNEY/TIMELINE ===== */
+.mb-journey-card {
+  padding: 0.9rem !important;
+}
+
+.mb-journey-timeline {
+  gap: 1rem !important;
+}
+
+.mb-journey-step {
+  padding: 0.8rem !important;
+  gap: 0.8rem !important;
+}
+
+.mb-step-marker {
+  width: 36px !important;
+  height: 36px !important;
+  font-size: 0.85rem !important;
+}
+
+.mb-step-title {
+  font-size: 0.85rem !important;
+  margin-bottom: 0.3rem !important;
+}
+
+.mb-step-desc {
+  font-size: 0.7rem !important;
+  line-height: 1.4 !important;
+}
+
+/* ===== QUICK LINKS ===== */
+.mb-quick-card {
+  padding: 0.9rem !important;
+}
+
+.mb-quick-links {
+  gap: 0.6rem !important;
+}
+
+.mb-quick-link {
+  padding: 0.6rem 0.8rem !important;
+  gap: 0.6rem !important;
+  font-size: 0.75rem !important;
+}
+
+.mb-quick-link :global(svg) {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.mb-quick-badge {
+  padding: 0.25rem 0.5rem !important;
+  font-size: 0.6rem !important;
+}
+
+/* ===== CTA SECTION ===== */
+.mb-cta-section {
+  padding: 2rem 0 !important;
+}
+
+.mb-cta-urgency {
+  padding: 0.5rem 0.9rem !important;
+  gap: 0.5rem !important;
+  font-size: 0.7rem !important;
+  margin-bottom: 1.2rem !important;
+}
+
+.mb-cta-primary {
+  padding: 0.8rem 1.4rem !important;
+}
+
+.mb-cta-main {
+  font-size: 1rem !important;
+}
+
+.mb-cta-sub {
+  font-size: 0.7rem !important;
+}
+
+.mb-cta-arrow {
+  width: 38px !important;
+  height: 38px !important;
+}
+
+.mb-cta-arrow :global(svg) {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.mb-cta-secondary {
+  padding: 0.7rem 1.2rem !important;
+  font-size: 0.8rem !important;
+  margin-top: 0.8rem !important;
+}
+
+.mb-cta-guarantee {
+  margin-top: 1rem !important;
+  font-size: 0.7rem !important;
+  gap: 0.4rem !important;
+}
+
+/* ===== FLOATING ACTIONS ===== */
+.mb-floating-actions {
+  bottom: 1.2rem !important;
+  right: 1.2rem !important;
+  gap: 0.6rem !important;
+}
+
+.mb-fab {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.mb-fab :global(svg) {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+/* ===== TOAST ===== */
+.mb-toast {
+  padding: 0.7rem 0.9rem !important;
+  gap: 0.6rem !important;
+  font-size: 0.75rem !important;
+}
+
+/* ===== MODAL/DETAIL PANEL ===== */
+.mb-detail-panel {
+  padding: 1.2rem !important;
+}
+
+.mb-detail-header {
+  padding-bottom: 0.8rem !important;
+  margin-bottom: 0.8rem !important;
+}
+
+.mb-detail-title {
+  font-size: 1.1rem !important;
+}
+
+.mb-detail-subtitle {
+  font-size: 0.75rem !important;
+}
+
+.mb-detail-body {
+  font-size: 0.8rem !important;
+  line-height: 1.5 !important;
+}
+
+/* ===== ENHANCED HOVER EFFECTS ===== */
+.mb-benefit-card,
+.mb-roi-card,
+.mb-explorer-card,
+.mb-comparison-card,
+.mb-achievements-card,
+.mb-map-card,
+.mb-testimonials-card,
+.mb-activity-card,
+.mb-events-card,
+.mb-journey-card,
+.mb-quick-card {
+  position: relative;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.mb-benefit-card::before,
+.mb-achievement-item::before,
+.mb-event-item::before,
+.mb-journey-step::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    transparent,
+    rgba(var(--cyan-400-rgb), 0.3),
+    rgba(var(--accent-rgb), 0.3),
+    transparent
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.mb-benefit-card:hover::before,
+.mb-achievement-item:hover::before,
+.mb-event-item:hover::before,
+.mb-journey-step:hover::before {
+  opacity: 1;
+}
+
+/* ===== RESPONSIVE OVERRIDES ===== */
+@media (max-width: 1200px) {
+  .mb-benefits-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .mb-section {
+    padding: 2rem 0 !important;
+  }
+
+  .mb-benefits-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .mb-badges-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .mb-hero-stats {
+    flex-direction: column !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .mb-container {
+    padding: 0 0.8rem !important;
+  }
+
+  .mb-bento {
+    gap: 0.6rem !important;
+  }
+} 
+</style> 
+

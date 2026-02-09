@@ -1,0 +1,713 @@
+---
+/**
+ * ContactChat.astro - Ultra Compact Edition
+ * ==========================================
+ */
+
+import { Icon } from 'astro-icon/components';
+import { contactConfig } from '../../content/pages/support/contact.config';
+
+const { topics, team } = contactConfig;
+---
+
+<div class="content-panel active" data-panel="chat" id="panel-chat">
+  <div class="chat-wrapper">
+    <!-- Chat Window -->
+    <div class="chat-window">
+      <!-- Header -->
+      <div class="chat-header">
+        <div class="header-left">
+          <div class="avatar-stack">
+            {team.slice(0, 3).map((m, i) => (
+              <div class="avatar" style={`--c: ${m.color}; --i: ${i}`}>{m.avatar}</div>
+            ))}
+          </div>
+          <div class="header-info">
+            <span class="header-title">Support Team</span>
+            <span class="header-status"><span class="pulse"></span>4 online</span>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn"><Icon name="lucide:minus" /></button>
+          <button class="icon-btn"><Icon name="lucide:maximize-2" /></button>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div class="messages" id="chat-messages">
+        <div class="date-pill">Today</div>
+        <div class="msg them">
+          <div class="msg-avatar" style="--c: var(--cyan-400)">SC</div>
+          <div class="msg-body">
+            <div class="msg-head"><span class="name">Sarah Chen</span><span class="time">now</span></div>
+            <div class="bubble">Hi there! 👋 How can I help you today?</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Topics -->
+      <div class="quick-bar">
+        {topics.slice(0, 4).map((t) => (
+          <button class="chip" data-topic={t.id}>
+            <Icon name={t.icon} />{t.label}
+          </button>
+        ))}
+      </div>
+
+      <!-- Input -->
+      <div class="input-bar">
+        <div class="input-box">
+          <button class="input-btn"><Icon name="lucide:paperclip" /></button>
+          <input type="text" id="chat-input" placeholder="Type a message..." />
+          <button class="input-btn"><Icon name="lucide:smile" /></button>
+        </div>
+        <button class="send-btn" id="send-btn"><Icon name="lucide:send" /></button>
+      </div>
+    </div>
+
+    <!-- Compact Sidebar -->
+    <div class="chat-side">
+      <div class="side-card">
+        <div class="side-icon zap"><Icon name="lucide:zap" /></div>
+        <div><strong>Instant replies</strong><span>During business hours</span></div>
+      </div>
+      <div class="side-card">
+        <div class="side-icon shield"><Icon name="lucide:shield-check" /></div>
+        <div><strong>Encrypted</strong><span>End-to-end secure</span></div>
+      </div>
+      <div class="online-strip">
+        <span class="strip-label"><Icon name="lucide:users" />Online now</span>
+        <div class="strip-avatars">
+          {team.filter(m => m.status === 'online').slice(0, 4).map((m) => (
+            <div class="strip-avatar" style={`--c: ${m.color}`} title={m.name}>{m.avatar}</div>
+          ))}
+        </div>
+      </div>
+      <button class="alt-btn" data-switch="message">
+        <Icon name="lucide:mail" />Prefer email?
+        <Icon name="lucide:chevron-right" />
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('chat-input') as HTMLInputElement;
+  const sendBtn = document.getElementById('send-btn');
+  const messages = document.getElementById('chat-messages');
+
+  function addMsg(text: string, isUser: boolean) {
+    const msg = document.createElement('div');
+    msg.className = `msg ${isUser ? 'me' : 'them'}`;
+    const time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    
+    msg.innerHTML = isUser 
+      ? `<div class="msg-body"><div class="msg-head"><span class="time">${time}</span><span class="name">You</span></div><div class="bubble">${text}</div></div>`
+      : `<div class="msg-avatar" style="--c: var(--cyan-400)">SC</div><div class="msg-body"><div class="msg-head"><span class="name">Sarah Chen</span><span class="time">${time}</span></div><div class="bubble">${text}</div></div>`;
+    
+    messages?.appendChild(msg);
+    messages?.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+  }
+
+  function send() {
+    const text = input?.value.trim();
+    if (!text) return;
+    addMsg(text, true);
+    input.value = '';
+    
+    setTimeout(() => {
+      const typing = document.createElement('div');
+      typing.className = 'msg them typing';
+      typing.innerHTML = `<div class="msg-avatar" style="--c: var(--cyan-400)">SC</div><div class="msg-body"><div class="dots"><span></span><span></span><span></span></div></div>`;
+      messages?.appendChild(typing);
+      messages?.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+      
+      setTimeout(() => {
+        typing.remove();
+        addMsg("Thanks for reaching out! Let me help you with that.", false);
+      }, 1200);
+    }, 400);
+  }
+
+  sendBtn?.addEventListener('click', send);
+  input?.addEventListener('keydown', (e) => { 
+    if (e.key === 'Enter') { 
+      e.preventDefault(); 
+      send(); 
+    } 
+  });
+
+  document.querySelectorAll('.chip').forEach(c => {
+    c.addEventListener('click', () => {
+      const t = c.textContent?.trim();
+      if (input && t) { 
+        input.value = `Question about ${t}`; 
+        input.focus(); 
+      }
+    });
+  });
+});
+</script>
+
+<style>
+  /* ============================================
+     PANEL BASE
+     ============================================ */
+  .content-panel[data-panel="chat"] {
+    display: none;
+  }
+
+  .content-panel[data-panel="chat"].active {
+    display: block;
+    animation: fadeUp 0.3s ease;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ============================================
+     LAYOUT
+     ============================================ */
+  .chat-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 16px;
+  }
+
+  /* ============================================
+     CHAT WINDOW
+     ============================================ */
+  .chat-window {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    height: 420px;
+    overflow: hidden;
+  }
+
+  /* ============================================
+     HEADER
+     ============================================ */
+  .chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-secondary);
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .avatar-stack {
+    display: flex;
+  }
+
+  .avatar {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--c);
+    border-radius: 50%;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--black);
+    margin-left: calc(var(--i) * -8px);
+    border: 2px solid var(--bg-secondary);
+  }
+
+  .header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .header-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .header-status {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: var(--green-500);
+  }
+
+  .pulse {
+    width: 5px;
+    height: 5px;
+    background: var(--green-500);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 4px;
+  }
+
+  .icon-btn {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .icon-btn:hover {
+    border-color: var(--border-hover);
+    color: var(--text);
+  }
+
+  .icon-btn :global(svg) {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* ============================================
+     MESSAGES
+     ============================================ */
+  .messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .date-pill {
+    align-self: center;
+    padding: 3px 10px;
+    background: var(--bg-secondary);
+    border-radius: 99px;
+    font-size: 9px;
+    color: var(--text-muted);
+  }
+
+  .msg {
+    display: flex;
+    gap: 8px;
+    max-width: 80%;
+    animation: msgIn 0.2s ease;
+  }
+
+  @keyframes msgIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .msg.me {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+  }
+
+  .msg-avatar {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--c);
+    border-radius: 50%;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--black);
+    flex-shrink: 0;
+  }
+
+  .msg-body {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .msg-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
+  }
+
+  .msg.me .msg-head {
+    flex-direction: row-reverse;
+  }
+
+  .msg-head .name {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .msg-head .time {
+    color: var(--text-muted);
+  }
+
+  .bubble {
+    padding: 10px 12px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .msg.them .bubble {
+    border-bottom-left-radius: 4px;
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+  }
+
+  .msg.me .bubble {
+    border-bottom-right-radius: 4px;
+    background: var(--gradient);
+    color: var(--black);
+  }
+
+  /* ============================================
+     TYPING INDICATOR
+     ============================================ */
+  .dots {
+    display: flex;
+    gap: 4px;
+    padding: 12px 14px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    border-bottom-left-radius: 4px;
+  }
+
+  .dots span {
+    width: 6px;
+    height: 6px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    animation: bounce 1.2s ease-in-out infinite;
+  }
+
+  .dots span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .dots span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  @keyframes bounce {
+    0%, 60%, 100% {
+      transform: translateY(0);
+    }
+    30% {
+      transform: translateY(-4px);
+    }
+  }
+
+  /* ============================================
+     QUICK BAR
+     ============================================ */
+  .quick-bar {
+    display: flex;
+    gap: 6px;
+    padding: 10px 14px;
+    border-top: 1px solid var(--border);
+    background: var(--bg-secondary);
+    overflow-x: auto;
+  }
+
+  .chip {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    font-size: 10px;
+    font-family: var(--font-primary);
+    color: var(--text-secondary);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .chip :global(svg) {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* ============================================
+     INPUT BAR
+     ============================================ */
+  .input-bar {
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .input-box {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2px;
+    transition: all 0.15s;
+  }
+
+  .input-box:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+  }
+
+  .input-btn {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.15s;
+  }
+
+  .input-btn:hover {
+    background: var(--bg-tertiary);
+    color: var(--text);
+  }
+
+  .input-btn :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  #chat-input {
+    flex: 1;
+    padding: 8px 4px;
+    background: transparent;
+    border: none;
+    font-size: 12px;
+    font-family: var(--font-primary);
+    color: var(--text);
+    outline: none;
+  }
+
+  .send-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient);
+    border: none;
+    border-radius: 10px;
+    color: var(--black);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .send-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px var(--accent-glow);
+  }
+
+  .send-btn :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* ============================================
+     SIDEBAR
+     ============================================ */
+  .chat-side {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .side-card {
+    display: flex;
+    gap: 10px;
+    padding: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  .side-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .side-icon.zap {
+    background: var(--accent-glow);
+    color: var(--accent);
+  }
+
+  .side-icon.shield {
+    background: rgba(var(--green-500-rgb), 0.15);
+    color: var(--green-500);
+  }
+
+  .side-icon :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .side-card strong {
+    display: block;
+    font-size: 11px;
+    color: var(--text);
+    margin-bottom: 1px;
+  }
+
+  .side-card span {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  /* ============================================
+     ONLINE STRIP
+     ============================================ */
+  .online-strip {
+    padding: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  .strip-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .strip-label :global(svg) {
+    width: 11px;
+    height: 11px;
+    color: var(--accent);
+  }
+
+  .strip-avatars {
+    display: flex;
+    gap: 4px;
+  }
+
+  .strip-avatar {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--c);
+    border-radius: 8px;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--black);
+  }
+
+  /* ============================================
+     ALT BUTTON
+     ============================================ */
+  .alt-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 11px;
+    font-family: var(--font-primary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: auto;
+  }
+
+  .alt-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .alt-btn :global(svg) {
+    width: 12px;
+    height: 12px;
+  }
+
+  .alt-btn :global(svg:last-child) {
+    margin-left: auto;
+  }
+
+  /* ============================================
+     RESPONSIVE
+     ============================================ */
+  @media (max-width: 900px) {
+    .chat-wrapper {
+      grid-template-columns: 1fr;
+    }
+
+    .chat-side {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .chat-window {
+      height: 380px;
+    }
+  }
+</style>

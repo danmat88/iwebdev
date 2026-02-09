@@ -1,0 +1,77 @@
+---
+/**
+ * TrustIndicators.astro - Ultra Compact
+ * Trust badges footer (money-back guarantee, secure payment, etc.)
+ */
+import { Icon } from 'astro-icon/components';
+import type { TrustIndicator } from './pricing.types';
+
+interface Props {
+  indicators: TrustIndicator[];
+}
+
+const { indicators } = Astro.props;
+---
+
+<div class="pricing-trust-nano">
+  {indicators.map((indicator, index) => (
+    <>
+      <div class="trust-item-nano">
+        <Icon name={indicator.icon} />
+        <span>{indicator.text}</span>
+      </div>
+      {index < indicators.length - 1 && <span class="trust-sep-nano">·</span>}
+    </>
+  ))}
+</div>
+
+<style>
+  .pricing-trust-nano {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    padding: 1rem;
+    background: rgba(var(--surface-875-rgb), 0.4);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.15);
+    border-radius: 10px;
+  }
+
+  .trust-item-nano {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .trust-item-nano :global(svg) {
+    width: 14px;
+    height: 14px;
+    color: var(--accent);
+  }
+
+  .trust-sep-nano {
+    color: rgba(var(--white-rgb), 0.2);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 640px) {
+    .pricing-trust-nano {
+      flex-direction: column;
+      gap: 0.6rem;
+      padding: 0.8rem;
+    }
+
+    .trust-sep-nano {
+      display: none;
+    }
+
+    .trust-item-nano {
+      font-size: 0.7rem;
+    }
+  }
+</style>

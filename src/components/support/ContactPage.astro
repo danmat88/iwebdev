@@ -1,0 +1,494 @@
+---
+
+import { contactConfig } from '../../content/pages/support/contact.config';
+import ContactMethodCard from '../cards/ContactMethodCard.astro';
+import ContactSidebar from './ContactSidebar.astro';
+import ContactChat from './ContactChat.astro';
+import ContactForm from './ContactForm.astro';
+import ContactScheduler from './ContactScheduler.astro';
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  showHero?: boolean;
+}
+
+const { showHero = true } = Astro.props;
+const { hero, methods, team, stats, cta, socials } = contactConfig;
+---
+
+<section class={`contact-section ${showHero ? '' : 'no-hero'}`.trim()}>
+  
+  <div class="contact-atmosphere">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+ 
+  {showHero && (
+    <header class="contact-hero">
+      <div class="hero-inner">
+        <div class="hero-badge">
+          <span class="badge-pulse"></span>
+          <span>{hero.badge}</span>
+          <span class="badge-status">
+            <span class="status-dot"></span>
+            {hero.status}
+          </span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="title-line">{hero.title.line1}</span>
+          <span class="title-line"><span class="gradient-text-animated">{hero.title.line2}</span></span>
+        </h1>
+
+        <p class="hero-subtitle">{hero.subtitle}</p>
+  
+        <div class="stats-bar">
+          {stats.map((stat) => (
+            <>
+              <div class="stat">
+                <span class="stat-icon"><Icon name={stat.icon} /></span>
+                <div class="stat-info">
+                  <span class="stat-value">{stat.value}</span>
+                  <span class="stat-label">{stat.label}</span>
+                </div>
+              </div>
+              <div class="stat-divider"></div>
+            </>
+          ))}
+        </div>
+      </div>
+    </header>
+  )}
+ 
+  <div class="bento-section" id="bento-section">
+    <div class="bento-container">
+      
+      <div class="bento-grid">
+        {methods.map((method, i) => (
+          <ContactMethodCard 
+            method={method}
+            active={i === 0}
+            index={i}
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+ 
+  <div class="contact-main" id="contact-main">
+    <div class="contact-container">
+     
+      
+      <aside class="contact-sidebar">
+        <ContactSidebar team={team} socials={socials} />
+      </aside>
+ 
+      <div class="contact-content">
+        <ContactChat />
+        <ContactForm />
+        <ContactScheduler />
+      </div>
+    </div>
+  </div>
+ 
+</section>
+
+<script>
+class ContactController {
+  constructor() {
+    this.activeMethod = 'chat';
+    this.init();
+  }
+
+  init() {
+    this.bindMethods();
+    this.bindSidebarNav();
+    this.bindSwitchButtons();
+  }
+
+  bindMethods() {
+    document.querySelectorAll('.method-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const method = card.dataset.method;
+        if (method === this.activeMethod) return;
+        this.setActiveMethod(method); 
+
+        setTimeout(() => {
+          document.getElementById('contact-main')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      });
+ 
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--my', `${e.clientY - rect.top}px`);
+      });
+    });
+  }
+ 
+  bindSidebarNav() {
+    document.querySelectorAll('.method-btn[data-method]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const method = btn.dataset.method;
+        if (method === this.activeMethod) return;
+        this.setActiveMethod(method);
+      });
+    });
+  }
+
+  bindSwitchButtons() {
+    document.querySelectorAll('[data-switch]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.setActiveMethod(btn.dataset.switch);
+        document.getElementById('contact-main')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+
+  setActiveMethod(method) {
+    this.activeMethod = method; 
+
+    document.querySelectorAll('.method-card').forEach(card => {
+      card.classList.toggle('active', card.dataset.method === method);
+    });
+ 
+    document.querySelectorAll('.content-panel').forEach(panel => {
+      panel.classList.toggle('active', panel.dataset.panel === method);
+    });
+ 
+    document.querySelectorAll('.method-btn[data-method]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.method === method);
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => new ContactController());
+</script>
+
+<style> 
+
+  .contact-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  /* ===== ATMOSPHERE ===== */
+  .contact-atmosphere {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    animation: float 30s ease-in-out infinite;
+  }
+
+  .orb-1 {
+    width: 700px;
+    height: 700px;
+    background: var(--accent-glow);
+    top: -250px;
+    right: -150px;
+    opacity: 0.5;
+  }
+
+  .orb-2 {
+    width: 500px;
+    height: 500px;
+    background: rgba(var(--indigo-400-rgb), 0.12);
+    bottom: 10%;
+    left: -150px;
+    opacity: 0.4;
+    animation-delay: -10s;
+  }
+
+  .orb-3 {
+    width: 400px;
+    height: 400px;
+    background: rgba(var(--pink-400-rgb), 0.08);
+    top: 50%;
+    left: 30%;
+    opacity: 0.3;
+    animation-delay: -20s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(20px, -20px); }
+  }
+
+  .grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.025;
+  }
+
+  /* ===== HERO ===== */
+  .contact-hero {
+    position: relative;
+    padding: 140px 24px 80px;
+    text-align: center;
+  }
+
+  .contact-section.no-hero .bento-section {
+    padding-top: 20px;
+  }
+
+  .hero-inner {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+  }
+
+  .badge-pulse {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+  }
+
+  .badge-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    background: rgba(var(--green-500-rgb), 0.15);
+    border-radius: 100px;
+    color: var(--green-500);
+    font-size: 11px;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--green-500);
+    border-radius: 50%;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+
+  .title-line {
+    display: block;
+    color: var(--text);
+  }
+
+  .hero-subtitle {
+    font-size: 17px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 450px;
+    margin: 0 auto 36px;
+  }
+
+  /* Stats Bar */
+  .stats-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 24px;
+    padding: 16px 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+  }
+
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-glow);
+    border-radius: 10px;
+    color: var(--accent);
+  }
+
+  .stat-icon :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .stat-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 32px;
+    background: var(--border);
+  }
+
+  .stat-divider:last-child {
+    display: none;
+  }
+
+  /* ===== BENTO ===== */
+  .bento-section {
+    position: relative;
+    padding: 0 24px 72px;
+  }
+
+  .bento-container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .bento-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .bento-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .bento-title :global(svg) {
+    width: 18px;
+    height: 18px;
+    color: var(--accent);
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  /* ===== MAIN LAYOUT ===== */
+  .contact-main {
+    position: relative;
+    padding: 0 24px 80px;
+  }
+
+  .contact-container {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* Sidebar */
+  .contact-sidebar {
+    position: relative;
+  }
+
+  /* Content */
+  .contact-content {
+    min-width: 0;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1000px) {
+    .bento-grid {
+      grid-template-columns: 1fr;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .contact-container {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .contact-sidebar {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .contact-hero {
+      padding: 120px 16px 60px;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 9vw, 3rem);
+    }
+
+    .stats-bar {
+      flex-direction: column;
+      gap: 16px;
+      padding: 20px;
+    }
+
+    .stat-divider {
+      width: 100%;
+      height: 1px;
+    }
+
+    .bento-section {
+      padding: 0 16px 50px;
+    }
+
+    .contact-main {
+      padding: 0 16px 60px;
+    }
+  }
+</style>

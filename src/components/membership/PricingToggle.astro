@@ -1,0 +1,102 @@
+---
+/**
+ * PricingToggle.astro - Ultra Compact
+ * Annual/Monthly billing toggle
+ */
+import type { BillingToggle } from './pricing.types';
+
+interface Props {
+  toggle: BillingToggle;
+}
+
+const { toggle } = Astro.props;
+---
+
+<div class="pricing-toggle-nano">
+  <button class="toggle-btn-nano active" id="toggle-annual">
+    <span>{toggle.annual.label}</span>
+    <span class="toggle-save-nano">{toggle.annual.saveText}</span>
+  </button>
+  <button class="toggle-btn-nano" id="toggle-monthly">
+    <span>{toggle.monthly.label}</span>
+  </button>
+  <div class="toggle-slider-nano" id="toggle-slider"></div>
+</div>
+
+<style>
+  .pricing-toggle-nano {
+    position: relative;
+    display: flex;
+    gap: 0;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    width: fit-content;
+    background: rgba(var(--surface-875-rgb), 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.15);
+    border-radius: 10px;
+    padding: 0.3rem;
+  }
+
+  .toggle-btn-nano {
+    position: relative;
+    z-index: 2;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+  }
+
+  .toggle-btn-nano.active {
+    color: var(--white);
+  }
+
+  .toggle-save-nano {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .toggle-btn-nano.active .toggle-save-nano {
+    color: rgba(var(--white-rgb), 0.7);
+  }
+
+  .toggle-slider-nano {
+    position: absolute;
+    top: 0.3rem;
+    left: 0.3rem;
+    width: calc(50% - 0.3rem);
+    height: calc(100% - 0.6rem);
+    background: var(--gradient);
+    border-radius: 8px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1;
+    box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.3);
+  }
+
+  .toggle-slider-nano.moved {
+    transform: translateX(100%);
+  }
+
+  @media (max-width: 480px) {
+    .toggle-btn-nano {
+      padding: 0.5rem 0.9rem;
+      font-size: 0.75rem;
+    }
+
+    .toggle-save-nano {
+      font-size: 0.55rem;
+    }
+  }
+</style>

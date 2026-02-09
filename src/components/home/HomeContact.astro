@@ -1,0 +1,208 @@
+---
+/**
+ * HomeContact.astro
+ * Simplified contact preview for homepage
+ * Shows contact methods with link to full contact page
+ */
+import { contactConfig } from '../../content/pages/support/contact.config';
+import ContactMethodCard from '../cards/ContactMethodCard.astro';
+import { Icon } from 'astro-icon/components';
+
+const { methods } = contactConfig;
+---
+
+<section class="contact-section">
+  <div class="contact-atmosphere">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <div class="contact-container">
+    <!-- Header -->
+    <header class="contact-header">
+      <span class="section-tag">
+        <Icon name="lucide:message-circle" />
+        <span>Get in Touch</span>
+      </span>
+      <h2 class="contact-title">
+        We're here to
+        <span class="title-accent">help</span>
+      </h2>
+      <p class="contact-subtitle">
+        Choose your preferred way to reach us. We typically respond within 24 hours.
+      </p>
+    </header>
+
+    <!-- Contact Methods -->
+    <div class="contact-grid">
+      {methods.slice(0, 4).map((method, i) => (
+        <ContactMethodCard method={method} active={i === 0} index={i} />
+      ))}
+    </div>
+
+    <!-- CTA -->
+    <div class="contact-footer">
+      <a href="/support/contact" class="contact-cta">
+        <span>View All Contact Options</span>
+        <Icon name="lucide:arrow-right" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-section {
+    position: relative;
+    padding: 100px 0;
+    overflow: hidden;
+  }
+
+  .contact-atmosphere {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    animation: orbFloat 15s ease-in-out infinite;
+  }
+
+  .orb-1 {
+    top: 10%;
+    left: -5%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(var(--cyan-400-rgb), 0.06), transparent 70%);
+  }
+
+  .orb-2 {
+    bottom: 10%;
+    right: -5%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(var(--indigo-400-rgb), 0.05), transparent 70%);
+    animation-delay: -7.5s;
+  }
+
+  @keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-20px, 20px) scale(1.05); }
+  }
+
+  .grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(var(--white-rgb), 0.01) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(var(--white-rgb), 0.01) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 70% 50% at 50% 50%, black, transparent);
+    -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 50%, black, transparent);
+  }
+
+  .contact-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Header */
+  .contact-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .contact-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 16px;
+    line-height: 1.15;
+  }
+
+  .title-accent {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .contact-subtitle {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Grid */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  /* Footer */
+  .contact-footer {
+    text-align: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    background: var(--gradient);
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px var(--accent-glow);
+  }
+
+  .contact-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px var(--accent-glow);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .contact-section {
+      padding: 80px 0;
+    }
+
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+</style>

@@ -1,0 +1,1470 @@
+---
+/**
+ * WorldMapCarousel.astro v1.0
+ * Combined World Map + Dev Carousel with unified container
+ * Map shrinks from corners to center on exit, carousel cards enter in same space
+ */
+import { Icon } from 'astro-icon/components';
+import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
+---
+
+<div class="unified-container" data-world-map-carousel data-map-interaction-container>
+  <!-- Shared HUD corners that persist across states -->
+  <div class="shared-hud">
+    <div class="hud-corner tl"></div>
+    <div class="hud-corner tr"></div>
+    <div class="hud-corner bl"></div>
+    <div class="hud-corner br"></div>
+  </div>
+
+  <!-- ============ MAP STATE ============ -->
+  <LiveWorldMapPanel />
+
+  <!-- ============ CAROUSEL STATE ============ -->
+  <div class="carousel-state" id="carousel-state">
+    <!-- Transition glow effect -->
+    <div class="carousel-transition-glow"></div>
+    
+    <!-- Neural network background -->
+    <div class="neural-network" id="neural-network">
+      <canvas id="neural-canvas"></canvas>
+    </div>
+
+    <!-- Matrix rain -->
+    <div class="matrix-rain" id="matrix-rain">
+      <canvas id="matrix-canvas"></canvas>
+    </div>
+
+    <!-- Holographic effects -->
+    <div class="holo-scanlines"></div>
+    <div class="holo-grid"></div>
+
+    <!-- Data streams -->
+    <div class="data-streams">
+      <div class="data-stream s1"></div>
+      <div class="data-stream s2"></div>
+      <div class="data-stream s3"></div>
+    </div>
+
+    <!-- Terminal cards -->
+    <div class="terminal-stack" id="terminal-stack">
+      
+      <!-- Card 1: Pair Programming -->
+      <article class="terminal-card" data-index="0">
+        <div class="card-hologram"></div>
+        <div class="card-glitch-layer"></div>
+        <div class="card-energy-field"></div>
+        
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+          </div>
+          <div class="terminal-title">REMOTE_SESSION://live</div>
+          <div class="terminal-status">
+            <span class="status-indicator pulse"></span>
+            <span class="status-text">CONNECTED</span>
+          </div>
+        </div>
+
+        <div class="terminal-body">
+          <div class="terminal-viewport">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop&q=90" alt="Pair Programming" />
+            <div class="viewport-overlay">
+              <div class="scan-line-anim"></div>
+              <div class="corner-brackets"></div>
+            </div>
+          </div>
+          
+          <div class="terminal-console">
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">session.location</span>
+              <span class="output">→ San Francisco, CA</span>
+            </div>
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">session.type</span>
+              <span class="output">→ Pair Programming</span>
+            </div>
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">active.users</span>
+              <span class="output blink">→ 12 watching</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="terminal-footer">
+          <div class="footer-stats">
+            <span class="stat"><span class="stat-icon"><Icon name="lucide:zap" /></span>2hr</span>
+            <span class="stat"><span class="stat-icon"><Icon name="lucide:radio" /></span>94ms</span>
+            <span class="stat stat-hot"><span class="stat-icon"><Icon name="lucide:flame" /></span>HOT</span>
+          </div>
+          <div class="footer-id">#SESSION_4F7A9B</div>
+        </div>
+      </article>
+
+      <!-- Card 2: Team Standup -->
+      <article class="terminal-card" data-index="1">
+        <div class="card-hologram"></div>
+        <div class="card-glitch-layer"></div>
+        <div class="card-energy-field"></div>
+        
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+          </div>
+          <div class="terminal-title">SYNC_PROTOCOL://daily</div>
+          <div class="terminal-status">
+            <span class="status-indicator pulse"></span>
+            <span class="status-text">SYNCING</span>
+          </div>
+        </div>
+
+        <div class="terminal-body">
+          <div class="terminal-viewport">
+            <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&h=600&fit=crop&q=90" alt="Team Standup" />
+            <div class="viewport-overlay">
+              <div class="scan-line-anim"></div>
+              <div class="corner-brackets"></div>
+            </div>
+          </div>
+          
+          <div class="terminal-console">
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">geo.locate</span>
+              <span class="output">→ Berlin, Germany</span>
+            </div>
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">sync.type</span>
+              <span class="output">→ Team Standup</span>
+            </div>
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">team.size</span>
+              <span class="output blink">→ 8 members</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="terminal-footer">
+          <div class="footer-stats">
+            <span class="stat"><span class="stat-icon"><Icon name="lucide:timer" /></span>15m</span>
+            <span class="stat"><span class="stat-icon"><Icon name="lucide:radio" /></span>52ms</span>
+            <span class="stat stat-live"><span class="stat-icon"><Icon name="lucide:activity" /></span>LIVE</span>
+          </div>
+          <div class="footer-id">#SYNC_8E2C4D</div>
+        </div>
+      </article>
+
+      <!-- Card 3: Deep Work -->
+      <article class="terminal-card" data-index="2">
+        <div class="card-hologram"></div>
+        <div class="card-glitch-layer"></div>
+        <div class="card-energy-field"></div>
+        
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+          </div>
+          <div class="terminal-title">FOCUS_MODE://engaged</div>
+          <div class="terminal-status">
+            <span class="status-indicator pulse focus"></span>
+            <span class="status-text">FOCUSED</span>
+          </div>
+        </div>
+
+        <div class="terminal-body">
+          <div class="terminal-viewport">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop&q=90" alt="Deep Work" />
+            <div class="viewport-overlay">
+              <div class="scan-line-anim"></div>
+              <div class="corner-brackets"></div>
+            </div>
+          </div>
+          
+          <div class="terminal-console">
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">current.location</span>
+              <span class="output">→ Tokyo, Japan</span>
+            </div>
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">mode.status</span>
+              <span class="output">→ Deep Work</span>
+            </div>
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">streak.time</span>
+              <span class="output blink">→ 4hr <span class="inline-icon flame"><Icon name="lucide:flame" /></span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="terminal-footer">
+          <div class="footer-stats">
+            <span class="stat"><span class="stat-icon"><Icon name="lucide:target" /></span>4hr</span>
+            <span class="stat"><span class="stat-icon"><Icon name="lucide:radio" /></span>28ms</span>
+            <span class="stat stat-fire"><span class="stat-icon"><Icon name="lucide:flame" /></span>FIRE</span>
+          </div>
+          <div class="footer-id">#FOCUS_A3D8F1</div>
+        </div>
+      </article>
+
+      <!-- Card 4: Hackathon -->
+      <article class="terminal-card" data-index="3">
+        <div class="card-hologram"></div>
+        <div class="card-glitch-layer"></div>
+        <div class="card-energy-field"></div>
+        
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+          </div>
+          <div class="terminal-title">HACK_EVENT://48h-challenge</div>
+          <div class="terminal-status">
+            <span class="status-indicator pulse warn"></span>
+            <span class="status-text">BUILDING</span>
+          </div>
+        </div>
+
+        <div class="terminal-body">
+          <div class="terminal-viewport">
+            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&h=600&fit=crop&q=90" alt="Hackathon" />
+            <div class="viewport-overlay">
+              <div class="scan-line-anim"></div>
+              <div class="corner-brackets"></div>
+            </div>
+          </div>
+          
+          <div class="terminal-console">
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">event.location</span>
+              <span class="output">→ London, UK</span>
+            </div>
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">event.type</span>
+              <span class="output">→ Hackathon</span>
+            </div>
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">hackers.count</span>
+              <span class="output blink">→ 156 active</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="terminal-footer">
+          <div class="footer-stats">
+            <span class="stat"><span class="stat-icon"><Icon name="lucide:clock" /></span>23h</span>
+            <span class="stat"><span class="stat-icon"><Icon name="lucide:radio" /></span>71ms</span>
+            <span class="stat stat-fast"><span class="stat-icon"><Icon name="lucide:zap" /></span>FAST</span>
+          </div>
+          <div class="footer-id">#HACK_9B4E7C</div>
+        </div>
+      </article>
+
+      <!-- Card 5: Brainstorming -->
+      <article class="terminal-card" data-index="4">
+        <div class="card-hologram"></div>
+        <div class="card-glitch-layer"></div>
+        <div class="card-energy-field"></div>
+        
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+          </div>
+          <div class="terminal-title">IDEATE_SESSION://creative</div>
+          <div class="terminal-status">
+            <span class="status-indicator pulse"></span>
+            <span class="status-text">ACTIVE</span>
+          </div>
+        </div>
+
+        <div class="terminal-body">
+          <div class="terminal-viewport">
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&q=90" alt="Brainstorming" />
+            <div class="viewport-overlay">
+              <div class="scan-line-anim"></div>
+              <div class="corner-brackets"></div>
+            </div>
+          </div>
+          
+          <div class="terminal-console">
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">session.location</span>
+              <span class="output">→ Toronto, Canada</span>
+            </div>
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">session.mode</span>
+              <span class="output">→ Brainstorming</span>
+            </div>
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">ideas.generated</span>
+              <span class="output blink">→ 24 ideas</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="terminal-footer">
+          <div class="footer-stats">
+            <span class="stat"><span class="stat-icon"><Icon name="lucide:lightbulb" /></span>24</span>
+            <span class="stat"><span class="stat-icon"><Icon name="lucide:radio" /></span>38ms</span>
+            <span class="stat stat-new"><span class="stat-icon"><Icon name="lucide:sparkles" /></span>NEW</span>
+          </div>
+          <div class="footer-id">#IDEA_C7F2A9</div>
+        </div>
+      </article>
+
+      <!-- Card 6: Code Review -->
+      <article class="terminal-card" data-index="5">
+        <div class="card-hologram"></div>
+        <div class="card-glitch-layer"></div>
+        <div class="card-energy-field"></div>
+        
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+            <span class="control-dot"></span>
+          </div>
+          <div class="terminal-title">REVIEW_PROCESS://pr-check</div>
+          <div class="terminal-status">
+            <span class="status-indicator pulse success"></span>
+            <span class="status-text">APPROVED</span>
+          </div>
+        </div>
+
+        <div class="terminal-body">
+          <div class="terminal-viewport">
+            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=600&fit=crop&q=90" alt="Code Review" />
+            <div class="viewport-overlay">
+              <div class="scan-line-anim"></div>
+              <div class="corner-brackets"></div>
+            </div>
+          </div>
+          
+          <div class="terminal-console">
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">reviewer.location</span>
+              <span class="output">→ Sydney, Australia</span>
+            </div>
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">review.type</span>
+              <span class="output">→ Code Review</span>
+            </div>
+            <div class="console-line">
+              <span class="prompt">$</span>
+              <span class="command">pr.status</span>
+              <span class="output blink">→ 3 PRs <span class="inline-icon check"><Icon name="lucide:check" /></span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="terminal-footer">
+          <div class="footer-stats">
+            <span class="stat"><span class="stat-icon"><Icon name="lucide:git-pull-request" /></span>3PR</span>
+            <span class="stat"><span class="stat-icon"><Icon name="lucide:radio" /></span>124ms</span>
+            <span class="stat stat-ok"><span class="stat-icon"><Icon name="lucide:check-circle" /></span>OK</span>
+          </div>
+          <div class="footer-id">#REVIEW_5D9E2B</div>
+        </div>
+      </article>
+    </div>
+
+    <!-- HUD stats -->
+    <div class="hud-stats">
+      <span class="hud-item"><span class="hud-label">ACTIVE:</span> <span class="hud-value" id="active-sessions">248</span></span>
+      <span class="hud-item"><span class="hud-label">LATENCY:</span> <span class="hud-value" id="avg-latency">47ms</span></span>
+      <span class="hud-item"><span class="hud-label">UPTIME:</span> <span class="hud-value">99.9%</span></span>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-hud" id="progress-hud">
+      <div class="progress-dots" id="progress-dots"></div>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.querySelector('[data-world-map-carousel]');
+  const mapState = container?.querySelector('.map-state');
+  const mapShrinkWrapper = container?.querySelector('.map-shrink-wrapper');
+  const carouselState = container?.querySelector('#carousel-state');
+  const progressDots = container?.querySelector('#progress-dots');
+  const progressFill = container?.querySelector('#progress-fill');
+  const cards = container ? container.querySelectorAll('.terminal-card') : [];
+  const totalCards = cards.length;
+  if (!container || !mapState || !mapShrinkWrapper || !carouselState) {
+    return;
+  }
+  const rootStyles = getComputedStyle(document.documentElement);
+  const cyan400Rgb = rootStyles.getPropertyValue('--cyan-400-rgb').trim() || '34, 211, 238';
+  const whiteRgb = rootStyles.getPropertyValue('--white-rgb').trim() || '255, 255, 255';
+  const matrixBackdropRgb = '10, 10, 11';
+  const rgbaFrom = (rgb, alpha) => `rgba(${rgb}, ${alpha})`;
+
+  const MAP_DISPLAY_TIME = 6000;
+  const CAROUSEL_DISPLAY_TIME = 18000;
+  const CARD_ROTATE_TIME = 3000;
+  const TRANSITION_DURATION = 900;
+
+  let isMapView = true;
+  let currentIndex = 0;
+  let rotateInterval = null;
+
+  // Progress dots
+  if (progressDots) {
+    for (let i = 0; i < totalCards; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'prog-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('data-index', String(i));
+      dot.addEventListener('click', () => {
+        currentIndex = i;
+        positionCards(true);
+      });
+      progressDots.appendChild(dot);
+    }
+  }
+
+  // Neural network
+  const neuralCanvas = container.querySelector('#neural-canvas');
+  const neuralCtx = neuralCanvas?.getContext('2d');
+  let neuralNodes = [];
+
+  function initNeuralNetwork() {
+    if (!neuralCanvas || !neuralCtx) return;
+    neuralCanvas.width = neuralCanvas.offsetWidth;
+    neuralCanvas.height = neuralCanvas.offsetHeight;
+    const nodeCount = 50;
+    neuralNodes = [];
+    for (let i = 0; i < nodeCount; i++) {
+      neuralNodes.push({
+        x: Math.random() * neuralCanvas.width,
+        y: Math.random() * neuralCanvas.height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        radius: Math.random() * 2.5 + 1,
+        pulse: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  function animateNeuralNetwork() {
+    if (!neuralCanvas || !neuralCtx || isMapView) {
+      requestAnimationFrame(animateNeuralNetwork);
+      return;
+    }
+    neuralCtx.clearRect(0, 0, neuralCanvas.width, neuralCanvas.height);
+    const time = Date.now() * 0.001;
+    neuralNodes.forEach((node, i) => {
+      node.x += node.vx;
+      node.y += node.vy;
+      if (node.x < 0 || node.x > neuralCanvas.width) node.vx *= -1;
+      if (node.y < 0 || node.y > neuralCanvas.height) node.vy *= -1;
+      const pulseScale = 1 + Math.sin(time * 2 + node.pulse) * 0.3;
+      const gradient = neuralCtx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.radius * 4 * pulseScale);
+      gradient.addColorStop(0, rgbaFrom(cyan400Rgb, 0.8));
+      gradient.addColorStop(0.5, rgbaFrom(cyan400Rgb, 0.2));
+      gradient.addColorStop(1, rgbaFrom(cyan400Rgb, 0));
+      neuralCtx.beginPath();
+      neuralCtx.arc(node.x, node.y, node.radius * 4 * pulseScale, 0, Math.PI * 2);
+      neuralCtx.fillStyle = gradient;
+      neuralCtx.fill();
+      neuralCtx.beginPath();
+      neuralCtx.arc(node.x, node.y, node.radius * pulseScale, 0, Math.PI * 2);
+      neuralCtx.fillStyle = rgbaFrom(cyan400Rgb, 0.9);
+      neuralCtx.fill();
+      neuralNodes.slice(i + 1).forEach(other => {
+        const dx = other.x - node.x;
+        const dy = other.y - node.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 150) {
+          neuralCtx.beginPath();
+          neuralCtx.moveTo(node.x, node.y);
+          neuralCtx.lineTo(other.x, other.y);
+          const opacity = (1 - dist / 150) * 0.4;
+          neuralCtx.strokeStyle = rgbaFrom(cyan400Rgb, opacity);
+          neuralCtx.lineWidth = 0.8;
+          neuralCtx.stroke();
+        }
+      });
+    });
+    requestAnimationFrame(animateNeuralNetwork);
+  }
+
+  // Matrix rain
+  const matrixCanvas = container.querySelector('#matrix-canvas');
+  const matrixCtx = matrixCanvas?.getContext('2d');
+  let matrixColumns = [];
+
+  function initMatrixRain() {
+    if (!matrixCanvas || !matrixCtx) return;
+    matrixCanvas.width = matrixCanvas.offsetWidth;
+    matrixCanvas.height = matrixCanvas.offsetHeight;
+    const columnCount = Math.floor(matrixCanvas.width / 18);
+    matrixColumns = Array(columnCount).fill(1);
+  }
+
+  function animateMatrixRain() {
+    if (!matrixCanvas || !matrixCtx || isMapView) {
+      requestAnimationFrame(animateMatrixRain);
+      return;
+    }
+    matrixCtx.fillStyle = rgbaFrom(matrixBackdropRgb, 0.04);
+    matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+    matrixCtx.font = '13px monospace';
+    matrixColumns.forEach((y, i) => {
+      const char = String.fromCharCode(0x30A0 + Math.random() * 96);
+      const x = i * 18;
+      const intensity = Math.random();
+      if (intensity > 0.95) {
+        matrixCtx.fillStyle = rgbaFrom(whiteRgb, 0.9);
+      } else if (intensity > 0.8) {
+        matrixCtx.fillStyle = rgbaFrom(cyan400Rgb, 0.9);
+      } else {
+        matrixCtx.fillStyle = rgbaFrom(cyan400Rgb, 0.6);
+      }
+      matrixCtx.fillText(char, x, y);
+      if (y > matrixCanvas.height && Math.random() > 0.975) {
+        matrixColumns[i] = 0;
+      }
+      matrixColumns[i] = y + 18;
+    });
+    requestAnimationFrame(animateMatrixRain);
+  }
+
+  // Card positioning - centered fan layout
+  function positionCards(animate = true) {
+    cards.forEach((card, i) => {
+      let pos = i - currentIndex;
+      if (pos < -2) pos += totalCards;
+      if (pos > 3) pos -= totalCards;
+      card.classList.remove('active', 'pos-1', 'pos-2', 'pos-3', 'pos-back', 'pos-exit');
+      if (animate) {
+        card.style.transition = 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+      } else {
+        card.style.transition = 'none';
+      }
+      // Base transform includes centering: translate(-50%, -50%)
+      if (pos === 0) {
+        card.classList.add('active');
+        card.style.transform = 'translate(-50%, -50%) scale(1)';
+        card.style.opacity = '1';
+        card.style.zIndex = '10';
+      } else if (pos === 1) {
+        card.classList.add('pos-1');
+        card.style.transform = 'translate(calc(-50% + 180px), -50%) scale(0.88) rotateY(-5deg)';
+        card.style.opacity = '0.75';
+        card.style.zIndex = '9';
+      } else if (pos === 2) {
+        card.classList.add('pos-2');
+        card.style.transform = 'translate(calc(-50% + 260px), -50%) scale(0.76) rotateY(-8deg)';
+        card.style.opacity = '0.5';
+        card.style.zIndex = '8';
+      } else if (pos === 3) {
+        card.classList.add('pos-3');
+        card.style.transform = 'translate(calc(-50% + 320px), -50%) scale(0.65) rotateY(-10deg)';
+        card.style.opacity = '0.25';
+        card.style.zIndex = '7';
+      } else if (pos === -1) {
+        card.classList.add('pos-exit');
+        card.style.transform = 'translate(calc(-50% - 300px), -50%) scale(0.88) rotateY(5deg)';
+        card.style.opacity = '0';
+        card.style.zIndex = '5';
+      } else {
+        card.classList.add('pos-back');
+        card.style.transform = 'translate(calc(-50% + 350px), -50%) scale(0.55) rotateY(-12deg)';
+        card.style.opacity = '0';
+        card.style.zIndex = '1';
+      }
+    });
+    const dots = progressDots?.querySelectorAll('.prog-dot');
+    dots?.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+    if (progressFill) {
+      progressFill.style.width = `${((currentIndex + 1) / totalCards) * 100}%`;
+    }
+    const activeSessions = container.querySelector('#active-sessions');
+    const avgLatency = container.querySelector('#avg-latency');
+    if (activeSessions) activeSessions.textContent = String(200 + Math.floor(Math.random() * 100));
+    if (avgLatency) avgLatency.textContent = Math.floor(30 + Math.random() * 80) + 'ms';
+  }
+
+  function startRotation() {
+    if (rotateInterval) clearInterval(rotateInterval);
+    rotateInterval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % totalCards;
+      positionCards(true);
+    }, CARD_ROTATE_TIME);
+  }
+
+  function stopRotation() {
+    if (rotateInterval) {
+      clearInterval(rotateInterval);
+      rotateInterval = null;
+    }
+  }
+
+  // ===== TRANSITIONS =====
+  function showCarousel() {
+    if (!mapState || !carouselState || !mapShrinkWrapper) return;
+    stopRotation();
+    
+    // Start map exit with iris close
+    mapShrinkWrapper.classList.add('shrinking');
+    mapState.classList.add('exiting');
+    
+    setTimeout(() => {
+      isMapView = false;
+      mapState.classList.remove('visible', 'exiting');
+      mapShrinkWrapper.classList.remove('shrinking');
+      
+      // Show carousel with cards bursting in
+      carouselState.classList.add('visible', 'entering');
+      
+      setTimeout(() => {
+        carouselState.classList.remove('entering');
+        positionCards(false);
+        startRotation();
+      }, 300);
+    }, TRANSITION_DURATION);
+  }
+
+  function showMap() {
+    if (!mapState || !carouselState || !mapShrinkWrapper) return;
+    stopRotation();
+    
+    // Cards collapse to center
+    carouselState.classList.add('exiting');
+    
+    setTimeout(() => {
+      isMapView = true;
+      carouselState.classList.remove('visible', 'exiting');
+      
+      // Map expands from center
+      mapState.classList.add('visible', 'entering');
+      mapShrinkWrapper.classList.add('expanding');
+      
+      setTimeout(() => {
+        mapState.classList.remove('entering');
+        mapShrinkWrapper.classList.remove('expanding');
+      }, TRANSITION_DURATION);
+    }, 700);
+  }
+
+  // Initialize
+  function init() {
+    initNeuralNetwork();
+    initMatrixRain();
+    animateNeuralNetwork();
+    animateMatrixRain();
+    
+    window.addEventListener('resize', () => {
+      initNeuralNetwork();
+      initMatrixRain();
+    });
+    
+    positionCards(false);
+    
+    function cycle() {
+      if (isMapView) {
+        setTimeout(() => {
+          showCarousel();
+          setTimeout(cycle, CAROUSEL_DISPLAY_TIME);
+        }, MAP_DISPLAY_TIME);
+      } else {
+        showMap();
+        setTimeout(cycle, MAP_DISPLAY_TIME);
+      }
+    }
+    
+    cycle();
+  }
+
+  init();
+});
+</script>
+
+<style>
+  /* ===== UNIFIED CONTAINER ===== */
+  .unified-container {
+    position: relative;
+    width: 100%;
+    height: 360px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(var(--surface-800-rgb), 0.95), rgba(var(--surface-780-rgb), 0.98));
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.15);
+    box-shadow: 
+      0 0 60px rgba(var(--cyan-400-rgb), 0.08),
+      0 8px 32px rgba(var(--black-rgb), 0.4),
+      inset 0 1px 0 rgba(var(--white-rgb), 0.03);
+  }
+
+  /* ===== SHARED HUD CORNERS ===== */
+  .shared-hud {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .hud-corner {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    opacity: 0.6;
+  }
+
+  .hud-corner.tl {
+    top: 12px;
+    left: 12px;
+    border-top: 2px solid var(--accent);
+    border-left: 2px solid var(--accent);
+  }
+
+  .hud-corner.tr {
+    top: 12px;
+    right: 12px;
+    border-top: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+  }
+
+  .hud-corner.bl {
+    bottom: 12px;
+    left: 12px;
+    border-bottom: 2px solid var(--accent);
+    border-left: 2px solid var(--accent);
+  }
+
+  .hud-corner.br {
+    bottom: 12px;
+    right: 12px;
+    border-bottom: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+  }
+
+  /* ===== MAP STATE ===== */
+  /* Map state styles moved to LiveWorldMapPanel.astro */
+
+/* ===== CAROUSEL STATE ===== */
+  .carousel-state {
+    position: absolute;
+    inset: 0;
+    display: none;
+    opacity: 0;
+  }
+
+  .carousel-state.visible {
+    display: block;
+    opacity: 1;
+  }
+
+  /* Carousel transition glow - expanding ring */
+  .carousel-transition-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, 
+      rgba(var(--white-rgb), 0.9) 0%, 
+      rgba(var(--cyan-400-rgb), 0.7) 25%, 
+      rgba(var(--indigo-400-rgb), 0.5) 50%, 
+      transparent 70%
+    );
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  .carousel-state.entering .carousel-transition-glow {
+    animation: ringExpand 0.8s ease-out forwards;
+  }
+
+  .carousel-state.exiting .carousel-transition-glow {
+    animation: ringContract 0.7s ease-in forwards;
+  }
+
+  @keyframes ringExpand {
+    0% { 
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 1;
+      filter: brightness(2);
+    }
+    40% {
+      opacity: 0.9;
+      filter: brightness(1.5);
+    }
+    100% { 
+      transform: translate(-50%, -50%) scale(12);
+      opacity: 0;
+      filter: brightness(1);
+    }
+  }
+
+  @keyframes ringContract {
+    0% { 
+      transform: translate(-50%, -50%) scale(12);
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.8;
+      filter: brightness(1.5);
+    }
+    100% { 
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 1;
+      filter: brightness(2);
+    }
+  }
+
+  .carousel-state.entering {
+    animation: carouselReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Cards burst in from center */
+  .carousel-state.entering .terminal-card {
+    animation: cardBurstIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  }
+
+  .carousel-state.entering .terminal-card[data-index="0"] { animation-delay: 0.05s; }
+  .carousel-state.entering .terminal-card[data-index="1"] { animation-delay: 0.1s; }
+  .carousel-state.entering .terminal-card[data-index="2"] { animation-delay: 0.15s; }
+  .carousel-state.entering .terminal-card[data-index="3"] { animation-delay: 0.2s; }
+  .carousel-state.entering .terminal-card[data-index="4"] { animation-delay: 0.25s; }
+  .carousel-state.entering .terminal-card[data-index="5"] { animation-delay: 0.3s; }
+
+  .carousel-state.exiting {
+    animation: carouselCollapse 0.7s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+  }
+
+  /* Cards collapse to center on exit */
+  .carousel-state.exiting .terminal-card {
+    animation: cardCollapseOut 0.6s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+  }
+
+  @keyframes carouselReveal {
+    0% { 
+      opacity: 0;
+    }
+    100% { 
+      opacity: 1; 
+    }
+  }
+
+  @keyframes cardBurstIn {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.3) rotateY(45deg);
+      filter: blur(10px) brightness(2);
+    }
+    60% {
+      opacity: 1;
+      filter: blur(0) brightness(1.2);
+    }
+    100% {
+      opacity: 1;
+      filter: blur(0) brightness(1);
+    }
+  }
+
+  @keyframes carouselCollapse {
+    0% { 
+      opacity: 1;
+    }
+    100% { 
+      opacity: 0;
+    }
+  }
+
+  @keyframes cardCollapseOut {
+    0% {
+      opacity: 1;
+      filter: blur(0) brightness(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.2) rotateY(-30deg);
+      filter: blur(8px) brightness(2);
+    }
+  }
+
+  /* Neural network */
+  .neural-network {
+    position: absolute;
+    inset: 0;
+    opacity: 0.4;
+  }
+
+  .neural-network canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Matrix rain */
+  .matrix-rain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    pointer-events: none;
+  }
+
+  .matrix-rain canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Holo effects */
+  .holo-scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(var(--cyan-400-rgb), 0.015) 2px,
+      rgba(var(--cyan-400-rgb), 0.015) 4px
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .holo-grid {
+    position: absolute;
+    inset: 0;
+    background: 
+      linear-gradient(90deg, rgba(var(--cyan-400-rgb), 0.02) 1px, transparent 1px),
+      linear-gradient(rgba(var(--cyan-400-rgb), 0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* Data streams */
+  .data-streams {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .data-stream {
+    position: absolute;
+    width: 2px;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+    opacity: 0.3;
+    animation: streamFlow 4s linear infinite;
+  }
+
+  .data-stream.s1 { left: 15%; animation-delay: 0s; }
+  .data-stream.s2 { left: 50%; animation-delay: -1.5s; }
+  .data-stream.s3 { left: 85%; animation-delay: -3s; }
+
+  @keyframes streamFlow {
+    0% { top: -100px; opacity: 0; }
+    10% { opacity: 0.3; }
+    90% { opacity: 0.3; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  /* Terminal stack */
+  .terminal-stack {
+    position: absolute;
+    inset: 0;
+    perspective: 1500px;
+    perspective-origin: 50% 50%;
+    z-index: 10;
+  }
+
+  /* Terminal cards */
+  .terminal-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 480px;
+    height: 320px;
+    transform: translate(-50%, -50%);
+    background: rgba(var(--surface-800-rgb), 0.95);
+    border-radius: 12px;
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.2);
+    box-shadow: 
+      0 0 40px rgba(var(--cyan-400-rgb), 0.1),
+      0 8px 32px rgba(var(--black-rgb), 0.3),
+      inset 0 1px 0 rgba(var(--white-rgb), 0.03);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    will-change: transform, opacity;
+  }
+
+  .terminal-card.active {
+    z-index: 10;
+  }
+
+  /* Card effects */
+  .card-hologram {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent 40%,
+      rgba(var(--cyan-400-rgb), 0.03) 50%,
+      transparent 60%
+    );
+    animation: hologramShift 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes hologramShift {
+    0%, 100% { transform: translateX(-50%); }
+    50% { transform: translateX(50%); }
+  }
+
+  .card-glitch-layer {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .terminal-card:hover .card-glitch-layer {
+    animation: glitchFlicker 0.2s ease;
+  }
+
+  @keyframes glitchFlicker {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.05; }
+  }
+
+  .card-energy-field {
+    position: absolute;
+    inset: -2px;
+    border-radius: 14px;
+    background: linear-gradient(45deg, var(--accent), transparent, var(--accent));
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+  }
+
+  .terminal-card.active .card-energy-field {
+    opacity: 0.1;
+    animation: energyPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes energyPulse {
+    0%, 100% { opacity: 0.1; }
+    50% { opacity: 0.2; }
+  }
+
+  /* Terminal header */
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(var(--surface-875-rgb), 0.8);
+    border-bottom: 1px solid rgba(var(--white-rgb), 0.05);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 6px;
+  }
+
+  .control-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(var(--white-rgb), 0.15);
+  }
+
+  .control-dot:nth-child(1) { background: var(--terminal-dot-red); }
+  .control-dot:nth-child(2) { background: var(--terminal-dot-yellow); }
+  .control-dot:nth-child(3) { background: var(--terminal-dot-green); }
+
+  .terminal-title {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+  }
+
+  .terminal-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .status-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green-500-light);
+  }
+
+  .status-indicator.pulse {
+    animation: statusPulse 2s ease-in-out infinite;
+  }
+
+  .status-indicator.focus { background: var(--indigo-400); }
+  .status-indicator.warn { background: var(--amber-500); }
+  .status-indicator.success { background: var(--green-500-light); }
+
+  @keyframes statusPulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 4px currentColor; }
+    50% { opacity: 0.5; box-shadow: 0 0 8px currentColor; }
+  }
+
+  .status-text {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--green-500-light);
+    letter-spacing: 1px;
+  }
+
+  /* Terminal body */
+  .terminal-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .terminal-viewport {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .terminal-viewport img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.9) contrast(1.05);
+  }
+
+  .viewport-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .scan-line-anim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(var(--cyan-400-rgb), 0.05) 50%,
+      transparent 100%
+    );
+    animation: scanMove 3s linear infinite;
+  }
+
+  @keyframes scanMove {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+
+  .corner-brackets {
+    position: absolute;
+    inset: 8px;
+    border: 2px solid rgba(var(--cyan-400-rgb), 0.2);
+    border-radius: 4px;
+    clip-path: polygon(
+      0 0, 20px 0, 20px 2px, 2px 2px, 2px 20px, 0 20px,
+      0 100%, 0 calc(100% - 20px), 2px calc(100% - 20px), 2px calc(100% - 2px), 20px calc(100% - 2px), 20px 100%,
+      100% 100%, calc(100% - 20px) 100%, calc(100% - 20px) calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) calc(100% - 20px), 100% calc(100% - 20px),
+      100% 0, 100% 20px, calc(100% - 2px) 20px, calc(100% - 2px) 2px, calc(100% - 20px) 2px, calc(100% - 20px) 0
+    );
+  }
+
+  /* Console */
+  .terminal-console {
+    padding: 10px 14px;
+    background: rgba(var(--surface-780-rgb), 0.9);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .console-line {
+    display: flex;
+    gap: 8px;
+  }
+
+  .prompt {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .command {
+    color: var(--text-secondary);
+  }
+
+  .output {
+    color: var(--text-muted);
+  }
+
+  .output.blink {
+    animation: textBlink 1.5s ease-in-out infinite;
+  }
+
+  @keyframes textBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .inline-icon {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+
+  .inline-icon :global(svg) {
+    width: 10px;
+    height: 10px;
+  }
+
+  .inline-icon.flame { color: var(--amber-500); }
+  .inline-icon.check { color: var(--green-500-light); }
+
+  /* Footer */
+  .terminal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    background: rgba(var(--surface-875-rgb), 0.8);
+    border-top: 1px solid rgba(var(--white-rgb), 0.05);
+  }
+
+  .footer-stats {
+    display: flex;
+    gap: 12px;
+  }
+
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-muted);
+  }
+
+  .stat-icon {
+    color: var(--text-muted);
+    display: flex;
+  }
+
+  .stat-icon :global(svg) {
+    width: 10px;
+    height: 10px;
+  }
+
+  .stat.stat-hot { color: var(--red-500); }
+  .stat.stat-live { color: var(--green-500-light); }
+  .stat.stat-fire { color: var(--amber-500); }
+  .stat.stat-fast { color: var(--cyan-400); }
+  .stat.stat-new { color: var(--violet-400); }
+  .stat.stat-ok { color: var(--green-500-light); }
+
+  .footer-id {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    color: var(--text-muted);
+    opacity: 0.5;
+  }
+
+  /* HUD stats */
+  .hud-stats {
+    position: absolute;
+    top: 20%;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    opacity: 0;
+    transition: opacity 0.5s ease 0.3s;
+  }
+
+  .carousel-state.visible .hud-stats {
+    opacity: 1;
+  }
+
+  .hud-item {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-secondary);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hud-label {
+    color: var(--text-muted);
+  }
+
+  .hud-value {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* Progress HUD */
+  .progress-hud {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 60;
+    opacity: 0;
+    transition: opacity 0.5s ease 0.5s;
+  }
+
+  .carousel-state.visible .progress-hud {
+    opacity: 1;
+  }
+
+  .progress-dots {
+    display: flex;
+    gap: 8px;
+  }
+
+  .prog-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(var(--cyan-400-rgb), 0.2);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.3);
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .prog-dot:hover {
+    background: rgba(var(--cyan-400-rgb), 0.4);
+    transform: scale(1.2);
+  }
+
+  .prog-dot.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+    transform: scale(1.3);
+  }
+
+  .progress-bar-container {
+    width: 120px;
+    height: 2px;
+    background: rgba(var(--cyan-400-rgb), 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--indigo-400));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .terminal-card {
+      width: 420px;
+      height: 280px;
+    }
+    .hud-stats {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .unified-container {
+      height: 300px;
+    }
+    .terminal-card {
+      width: 300px;
+      height: 220px;
+    }
+    .terminal-console {
+      font-size: 9px;
+      padding: 8px 10px;
+    }
+    .terminal-header {
+      padding: 8px 10px;
+    }
+    .terminal-title {
+      font-size: 9px;
+    }
+    .hud-corner {
+      width: 16px;
+      height: 16px;
+    }
+    .data-streams {
+      display: none;
+    }
+  }
+
+  /* ===== DAYLIGHT THEME ===== */
+  :global([data-theme="daylight"]) .unified-container {
+    background: linear-gradient(135deg, rgba(var(--zinc-50-rgb), 0.95), rgba(var(--zinc-100-rgb), 0.98));
+    border-color: rgba(var(--info-rgb), 0.2);
+  }
+
+  :global([data-theme="daylight"]) .terminal-card {
+    background: rgba(var(--white-rgb), 0.95);
+    border-color: rgba(var(--info-rgb), 0.3);
+  }
+
+  :global([data-theme="daylight"]) .terminal-header,
+  :global([data-theme="daylight"]) .terminal-console,
+  :global([data-theme="daylight"]) .terminal-footer {
+    background: rgba(var(--zinc-100-rgb), 0.8);
+  }
+
+  :global([data-theme="daylight"]) .neural-network {
+    opacity: 0.2;
+  }
+
+  :global([data-theme="daylight"]) .matrix-rain {
+    opacity: 0.05;
+  }
+</style>
+

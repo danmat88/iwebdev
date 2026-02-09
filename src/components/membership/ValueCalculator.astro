@@ -1,0 +1,233 @@
+---
+/**
+ * ValueCalculator.astro - Ultra Compact
+ * ROI calculator showing membership value breakdown
+ */
+import { Icon } from 'astro-icon/components';
+import type { ValueCalculator } from './pricing.types';
+
+interface Props {
+  calculator: ValueCalculator;
+}
+
+const { calculator } = Astro.props;
+
+// Calculate totals
+const totalValue = calculator.items.reduce((sum, item) => sum + item.value, 0);
+const roiPercentage = Math.round(
+  ((totalValue - calculator.yourInvestment) / calculator.yourInvestment) * 100
+);
+---
+
+{calculator.show && (
+  <div class="value-calc-nano">
+    <div class="calc-glow-nano"></div>
+    <div class="calc-inner-nano">
+      <div class="calc-header-nano">
+        <div class="calc-title-nano">
+          <Icon name="lucide:calculator" />
+          <span>{calculator.title}</span>
+        </div>
+        <div class="calc-badge-nano">{calculator.badge}</div>
+      </div>
+      
+      <div class="calc-body-nano">
+        {calculator.items.map((item) => (
+          <div class="calc-row-nano">
+            <span class="calc-label-nano">{item.label}</span>
+            <span class="calc-value-nano">${item.value.toLocaleString()}</span>
+          </div>
+        ))}
+        
+        <div class="calc-divider-nano"></div>
+        
+        <div class="calc-row-nano calc-total-nano">
+          <span class="calc-label-nano"><strong>Total annual value</strong></span>
+          <span class="calc-value-nano total-value-nano">${totalValue.toLocaleString()}</span>
+        </div>
+        
+        <div class="calc-row-nano calc-savings-nano">
+          <span class="calc-label-nano">Your investment</span>
+          <span class="calc-value-nano">${calculator.yourInvestment}</span>
+        </div>
+      </div>
+      
+      <div class="calc-footer-nano">
+        <div class="calc-roi-nano">
+          <span class="roi-label-nano">ROI</span>
+          <span class="roi-value-nano">{roiPercentage.toLocaleString()}%</span>
+        </div>
+        <span class="calc-footnote-nano">{calculator.footnote}</span>
+      </div>
+    </div>
+  </div>
+)}
+
+<style>
+  .value-calc-nano {
+    position: relative;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    padding: 1px;
+  }
+
+  .calc-glow-nano {
+    position: absolute;
+    inset: -1px;
+    background: var(--gradient);
+    border-radius: 12px;
+    opacity: 0.15;
+    filter: blur(10px);
+  }
+
+  .calc-inner-nano {
+    position: relative;
+    background: rgba(var(--surface-875-rgb), 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .calc-header-nano {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 1rem;
+    background: rgba(var(--surface-900-rgb), 0.5);
+    border-bottom: 1px solid rgba(var(--cyan-400-rgb), 0.15);
+  }
+
+  .calc-title-nano {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .calc-title-nano :global(svg) {
+    width: 14px;
+    height: 14px;
+    color: var(--accent);
+  }
+
+  .calc-badge-nano {
+    padding: 0.25rem 0.6rem;
+    background: rgba(var(--accent-rgb), 0.12);
+    border: 1px solid rgba(var(--accent-rgb), 0.25);
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .calc-body-nano {
+    padding: 0.9rem;
+    font-family: var(--font-code);
+  }
+
+  .calc-row-nano {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    font-size: 0.75rem;
+  }
+
+  .calc-label-nano {
+    color: var(--text-secondary);
+  }
+
+  .calc-value-nano {
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .calc-divider-nano {
+    height: 1px;
+    background: rgba(var(--cyan-400-rgb), 0.15);
+    margin: 0.4rem 0;
+  }
+
+  .calc-total-nano {
+    padding-top: 0.6rem;
+  }
+
+  .calc-total-nano .calc-label-nano {
+    color: var(--text);
+  }
+
+  .total-value-nano {
+    font-size: 1.3rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .calc-savings-nano {
+    padding-bottom: 0;
+  }
+
+  .calc-savings-nano .calc-value-nano {
+    color: var(--accent);
+  }
+
+  .calc-footer-nano {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 1rem;
+    background: rgba(var(--cyan-400-rgb), 0.04);
+    border-top: 1px solid rgba(var(--cyan-400-rgb), 0.15);
+  }
+
+  .calc-roi-nano {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .roi-label-nano {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+  }
+
+  .roi-value-nano {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: var(--font-display);
+  }
+
+  .calc-footnote-nano {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 640px) {
+    .calc-body-nano {
+      font-size: 0.7rem;
+    }
+
+    .calc-row-nano {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+
+    .calc-footer-nano {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .calc-footnote-nano {
+      text-align: center;
+    }
+  }
+</style>

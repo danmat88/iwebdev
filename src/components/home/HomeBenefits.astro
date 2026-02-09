@@ -1,0 +1,417 @@
+---
+/**
+ * HomeBenefits.astro - Ultra Compact with Spectacular Entrances
+ * Homepage preview for member benefits with cascading reveal animations
+ */
+import { Icon } from 'astro-icon/components';
+import { benefitsConfig } from '../../content/pages/membership/benefits.config';
+
+const { homePreview, benefits, categories } = benefitsConfig;
+
+const categoryColors = new Map(
+  categories
+    .filter((category) => category.id !== 'all')
+    .map((category) => [category.id, category.color ?? 'var(--accent)'])
+);
+
+const benefitsById = new Map(benefits.map((benefit) => [benefit.id, benefit]));
+
+const previewBenefits = homePreview.benefitIds
+  .map((id) => benefitsById.get(id))
+  .filter((benefit): benefit is (typeof benefits)[number] => Boolean(benefit))
+  .map((benefit) => ({
+    ...benefit,
+    color: categoryColors.get(benefit.category) ?? 'var(--accent)',
+  }));
+---
+
+<section class="benefits-nano" id="benefits">
+  <div class="benefits-atmosphere parallax-bg" data-speed="0.3" aria-hidden="true">
+    <div class="b-orb b-orb-1"></div>
+    <div class="b-orb b-orb-2"></div>
+    <div class="benefits-grid-overlay"></div>
+  </div>
+
+  <div class="benefits-container">
+    <header class="benefits-header-nano entrance-slide-up">
+      <span class="section-tag-nano">
+        <span class="tag-dot-nano"></span>
+        <span class="tag-code-nano">benefits.preview()</span>
+      </span>
+      <h2 class="benefits-title-nano">
+        {homePreview.title.line1}
+        <span class="title-accent-nano">{homePreview.title.line2}</span>
+      </h2>
+      <p class="benefits-subtitle-nano">{homePreview.subtitle}</p>
+    </header>
+
+    <div class="benefits-grid-nano cascade-group">
+      {previewBenefits.map((benefit, i) => (
+        <article
+          class="benefit-card-nano cascade-item"
+          style={`--delay: ${i * 0.08}s; --benefit-color: ${benefit.color};`}
+          data-category={benefit.category}
+        >
+          <div class="benefit-glow-nano"></div>
+          
+          <div class="benefit-meta-nano">
+            <span class="benefit-category-nano">{benefit.category}</span>
+            <span class="benefit-stat-nano">{benefit.stat}</span>
+          </div>
+
+          <div class="benefit-icon-nano">
+            <div class="icon-ring-nano"></div>
+            <Icon name={benefit.icon} />
+          </div>
+
+          <h3 class="benefit-title-nano">{benefit.title}</h3>
+          <p class="benefit-description-nano">{benefit.desc}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="benefits-footer-nano entrance-fade" style="--delay: 0.4s">
+      <a href={homePreview.ctaUrl} class="benefits-cta-nano">
+        <span>{homePreview.ctaText}</span>
+        <Icon name="lucide:arrow-right" />
+        <div class="cta-shine-nano"></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ===== SECTION BASE ===== */
+  .benefits-nano {
+    position: relative;
+    padding: 4rem 0;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .benefits-atmosphere {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .b-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+  }
+
+  .b-orb-1 {
+    top: -20%;
+    left: -6%;
+    width: 480px;
+    height: 480px;
+    background: radial-gradient(circle, rgba(var(--cyan-400-rgb), 0.08) 0%, transparent 70%);
+    animation: bFloat 18s ease-in-out infinite;
+  }
+
+  .b-orb-2 {
+    bottom: -30%;
+    right: -8%;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(var(--indigo-400-rgb), 0.07) 0%, transparent 70%);
+    animation: bFloat 22s ease-in-out infinite reverse;
+  }
+
+  .benefits-grid-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(rgba(var(--white-rgb), 0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(var(--white-rgb), 0.012) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 85% 70% at 50% 50%, black, transparent);
+    -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 50%, black, transparent);
+  }
+
+  @keyframes bFloat {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(20px, -18px); }
+  }
+
+  .benefits-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* ===== HEADER - NANO ===== */
+  .benefits-header-nano {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 2rem;
+  }
+
+  .section-tag-nano {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.8rem;
+    background: rgba(var(--surface-875-rgb), 0.5);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.2);
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-family: var(--font-code);
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .tag-dot-nano {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+    animation: tagPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes tagPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.3); }
+  }
+
+  .tag-code-nano {
+    color: var(--accent);
+  }
+
+  .benefits-title-nano {
+    margin: 0 0 0.8rem;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+
+  .title-accent-nano {
+    display: block;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .benefits-subtitle-nano {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  /* ===== BENEFITS GRID - NANO ===== */
+  .benefits-grid-nano {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.9rem;
+    margin-bottom: 2rem;
+  }
+
+  .benefit-card-nano {
+    position: relative;
+    padding: 1.2rem;
+    background: rgba(var(--surface-875-rgb), 0.4);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.1);
+    border-radius: 14px;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .benefit-glow-nano {
+    position: absolute;
+    inset: -80px;
+    background: radial-gradient(
+      circle at 50% 50%,
+      var(--benefit-color, var(--accent-rgb)) 0%,
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    filter: blur(40px);
+  }
+
+  .benefit-card-nano:hover .benefit-glow-nano {
+    opacity: 0.15;
+  }
+
+  .benefit-card-nano:hover {
+    border-color: rgba(var(--cyan-400-rgb), 0.3);
+    background: rgba(var(--surface-875-rgb), 0.6);
+    transform: translateY(-8px) scale(1.02);
+  }
+
+  /* ===== BENEFIT META - NANO ===== */
+  .benefit-meta-nano {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.9rem;
+  }
+
+  .benefit-category-nano {
+    padding: 0.25rem 0.6rem;
+    background: rgba(var(--benefit-color, var(--accent-rgb)), 0.12);
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--benefit-color, var(--accent));
+  }
+
+  .benefit-stat-nano {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    font-family: var(--font-code);
+  }
+
+  /* ===== BENEFIT ICON - NANO ===== */
+  .benefit-icon-nano {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.9rem;
+    color: var(--benefit-color, var(--accent));
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .icon-ring-nano {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid;
+    border-color: transparent var(--benefit-color, var(--accent)) transparent var(--benefit-color, var(--accent));
+    opacity: 0.3;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .benefit-card-nano:hover .icon-ring-nano {
+    transform: rotate(180deg);
+    opacity: 0.6;
+  }
+
+  .benefit-icon-nano :global(svg) {
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 0 16px var(--benefit-color, var(--accent)));
+  }
+
+  .benefit-card-nano:hover .benefit-icon-nano {
+    transform: scale(1.15) rotate(-8deg);
+  }
+
+  /* ===== BENEFIT CONTENT - NANO ===== */
+  .benefit-title-nano {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: var(--font-display);
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .benefit-description-nano {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  /* ===== FOOTER CTA - NANO ===== */
+  .benefits-footer-nano {
+    text-align: center;
+  }
+
+  .benefits-cta-nano {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1.5rem;
+    background: rgba(var(--surface-875-rgb), 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.25);
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .benefits-cta-nano :global(svg) {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .cta-shine-nano {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent,
+      rgba(var(--accent-rgb), 0.15),
+      transparent
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .benefits-cta-nano:hover {
+    border-color: rgba(var(--accent-rgb), 0.5);
+    background: rgba(var(--surface-875-rgb), 0.8);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(var(--accent-rgb), 0.2);
+  }
+
+  .benefits-cta-nano:hover .cta-shine-nano {
+    opacity: 1;
+  }
+
+  .benefits-cta-nano:hover :global(svg) {
+    transform: translateX(4px);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .benefits-nano {
+      padding: 3rem 0;
+    }
+
+    .benefits-grid-nano {
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+    }
+
+    .benefits-container {
+      padding: 0 1rem;
+    }
+  }
+
+  /* ===== REDUCED MOTION ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .b-orb,
+    .tag-dot-nano,
+    .icon-ring-nano {
+      animation: none;
+    }
+  }
+</style>

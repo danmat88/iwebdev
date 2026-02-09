@@ -1,0 +1,393 @@
+---
+/**
+ * HomePricing.astro - Ultra Compact with Spectacular Entrance Animations
+ * Simplified pricing preview with particle system and cascading reveals
+ */
+import { pricingConfig } from '../../content/pages/membership/pricing.config';
+import PricingCard from '../cards/PricingCard.astro';
+
+const { header, billingToggle, tiers } = pricingConfig;
+---
+
+<section class="pricing-nano">
+  <div class="pricing-atmosphere parallax-bg" data-speed="0.15">
+    <div class="atmosphere-orb-nano orb-1"></div>
+    <div class="atmosphere-orb-nano orb-2"></div>
+    <canvas class="pricing-particles-nano" id="pricing-particles"></canvas>
+    <div class="grid-overlay-nano"></div>
+  </div>
+
+  <div class="pricing-container-nano">
+    <div class="pricing-header-nano entrance-slide-up">
+      <span class="section-tag-nano">pricing.plans()</span>
+      <h2 class="pricing-title-nano">
+        {header.title.line1}
+        <span class="title-accent-nano">{header.title.line2}</span>
+      </h2>
+      <p class="pricing-subtitle-nano">{header.subtitle}</p>
+    </div>
+
+    <div class="billing-toggle-nano entrance-scale" style="--delay: 0.1s">
+      <button class="toggle-btn-nano active" id="toggle-annual">
+        Annual <span class="save-badge-nano">{billingToggle.saveBadge}</span>
+      </button>
+      <div class="toggle-track-nano">
+        <div class="toggle-slider-nano" id="toggle-slider"></div>
+      </div>
+      <button class="toggle-btn-nano" id="toggle-monthly">Monthly</button>
+    </div>
+
+    <div class="pricing-grid-nano cascade-group">
+      {tiers.map((tier, i) => (
+        <div class="cascade-item" style={`--delay: ${i * 0.08}s`}>
+          <PricingCard tier={tier} />
+        </div>
+      ))}
+    </div>
+
+    <div class="pricing-footer-nano entrance-fade" style="--delay: 0.4s">
+      <a href="/membership" class="view-all-plans-nano">
+        Compare all features →
+        <div class="link-shine-nano"></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ tiers }}>
+document.addEventListener('DOMContentLoaded', () => {
+  // ===== PARTICLE SYSTEM =====
+  const rootStyles = getComputedStyle(document.documentElement);
+  const cyan400Rgb = rootStyles.getPropertyValue('--cyan-400-rgb').trim() || '34, 211, 238';
+
+  const canvas = document.getElementById('pricing-particles');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resize() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      particles = [];
+      for (let i = 0; i < 25; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.15,
+          vy: (Math.random() - 0.5) * 0.15,
+          size: Math.random() * 1.2 + 0.4,
+          alpha: Math.random() * 0.25 + 0.1
+        });
+      }
+    }
+
+    function animate() {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${cyan400Rgb}, ${p.alpha})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(animate);
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+    animate();
+  }
+
+  // ===== TOGGLE LOGIC =====
+  const annualBtn = document.getElementById('toggle-annual');
+  const monthlyBtn = document.getElementById('toggle-monthly');
+  const slider = document.getElementById('toggle-slider');
+
+  [annualBtn, monthlyBtn].forEach(btn => {
+    btn?.addEventListener('click', () => {
+      if (btn === monthlyBtn) {
+        annualBtn?.classList.remove('active');
+        monthlyBtn?.classList.add('active');
+        slider?.classList.add('moved');
+      } else {
+        monthlyBtn?.classList.remove('active');
+        annualBtn?.classList.add('active');
+        slider?.classList.remove('moved');
+      }
+    });
+  });
+});
+</script>
+
+<style>
+  /* ===== SECTION BASE ===== */
+  .pricing-nano {
+    position: relative;
+    padding: 4.5rem 0;
+    overflow: hidden;
+  }
+
+  .pricing-atmosphere {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .atmosphere-orb-nano {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    animation: orbDrift 18s ease-in-out infinite;
+  }
+
+  .orb-1 {
+    top: -15%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(var(--indigo-400-rgb), 0.07), transparent 70%);
+  }
+
+  .orb-2 {
+    bottom: -15%;
+    right: -10%;
+    width: 540px;
+    height: 540px;
+    background: radial-gradient(circle, rgba(var(--pink-400-rgb), 0.06), transparent 70%);
+    animation-delay: -9s;
+  }
+
+  @keyframes orbDrift {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, -30px); }
+  }
+
+  .pricing-particles-nano {
+    position: absolute;
+    inset: 0;
+    opacity: 0.6;
+  }
+
+  .grid-overlay-nano {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(var(--white-rgb), 0.008) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(var(--white-rgb), 0.008) 1px, transparent 1px);
+    background-size: 52px 52px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent);
+  }
+
+  .pricing-container-nano {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* ===== HEADER - NANO ===== */
+  .pricing-header-nano {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 2rem;
+  }
+
+  .section-tag-nano {
+    display: inline-block;
+    padding: 0.35rem 0.8rem;
+    background: rgba(var(--surface-875-rgb), 0.5);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.2);
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-family: var(--font-code);
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .pricing-title-nano {
+    margin: 0 0 0.8rem;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+
+  .title-accent-nano {
+    display: block;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .pricing-subtitle-nano {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  /* ===== BILLING TOGGLE - NANO ===== */
+  .billing-toggle-nano {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    max-width: 400px;
+  }
+
+  .toggle-btn-nano {
+    position: relative;
+    padding: 0.6rem 1rem;
+    background: transparent;
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.15);
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .toggle-btn-nano.active {
+    background: rgba(var(--accent-rgb), 0.12);
+    border-color: rgba(var(--accent-rgb), 0.3);
+    color: var(--accent);
+  }
+
+  .save-badge-nano {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    margin-left: 0.4rem;
+    background: var(--gradient);
+    color: var(--white);
+    border-radius: 6px;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .toggle-track-nano {
+    flex: 1;
+    max-width: 80px;
+    height: 32px;
+    position: relative;
+    background: rgba(var(--surface-875-rgb), 0.5);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.15);
+    border-radius: 100px;
+  }
+
+  .toggle-slider-nano {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: calc(50% - 4px);
+    height: calc(100% - 6px);
+    background: var(--gradient);
+    border-radius: 100px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.4);
+  }
+
+  .toggle-slider-nano.moved {
+    transform: translateX(calc(100% + 2px));
+  }
+
+  /* ===== PRICING GRID - NANO ===== */
+  .pricing-grid-nano {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 0.9rem;
+    margin-bottom: 2rem;
+  }
+
+  /* ===== FOOTER - NANO ===== */
+  .pricing-footer-nano {
+    text-align: center;
+  }
+
+  .view-all-plans-nano {
+    position: relative;
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background: rgba(var(--surface-875-rgb), 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.2);
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .link-shine-nano {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent,
+      rgba(var(--accent-rgb), 0.12),
+      transparent
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .view-all-plans-nano:hover {
+    border-color: rgba(var(--accent-rgb), 0.4);
+    background: rgba(var(--surface-875-rgb), 0.7);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(var(--accent-rgb), 0.2);
+  }
+
+  .view-all-plans-nano:hover .link-shine-nano {
+    opacity: 1;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .pricing-nano {
+      padding: 3rem 0;
+    }
+
+    .pricing-grid-nano {
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
+    }
+
+    .pricing-container-nano {
+      padding: 0 1rem;
+    }
+
+    .billing-toggle-nano {
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .toggle-track-nano {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+
+  /* ===== REDUCED MOTION ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .atmosphere-orb-nano {
+      animation: none;
+    }
+  }
+</style>

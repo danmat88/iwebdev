@@ -1,0 +1,1065 @@
+---
+/**
+ * ContactScheduler.astro - Ultra Compact Edition
+ * ===============================================
+ */
+
+import { Icon } from 'astro-icon/components';
+import { contactConfig } from '../../content/pages/support/contact.config';
+
+const { team } = contactConfig;
+const host = team.find(m => m.status === 'online') || team[0];
+---
+
+<div class="content-panel" data-panel="call" id="panel-call">
+  <div class="scheduler">
+    <!-- Left: Calendar -->
+    <div class="cal-section">
+      <div class="cal-header">
+        <div class="cal-icon"><Icon name="lucide:calendar-clock" /></div>
+        <div>
+          <h3>Schedule a Call</h3>
+          <p>Pick a 15-min video call slot</p>
+        </div>
+      </div>
+
+      <!-- Calendar -->
+      <div class="calendar">
+        <div class="cal-nav">
+          <button class="nav-btn" id="prev-month">
+            <Icon name="lucide:chevron-left" />
+          </button>
+          <span id="cal-month">February 2026</span>
+          <button class="nav-btn" id="next-month">
+            <Icon name="lucide:chevron-right" />
+          </button>
+        </div>
+        <div class="weekdays">
+          <span>Mo</span>
+          <span>Tu</span>
+          <span>We</span>
+          <span>Th</span>
+          <span>Fr</span>
+          <span>Sa</span>
+          <span>Su</span>
+        </div>
+        <div class="days">
+          <span class="day off">27</span>
+          <span class="day off">28</span>
+          <span class="day off">29</span>
+          <span class="day off">30</span>
+          <span class="day off">31</span>
+          <span class="day off">1</span>
+          <span class="day">2</span>
+          <span class="day">3</span>
+          <span class="day today">4</span>
+          <span class="day avail">5</span>
+          <span class="day avail">6</span>
+          <span class="day avail sel">7</span>
+          <span class="day">8</span>
+          <span class="day">9</span>
+          <span class="day avail">10</span>
+          <span class="day avail">11</span>
+          <span class="day avail">12</span>
+          <span class="day avail">13</span>
+          <span class="day">14</span>
+          <span class="day">15</span>
+          <span class="day">16</span>
+          <span class="day avail">17</span>
+          <span class="day avail">18</span>
+          <span class="day avail">19</span>
+          <span class="day avail">20</span>
+          <span class="day">21</span>
+          <span class="day">22</span>
+          <span class="day">23</span>
+        </div>
+        <div class="legend">
+          <span><i class="dot today"></i>Today</span>
+          <span><i class="dot avail"></i>Available</span>
+          <span><i class="dot sel"></i>Selected</span>
+        </div>
+      </div>
+
+      <!-- Times -->
+      <div class="times">
+        <div class="times-head">
+          <span>Available times</span>
+          <span class="sel-date" id="sel-date">Feb 7</span>
+        </div>
+        <div class="time-grid">
+          <button class="time-slot">
+            <Icon name="lucide:sun" />9:00 AM
+          </button>
+          <button class="time-slot">
+            <Icon name="lucide:sun" />10:00 AM
+          </button>
+          <button class="time-slot sel">
+            <Icon name="lucide:sun" />11:00 AM
+          </button>
+          <button class="time-slot">
+            <Icon name="lucide:sun-medium" />2:00 PM
+          </button>
+          <button class="time-slot">
+            <Icon name="lucide:sun-medium" />3:00 PM
+          </button>
+          <button class="time-slot">
+            <Icon name="lucide:sunset" />4:00 PM
+          </button>
+        </div>
+        <div class="tz-info">
+          <Icon name="lucide:globe" />Pacific Time (PST)
+          <button class="tz-btn">Change</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Booking Summary -->
+    <div class="book-section">
+      <div class="book-card">
+        <div class="book-head">
+          <h4>Your booking</h4>
+          <span class="duration">
+            <Icon name="lucide:clock" />15 min
+          </span>
+        </div>
+
+        <div class="details">
+          <div class="detail">
+            <div class="d-icon"><Icon name="lucide:calendar" /></div>
+            <div>
+              <strong>Saturday, Feb 7</strong>
+              <span>11:00 AM – 11:15 AM</span>
+            </div>
+          </div>
+          <div class="detail">
+            <div class="d-icon"><Icon name="lucide:video" /></div>
+            <div>
+              <strong>Video Call</strong>
+              <span>Link sent via email</span>
+            </div>
+          </div>
+          <div class="detail">
+            <div class="d-icon avatar" style={`--c: ${host.color}`}>{host.avatar}</div>
+            <div>
+              <strong>With {host.name}</strong>
+              <span>{host.role}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="book-form">
+          <div class="b-field">
+            <label><Icon name="lucide:user" />Name</label>
+            <input type="text" placeholder="John Doe" />
+          </div>
+          <div class="b-field">
+            <label><Icon name="lucide:mail" />Email</label>
+            <input type="email" placeholder="john@example.com" />
+          </div>
+          <div class="b-field">
+            <label><Icon name="lucide:message-square" />Topic</label>
+            <textarea rows="2" placeholder="What to discuss?"></textarea>
+          </div>
+        </div>
+
+        <button class="confirm-btn" id="confirm-btn">
+          <Icon name="lucide:check" />Confirm Booking
+        </button>
+
+        <p class="note">
+          <Icon name="lucide:info" />Free cancel up to 1hr before
+        </p>
+      </div>
+
+      <div class="alts">
+        <button class="alt" data-switch="chat">
+          <Icon name="lucide:message-circle" />Chat instead
+        </button>
+        <button class="alt" data-switch="message">
+          <Icon name="lucide:mail" />Email us
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal" id="success-modal">
+    <div class="modal-content">
+      <div class="modal-anim">
+        <div class="rings">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="modal-icon"><Icon name="lucide:calendar-check" /></div>
+      </div>
+      <h3>Booking Confirmed!</h3>
+      <p>You're all set for your call.</p>
+      <div class="modal-info">
+        <span><Icon name="lucide:calendar" />Feb 7 at 11:00 AM</span>
+        <span><Icon name="lucide:mail" />Confirmation sent</span>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn ghost">
+          <Icon name="lucide:calendar-plus" />Add to Cal
+        </button>
+        <button class="modal-btn primary" id="close-modal">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Day selection
+  document.querySelectorAll('.day.avail').forEach(d => {
+    d.addEventListener('click', () => {
+      document.querySelector('.day.sel')?.classList.remove('sel');
+      d.classList.add('sel');
+      const selDate = document.getElementById('sel-date');
+      if (selDate) selDate.textContent = `Feb ${d.textContent}`;
+    });
+  });
+
+  // Time selection
+  document.querySelectorAll('.time-slot').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelector('.time-slot.sel')?.classList.remove('sel');
+      t.classList.add('sel');
+    });
+  });
+
+  // Confirm
+  const confirmBtn = document.getElementById('confirm-btn');
+  const modal = document.getElementById('success-modal');
+  
+  confirmBtn?.addEventListener('click', () => {
+    confirmBtn.innerHTML = '<svg class="spin" viewBox="0 0 24 24" width="14" height="14"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" opacity=".25"/><path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>Confirming...';
+    setTimeout(() => {
+      modal?.classList.add('active');
+      confirmBtn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Confirm Booking';
+    }, 1200);
+  });
+
+  document.getElementById('close-modal')?.addEventListener('click', () => {
+    modal?.classList.remove('active');
+  });
+
+  // Month nav (demo)
+  document.getElementById('prev-month')?.addEventListener('click', () => {
+    const el = document.getElementById('cal-month');
+    if (el) el.textContent = 'January 2026';
+  });
+
+  document.getElementById('next-month')?.addEventListener('click', () => {
+    const el = document.getElementById('cal-month');
+    if (el) el.textContent = 'March 2026';
+  });
+});
+</script>
+
+<style>
+  /* ============================================
+     PANEL BASE
+     ============================================ */
+  .content-panel[data-panel="call"] {
+    display: none;
+  }
+
+  .content-panel[data-panel="call"].active {
+    display: block;
+    animation: fadeUp 0.3s ease;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ============================================
+     LAYOUT
+     ============================================ */
+  .scheduler {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  /* ============================================
+     CALENDAR SECTION
+     ============================================ */
+  .cal-section {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .cal-header {
+    display: flex;
+    gap: 12px;
+  }
+
+  .cal-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-glow);
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+
+  .cal-icon :global(svg) {
+    width: 18px;
+    height: 18px;
+    color: var(--accent);
+  }
+
+  .cal-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .cal-header p {
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  /* ============================================
+     CALENDAR
+     ============================================ */
+  .calendar {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 14px;
+  }
+
+  .cal-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .nav-btn {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .nav-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .nav-btn :global(svg) {
+    width: 12px;
+    height: 12px;
+  }
+
+  #cal-month {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-bottom: 6px;
+  }
+
+  .weekdays span {
+    text-align: center;
+    font-size: 9px;
+    font-weight: 500;
+    color: var(--text-muted);
+    padding: 4px 0;
+  }
+
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+  }
+
+  .day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .day:hover:not(.off):not(.today) {
+    background: var(--bg-tertiary);
+  }
+
+  .day.off {
+    color: var(--text-muted);
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .day.today {
+    background: var(--bg-tertiary);
+    font-weight: 600;
+    position: relative;
+  }
+
+  .day.today::after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  .day.avail {
+    background: var(--accent-glow);
+    color: var(--accent);
+  }
+
+  .day.avail:hover {
+    background: var(--accent);
+    color: var(--black);
+  }
+
+  .day.sel {
+    background: var(--accent) !important;
+    color: var(--black) !important;
+    font-weight: 600;
+    box-shadow: 0 2px 8px var(--accent-glow);
+  }
+
+  /* ============================================
+     LEGEND
+     ============================================ */
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  .legend span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+    color: var(--text-muted);
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+  }
+
+  .dot.today {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+  }
+
+  .dot.avail {
+    background: var(--accent-glow);
+  }
+
+  .dot.sel {
+    background: var(--accent);
+  }
+
+  /* ============================================
+     TIMES
+     ============================================ */
+  .times {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 14px;
+  }
+
+  .times-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .times-head > span:first-child {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .sel-date {
+    font-size: 10px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .time-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .time-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    font-family: var(--font-primary);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .time-slot :global(svg) {
+    width: 11px;
+    height: 11px;
+    color: var(--text-muted);
+  }
+
+  .time-slot:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .time-slot:hover :global(svg) {
+    color: var(--accent);
+  }
+
+  .time-slot.sel {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--black);
+  }
+
+  .time-slot.sel :global(svg) {
+    color: var(--black);
+  }
+
+  /* ============================================
+     TIMEZONE INFO
+     ============================================ */
+  .tz-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: var(--text-secondary);
+    padding: 8px 10px;
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+  }
+
+  .tz-info :global(svg) {
+    width: 11px;
+    height: 11px;
+    color: var(--text-muted);
+  }
+
+  .tz-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    font-size: 10px;
+    font-family: var(--font-primary);
+    color: var(--accent);
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .tz-btn:hover {
+    text-decoration: underline;
+  }
+
+  /* ============================================
+     BOOKING SECTION
+     ============================================ */
+  .book-section {
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .book-card {
+    flex: 1;
+  }
+
+  .book-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .book-head h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .duration {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+    font-size: 9px;
+    color: var(--text-secondary);
+  }
+
+  .duration :global(svg) {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* ============================================
+     DETAILS
+     ============================================ */
+  .details {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 14px;
+  }
+
+  .detail {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .detail:last-child {
+    border-bottom: none;
+  }
+
+  .d-icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .d-icon :global(svg) {
+    width: 14px;
+    height: 14px;
+    color: var(--accent);
+  }
+
+  .d-icon.avatar {
+    background: var(--c);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--black);
+  }
+
+  .detail strong {
+    display: block;
+    font-size: 11px;
+    color: var(--text);
+    margin-bottom: 1px;
+  }
+
+  .detail span {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  /* ============================================
+     BOOKING FORM
+     ============================================ */
+  .book-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .b-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .b-field label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .b-field label :global(svg) {
+    width: 10px;
+    height: 10px;
+    color: var(--text-muted);
+  }
+
+  .b-field input,
+  .b-field textarea {
+    padding: 8px 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 11px;
+    font-family: var(--font-primary);
+    color: var(--text);
+    outline: none;
+    transition: all 0.15s;
+  }
+
+  .b-field input:focus,
+  .b-field textarea:focus {
+    border-color: var(--accent);
+  }
+
+  .b-field textarea {
+    resize: none;
+    min-height: 50px;
+  }
+
+  /* ============================================
+     CONFIRM BUTTON
+     ============================================ */
+  .confirm-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 12px;
+    background: var(--gradient);
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-primary);
+    color: var(--black);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .confirm-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--accent-glow);
+  }
+
+  .confirm-btn :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .spin {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* ============================================
+     NOTE
+     ============================================ */
+  .note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 10px;
+    font-size: 9px;
+    color: var(--text-muted);
+  }
+
+  .note :global(svg) {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* ============================================
+     ALT BUTTONS
+     ============================================ */
+  .alts {
+    display: flex;
+    gap: 8px;
+  }
+
+  .alt {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 9px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 10px;
+    font-family: var(--font-primary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .alt:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .alt :global(svg) {
+    width: 11px;
+    height: 11px;
+  }
+
+  /* ============================================
+     MODAL
+     ============================================ */
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(var(--black-rgb), 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s;
+    z-index: 1000;
+  }
+
+  .modal.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 320px;
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.25s;
+  }
+
+  .modal.active .modal-content {
+    transform: scale(1);
+  }
+
+  .modal-anim {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 14px;
+  }
+
+  .rings {
+    position: absolute;
+    inset: 0;
+  }
+
+  .rings span {
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--green-500);
+    border-radius: 50%;
+    animation: ring 2s ease-out infinite;
+  }
+
+  .rings span:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+
+  .rings span:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes ring {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.6;
+    }
+    100% {
+      transform: scale(1.4);
+      opacity: 0;
+    }
+  }
+
+  .modal-icon {
+    position: absolute;
+    inset: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--green-500), var(--green-400));
+    border-radius: 50%;
+  }
+
+  .modal-icon :global(svg) {
+    width: 20px;
+    height: 20px;
+    color: var(--white);
+  }
+
+  .modal-content h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .modal-content > p {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+  }
+
+  .modal-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .modal-info span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  .modal-info span :global(svg) {
+    width: 12px;
+    height: 12px;
+    color: var(--accent);
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .modal-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .modal-btn.ghost {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .modal-btn.ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .modal-btn.ghost :global(svg) {
+    width: 12px;
+    height: 12px;
+  }
+
+  .modal-btn.primary {
+    background: var(--accent);
+    border: none;
+    color: var(--black);
+  }
+
+  .modal-btn.primary:hover {
+    transform: translateY(-1px);
+  }
+
+  /* ============================================
+     RESPONSIVE
+     ============================================ */
+  @media (max-width: 900px) {
+    .scheduler {
+      grid-template-columns: 1fr;
+    }
+
+    .book-section {
+      border-left: none;
+      border-top: 1px solid var(--border);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .cal-section,
+    .book-section {
+      padding: 18px;
+    }
+
+    .time-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

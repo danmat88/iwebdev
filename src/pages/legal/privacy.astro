@@ -1,0 +1,1397 @@
+---
+import LegalLayout from '../../layouts/LegalLayout.astro';
+import { siteConfig } from '../../content/global/site.config';
+import { Icon } from 'astro-icon/components';
+---
+
+<LegalLayout
+  title="Privacy Policy"
+  description="How we protect your data"
+  lastUpdated="Feb 9, 2026"
+  effectiveDate="Feb 9, 2026"
+  version="2.0"
+  category="privacy"
+  relatedDocs={[
+    { title: "Terms of Service", href: "/legal/terms", icon: "lucide:file-text" },
+    { title: "Data Settings", href: "/account/privacy", icon: "lucide:settings" },
+    { title: "Code of Conduct", href: "/legal/conduct", icon: "lucide:users" }
+  ]}
+>
+  <!-- Privacy Promise -->
+  <div class="privacy-promise">
+    <div class="promise-glow"></div>
+    <div class="promise-badge">
+      <Icon name="lucide:shield-check" />
+      <div class="badge-pulse"></div>
+    </div>
+    <div class="promise-content">
+      <div class="promise-header">
+        <strong>Privacy First</strong>
+        <span class="promise-tag">No Tracking</span>
+      </div>
+      <p>We never sell your data. Ever. Period. Your privacy is our top priority.</p>
+    </div>
+  </div>
+
+  <!-- Security Stats -->
+  <div class="data-grid">
+    <div class="grid-item" style="--i:0">
+      <div class="grid-icon-wrap">
+        <Icon name="lucide:lock" />
+        <div class="grid-icon-ring"></div>
+      </div>
+      <strong>AES-256</strong>
+      <span>Encryption</span>
+    </div>
+    <div class="grid-item" style="--i:1">
+      <div class="grid-icon-wrap">
+        <Icon name="lucide:server" />
+        <div class="grid-icon-ring"></div>
+      </div>
+      <strong>SOC 2</strong>
+      <span>Certified</span>
+    </div>
+    <div class="grid-item" style="--i:2">
+      <div class="grid-icon-wrap">
+        <Icon name="lucide:shield" />
+        <div class="grid-icon-ring"></div>
+      </div>
+      <strong>GDPR</strong>
+      <span>Compliant</span>
+    </div>
+    <div class="grid-item" style="--i:3">
+      <div class="grid-icon-wrap">
+        <Icon name="lucide:trash-2" />
+        <div class="grid-icon-ring"></div>
+      </div>
+      <strong>30 Days</strong>
+      <span>Data Deletion</span>
+    </div>
+  </div>
+
+  <h2>1. Data We Collect</h2>
+  
+  <!-- Data Collection Matrix -->
+  <div class="collection-matrix">
+    <div class="matrix-section">
+      <div class="section-header">
+        <Icon name="lucide:user" />
+        <span>Account Data</span>
+      </div>
+      <ul class="section-items">
+        <li>Name & email</li>
+        <li>Profile info</li>
+        <li>Password (encrypted)</li>
+        <li>Payment details (via Stripe)</li>
+      </ul>
+    </div>
+    <div class="matrix-section">
+      <div class="section-header">
+        <Icon name="lucide:activity" />
+        <span>Usage Data</span>
+      </div>
+      <ul class="section-items">
+        <li>Pages viewed</li>
+        <li>Features used</li>
+        <li>Time spent</li>
+        <li>Device info</li>
+      </ul>
+    </div>
+    <div class="matrix-section">
+      <div class="section-header">
+        <Icon name="lucide:message-square" />
+        <span>Content Data</span>
+      </div>
+      <ul class="section-items">
+        <li>Forum posts</li>
+        <li>Comments</li>
+        <li>Projects</li>
+        <li>Messages</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>2. How We Use Data</h2>
+  
+  <div class="usage-flow">
+    <div class="flow-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>Provide Services</strong>
+        <p>Deliver features, process payments, manage accounts</p>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>Improve Platform</strong>
+        <p>Analyze usage, fix bugs, develop new features</p>
+      </div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>Communicate</strong>
+        <p>Send updates, respond to inquiries, newsletters</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>3. Data Sharing</h2>
+  
+  <!-- Sharing Terminal -->
+  <div class="terminal-block animate-in">
+    <div class="terminal-header">
+      <div class="terminal-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <span>sharing_policy.sh</span>
+    </div>
+    <div class="terminal-body">
+      <div class="terminal-line"><span class="prompt">$</span> <span class="cmd">check</span> --who-sees-data</div>
+      <div class="terminal-output">
+        <div class="output-item green">
+          <Icon name="lucide:check" /> Service providers (Stripe, AWS, SendGrid)
+        </div>
+        <div class="output-item green">
+          <Icon name="lucide:check" /> Legal requirements (court orders only)
+        </div>
+        <div class="output-item red">
+          <Icon name="lucide:x" /> Advertisers (NEVER)
+        </div>
+        <div class="output-item red">
+          <Icon name="lucide:x" /> Data brokers (NEVER)
+        </div>
+        <div class="output-item red">
+          <Icon name="lucide:x" /> Third-party marketers (NEVER)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3>3.1 Service Providers</h3>
+  
+  <div class="provider-grid">
+    <div class="provider-card">
+      <Icon name="lucide:credit-card" />
+      <strong>Stripe</strong>
+      <span>Payment processing</span>
+    </div>
+    <div class="provider-card">
+      <Icon name="lucide:cloud" />
+      <strong>AWS</strong>
+      <span>Cloud hosting</span>
+    </div>
+    <div class="provider-card">
+      <Icon name="lucide:mail" />
+      <strong>SendGrid</strong>
+      <span>Email delivery</span>
+    </div>
+    <div class="provider-card">
+      <Icon name="lucide:bar-chart-3" />
+      <strong>Analytics</strong>
+      <span>Usage insights</span>
+    </div>
+  </div>
+
+  <h2>4. Security</h2>
+  
+  <!-- Security Layers -->
+  <div class="security-layers">
+    <div class="security-layer">
+      <div class="layer-icon"><Icon name="lucide:shield" /></div>
+      <div class="layer-info">
+        <strong>Encryption</strong>
+        <span>TLS 1.3 in transit, AES-256 at rest</span>
+      </div>
+      <div class="layer-status active">Active</div>
+    </div>
+    <div class="security-layer">
+      <div class="layer-icon"><Icon name="lucide:key" /></div>
+      <div class="layer-info">
+        <strong>Authentication</strong>
+        <span>2FA available, bcrypt password hashing</span>
+      </div>
+      <div class="layer-status active">Active</div>
+    </div>
+    <div class="security-layer">
+      <div class="layer-icon"><Icon name="lucide:eye-off" /></div>
+      <div class="layer-info">
+        <strong>Access Control</strong>
+        <span>Role-based permissions, audit logs</span>
+      </div>
+      <div class="layer-status active">Active</div>
+    </div>
+    <div class="security-layer">
+      <div class="layer-icon"><Icon name="lucide:radar" /></div>
+      <div class="layer-info">
+        <strong>Monitoring</strong>
+        <span>24/7 threat detection, penetration testing</span>
+      </div>
+      <div class="layer-status active">Active</div>
+    </div>
+  </div>
+
+  <h2>5. Your Rights</h2>
+  
+  <!-- Rights Cards -->
+  <div class="rights-grid">
+    <div class="right-card">
+      <Icon name="lucide:download" />
+      <strong>Access & Export</strong>
+      <p>Download your data anytime</p>
+      <a href="/account/privacy" class="right-action">Export Data →</a>
+    </div>
+    <div class="right-card">
+      <Icon name="lucide:edit-3" />
+      <strong>Correct & Update</strong>
+      <p>Fix inaccurate information</p>
+      <a href="/account/settings" class="right-action">Edit Profile →</a>
+    </div>
+    <div class="right-card">
+      <Icon name="lucide:trash-2" />
+      <strong>Delete Account</strong>
+      <p>Remove all your data</p>
+      <a href="/account/delete" class="right-action">Delete →</a>
+    </div>
+    <div class="right-card">
+      <Icon name="lucide:ban" />
+      <strong>Opt-Out</strong>
+      <p>Unsubscribe from emails</p>
+      <a href="/account/preferences" class="right-action">Manage →</a>
+    </div>
+  </div>
+
+  <h2>6. Cookies</h2>
+  
+  <!-- Cookie Types -->
+  <div class="cookie-types">
+    <div class="cookie-type essential">
+      <div class="type-header">
+        <Icon name="lucide:check-circle" />
+        <strong>Essential</strong>
+        <span class="type-badge required">Required</span>
+      </div>
+      <p>Login, security, basic functionality</p>
+    </div>
+    <div class="cookie-type functional">
+      <div class="type-header">
+        <Icon name="lucide:sliders" />
+        <strong>Functional</strong>
+        <span class="type-badge optional">Optional</span>
+      </div>
+      <p>Preferences, settings, language</p>
+    </div>
+    <div class="cookie-type analytics">
+      <div class="type-header">
+        <Icon name="lucide:bar-chart" />
+        <strong>Analytics</strong>
+        <span class="type-badge optional">Optional</span>
+      </div>
+      <p>Usage patterns, improvements</p>
+    </div>
+  </div>
+
+  <h2>7. Data Retention</h2>
+  
+  <div class="retention-timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <strong>Active Account</strong>
+        <p>Data retained while account is active</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <strong>Account Deletion</strong>
+        <p>Most data deleted within 30 days</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <strong>Legal Hold</strong>
+        <p>Some data retained for compliance</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>8. International Transfers</h2>
+  <p>
+    Data may be processed in US and EU. We use standard contractual clauses and appropriate safeguards for international transfers.
+  </p>
+
+  <h2>9. GDPR & CCPA</h2>
+  
+  <div class="compliance-badges">
+    <div class="compliance-badge">
+      <Icon name="lucide:shield-check" />
+      <strong>GDPR</strong>
+      <span>EU residents have full rights under GDPR</span>
+    </div>
+    <div class="compliance-badge">
+      <Icon name="lucide:scale" />
+      <strong>CCPA</strong>
+      <span>California residents have CCPA rights</span>
+    </div>
+  </div>
+
+  <h2>10. Children's Privacy</h2>
+  <p>
+    Not for users under 18. If we discover data from minors, we delete it immediately.
+  </p>
+
+  <h2>11. Changes</h2>
+  <p>
+    We'll notify you of material changes via email. Continued use means acceptance.
+  </p>
+
+  <h2>12. Contact</h2>
+  
+  <div class="contact-grid">
+    <a href={`mailto:privacy@${siteConfig.url.replace('https://', '').replace('http://', '')}`} class="contact-method">
+      <Icon name="lucide:shield" />
+      <div>
+        <strong>Privacy Team</strong>
+        <span>privacy@{siteConfig.url.replace('https://', '').replace('http://', '')}</span>
+      </div>
+    </a>
+    <a href={`mailto:dpo@${siteConfig.url.replace('https://', '').replace('http://', '')}`} class="contact-method">
+      <Icon name="lucide:user-check" />
+      <div>
+        <strong>Data Officer</strong>
+        <span>dpo@{siteConfig.url.replace('https://', '').replace('http://', '')}</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <div class="final-cta-glow"></div>
+    <div class="cta-main">
+      <div class="cta-icon">
+        <Icon name="lucide:shield-check" />
+      </div>
+      <div class="cta-text">
+        <strong>Your data, your control. We protect your privacy every day.</strong>
+        <span class="cta-meta">Updated Feb 9, 2026 · Effective Feb 9, 2026 · Version 2.0</span>
+      </div>
+    </div>
+    <div class="cta-badge">
+      <Icon name="lucide:lock-keyhole" />
+      <span>Protected</span>
+    </div>
+  </div>
+</LegalLayout>
+
+<style>
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px currentColor;
+    }
+    50% {
+      box-shadow: 0 0 30px currentColor, 0 0 40px currentColor;
+    }
+  }
+
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.95);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+  }
+
+  .animate-in {
+    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+
+  /* ===== PRIVACY PROMISE ===== */
+  .privacy-promise {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    background: linear-gradient(135deg, var(--success-muted) 0%, var(--bg-secondary) 100%);
+    border: 2px solid var(--success);
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .promise-glow {
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, var(--success-glow), transparent 65%);
+    opacity: 0.15;
+    pointer-events: none;
+  }
+
+  .privacy-promise:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px var(--success-glow);
+  }
+
+  .promise-badge {
+    position: relative;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .promise-badge :global(svg) {
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    background: var(--success);
+    border-radius: var(--radius-md);
+    color: var(--white);
+    box-shadow: 0 4px 16px var(--success-glow);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .privacy-promise:hover .promise-badge :global(svg) {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 8px 28px var(--success-glow);
+  }
+
+  .badge-pulse {
+    position: absolute;
+    inset: -6px;
+    border-radius: var(--radius-lg);
+    background: var(--success);
+    opacity: 0;
+    animation: pulse-ring 2.5s ease-out infinite;
+  }
+
+  .promise-content {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  .promise-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+
+  .promise-header strong {
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  .promise-tag {
+    display: inline-flex;
+    padding: 4px 10px;
+    background: var(--success);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 2px 8px var(--success-glow);
+  }
+
+  .promise-content p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* ===== DATA GRID ===== */
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+
+  .grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.5s ease-out backwards;
+    animation-delay: calc(var(--i) * 0.1s);
+  }
+
+  .grid-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .grid-item:hover {
+    border-color: var(--accent-2);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px var(--accent-2-glow);
+  }
+
+  .grid-item:hover::before {
+    opacity: 0.06;
+  }
+
+  .grid-icon-wrap {
+    position: relative;
+    width: 48px;
+    height: 48px;
+  }
+
+  .grid-icon-wrap :global(svg) {
+    width: 48px;
+    height: 48px;
+    padding: 12px;
+    background: var(--accent-2-muted);
+    border-radius: var(--radius-lg);
+    color: var(--accent-2);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 1;
+  }
+
+  .grid-item:hover .grid-icon-wrap :global(svg) {
+    background: var(--accent-2);
+    color: var(--white);
+    transform: scale(1.1);
+  }
+
+  .grid-icon-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--accent-2);
+    opacity: 0;
+    animation: pulse-ring 2.5s ease-out infinite;
+  }
+
+  .grid-item strong {
+    font-size: 14px;
+    font-weight: var(--font-bold);
+    color: var(--text);
+    position: relative;
+    z-index: 1;
+  }
+
+  .grid-item span {
+    font-size: 11px;
+    color: var(--text-muted);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Collection Matrix */
+  .collection-matrix {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+
+  .matrix-section {
+    padding: 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    color: var(--text);
+  }
+
+  .section-header :global(svg) {
+    width: 18px;
+    height: 18px;
+    padding: 4px;
+    background: var(--accent-2-muted);
+    border-radius: var(--radius-sm);
+    color: var(--accent-2);
+  }
+
+  .section-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .section-items li {
+    padding: 6px 0;
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+  }
+
+  /* Usage Flow */
+  .usage-flow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin: 24px 0;
+    padding: 24px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+  }
+
+  .flow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    min-width: 160px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    text-align: center;
+  }
+
+  .step-num {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-2);
+    color: var(--white);
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    border-radius: 50%;
+  }
+
+  .step-content strong {
+    display: block;
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: var(--space-xs);
+  }
+
+  .step-content p {
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .flow-arrow {
+    font-size: var(--text-2xl);
+    color: var(--accent-2);
+    flex-shrink: 0;
+  }
+
+  /* Terminal Block (imported from terms) */
+  .terminal-block {
+    margin: 24px 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    font-family: var(--font-mono);
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .terminal-dots {
+    display: flex;
+    gap: var(--space-xs);
+  }
+
+  .terminal-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .terminal-dots span:nth-child(1) { background: #ef4444; }
+  .terminal-dots span:nth-child(2) { background: #eab308; }
+  .terminal-dots span:nth-child(3) { background: #22c55e; }
+
+  .terminal-body {
+    padding: 16px;
+  }
+
+  .terminal-line {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+
+  .prompt {
+    color: var(--accent-2);
+    font-weight: var(--font-bold);
+  }
+
+  .cmd {
+    color: var(--accent);
+  }
+
+  .terminal-output {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .output-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .output-item.green :global(svg) {
+    color: var(--success);
+  }
+
+  .output-item.red :global(svg) {
+    color: var(--error);
+  }
+
+  .output-item :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Provider Grid */
+  .provider-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .provider-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .provider-card:hover {
+    border-color: var(--accent-2);
+    transform: translateY(-6px) scale(1.01);
+  }
+
+  .provider-card :global(svg) {
+    width: 22px;
+    height: 22px;
+    color: var(--accent-2);
+  }
+
+  .provider-card strong {
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .provider-card span {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* Security Layers */
+  .security-layers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 24px 0;
+  }
+
+  .security-layer {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-2);
+    border-radius: var(--radius-sm);
+  }
+
+  .layer-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--accent-2-muted), var(--accent-2-glow));
+    border: 1px solid var(--accent-2);
+    border-radius: var(--radius-lg);
+    color: var(--accent-2);
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px var(--accent-2-glow);
+  }
+
+  .layer-icon :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .layer-info {
+    flex: 1;
+  }
+
+  .layer-info strong {
+    display: block;
+    font-size: 13px;
+    font-weight: var(--font-bold);
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .layer-info span {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+  }
+
+  .layer-status {
+    padding: 4px 10px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    font-size: 10px;
+    font-weight: var(--font-bold);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .layer-status.active {
+    background: var(--success-muted);
+    color: var(--success);
+  }
+
+  /* Rights Grid */
+  .rights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+
+  .right-card {
+    padding: 20px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .right-card:hover {
+    border-color: var(--accent-2);
+    transform: translateY(-6px) scale(1.01);
+  }
+
+  .right-card :global(svg) {
+    width: 32px;
+    height: 32px;
+    padding: 7px;
+    background: var(--accent-2-muted);
+    border-radius: var(--radius-lg);
+    color: var(--accent-2);
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px var(--accent-2-glow);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .right-card:hover :global(svg) {
+    background: var(--accent-2);
+    color: var(--white);
+    transform: scale(1.1);
+  }
+
+  .right-card strong {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .right-card p {
+    font-size: var(--text-xs);
+    line-height: 1.4;
+    color: var(--text-muted);
+    margin: 0 0 12px;
+  }
+
+  .right-action {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    color: var(--accent-2);
+    transition: transform 0.2s;
+  }
+
+  .right-action:hover {
+    transform: translateX(2px);
+  }
+
+  /* Cookie Types */
+  .cookie-types {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0;
+  }
+
+  .cookie-type {
+    padding: 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+  }
+
+  .type-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: var(--space-sm);
+  }
+
+  .type-header :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .cookie-type.essential .type-header :global(svg) {
+    color: var(--success);
+  }
+
+  .cookie-type.functional .type-header :global(svg),
+  .cookie-type.analytics .type-header :global(svg) {
+    color: var(--accent-2);
+  }
+
+  .type-header strong {
+    flex: 1;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .type-badge {
+    padding: 3px 8px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    font-size: 10px;
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .type-badge.required {
+    background: var(--success-muted);
+    color: var(--success);
+  }
+
+  .type-badge.optional {
+    background: var(--bg-card);
+    color: var(--text-muted);
+  }
+
+  .cookie-type p {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* Retention Timeline */
+  .retention-timeline {
+    position: relative;
+    padding: 20px 0 20px 40px;
+    margin: 24px 0;
+  }
+
+  .retention-timeline::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-bottom: 24px;
+  }
+
+  .timeline-item:last-child {
+    padding-bottom: 0;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -40px;
+    top: 4px;
+    width: 24px;
+    height: 24px;
+    background: var(--accent-2);
+    border: 3px solid var(--bg-card);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--border);
+  }
+
+  .timeline-content strong {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--text);
+    margin-bottom: var(--space-xs);
+  }
+
+  .timeline-content p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* Compliance Badges */
+  .compliance-badges {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+
+  .compliance-badge {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-2);
+    border-radius: var(--radius-md);
+  }
+
+  .compliance-badge :global(svg) {
+    width: 28px;
+    height: 28px;
+    color: var(--accent-2);
+    flex-shrink: 0;
+  }
+
+  .compliance-badge strong {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--text);
+    margin-bottom: var(--space-xs);
+  }
+
+  .compliance-badge span {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+  }
+
+  /* Contact Grid */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+
+  .contact-method {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .contact-method:hover {
+    border-color: var(--accent-2);
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 8px 32px var(--accent-2-glow);
+  }
+
+  .contact-method :global(svg) {
+    width: 24px;
+    height: 24px;
+    color: var(--accent-2);
+    flex-shrink: 0;
+  }
+
+  .contact-method div {
+    flex: 1;
+  }
+
+  .contact-method strong {
+    display: block;
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .contact-method span {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  /* ===== FINAL CTA ===== */
+  .final-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 28px;
+    margin-top: var(--space-2xl);
+    background: linear-gradient(135deg, var(--success-muted), var(--bg-secondary));
+    border: 2px solid var(--success);
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .final-cta-glow {
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, var(--success-glow), transparent 70%);
+    opacity: 0.2;
+    pointer-events: none;
+  }
+
+  .final-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px var(--success-glow);
+  }
+
+  .cta-main {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-icon {
+    flex-shrink: 0;
+  }
+
+  .cta-icon :global(svg) {
+    width: 32px;
+    height: 32px;
+    color: var(--success);
+    filter: drop-shadow(0 0 8px var(--success-glow));
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .final-cta:hover .cta-icon :global(svg) {
+    transform: scale(1.15) rotate(5deg);
+  }
+
+  .cta-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .cta-text strong {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .cta-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  .cta-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--success);
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: var(--font-bold);
+    color: var(--white);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 16px var(--success-glow);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .final-cta:hover .cta-badge {
+    box-shadow: 0 6px 24px var(--success-glow);
+    transform: scale(1.05);
+  }
+
+  .cta-badge :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  @media (max-width: 768px) {
+    .data-grid,
+    .collection-matrix,
+    .provider-grid,
+    .rights-grid,
+    .compliance-badges,
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .usage-flow {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .flow-arrow {
+      transform: rotate(90deg);
+    }
+
+    .privacy-promise {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .promise-header {
+      flex-wrap: wrap;
+    }
+
+    .final-cta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px;
+    }
+
+    .cta-main {
+      width: 100%;
+    }
+
+    .cta-badge {
+      align-self: flex-end;
+    }
+  }
+
+  .privacy-promise:hover,
+  .final-cta:hover {
+    animation: gradient-shift 4s ease infinite;
+    box-shadow: 0 16px 48px var(--success-glow);
+  }
+  
+  /* Icon hover enhancements */
+  .grid-item:hover :global(svg),
+  .security-layer:hover :global(svg),
+  .provider-card:hover :global(svg) {
+    transform: scale(1.15) rotate(5deg);
+  }
+
+  .right-card:hover :global(svg),
+  .info-card:hover :global(svg) {
+    transform: scale(1.1) rotate(-5deg);
+  }
+  
+  /* Mobile improvements */
+  @media (max-width: 768px) {
+    .grid-item,
+    .provider-card,
+    .right-card,
+    .info-card,
+    .contact-method {
+      min-height: 48px;
+      padding: 18px;
+    }
+  }
+
+  /* Touch device improvements */
+  @media (hover: none) {
+    .grid-item,
+    .provider-card,
+    .right-card {
+      transform: none !important;
+    }
+    
+    .grid-item:active,
+    .provider-card:active,
+    .right-card:active {
+      transform: scale(0.98) !important;
+    }
+  }
+  </style>

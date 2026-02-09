@@ -1,0 +1,451 @@
+﻿---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/common/PageHero.astro';
+import { Icon } from 'astro-icon/components';
+import { globalStats } from '../../content/global/stats.config';
+import PricingComparison from '../../components/membership/PricingComparison.astro';
+---
+
+<PageLayout
+  title="Membership | IAWD"
+  description="Join a global community of web developers. Access exclusive benefits, learning resources, and career opportunities."
+>
+  <PageHero
+    badge="Membership"
+    badgeIcon="lucide:users"
+    title={`Join ${globalStats.members.display} developers`}
+    highlight="transforming their careers"
+    subtitle="Get access to live webinars, mentorship, certifications, and a supportive global community - all designed to accelerate your growth as a developer."
+  >
+    <div class="hero-cta-nano">
+      <a href="/membership/join" class="btn-nano btn-primary">
+        <Icon name="lucide:rocket" />
+        <span>Become a Member</span>
+        <div class="btn-shine"></div>
+      </a>
+      <a href="/membership/benefits" class="btn-nano btn-secondary">
+        <Icon name="lucide:gift" />
+        <span>Explore Benefits</span>
+      </a>
+    </div>
+  </PageHero>
+
+  <!-- Why Join - Ultra Compact -->
+  <section class="why-join-nano">
+    <div class="container">
+      <h2 class="section-title-nano">Why Join IAWD?</h2>
+      <div class="features-nano-grid">
+        <article class="feature-nano reveal">
+          <div class="feature-glow"></div>
+          <div class="feature-icon-nano">
+            <Icon name="lucide:graduation-cap" />
+          </div>
+          <h3>Learn from Experts</h3>
+          <p>{globalStats.webinars.display} live webinars/year from industry pros at top tech companies.</p>
+        </article>
+
+        <article class="feature-nano reveal" style="--delay: 0.05s">
+          <div class="feature-glow"></div>
+          <div class="feature-icon-nano">
+            <Icon name="lucide:users" />
+          </div>
+          <h3>Global Community</h3>
+          <p>Connect across {globalStats.countries.display} countries. Share knowledge, get help, build relationships.</p>
+        </article>
+
+        <article class="feature-nano reveal" style="--delay: 0.1s">
+          <div class="feature-glow"></div>
+          <div class="feature-icon-nano">
+            <Icon name="lucide:rocket" />
+          </div>
+          <h3>Advance Career</h3>
+          <p>Resume reviews, mock interviews, exclusive jobs, mentorship from seniors.</p>
+        </article>
+
+        <article class="feature-nano reveal" style="--delay: 0.15s">
+          <div class="feature-glow"></div>
+          <div class="feature-icon-nano">
+            <Icon name="lucide:award" />
+          </div>
+          <h3>Earn Certifications</h3>
+          <p>{globalStats.certifications} certification tracks to validate skills and stand out.</p>
+        </article>
+
+        <article class="feature-nano reveal" style="--delay: 0.2s">
+          <div class="feature-glow"></div>
+          <div class="feature-icon-nano">
+            <Icon name="lucide:heart-handshake" />
+          </div>
+          <h3>1-on-1 Mentorship</h3>
+          <p>Paired with experienced devs who guide your learning path and career.</p>
+        </article>
+
+        <article class="feature-nano reveal" style="--delay: 0.25s">
+          <div class="feature-glow"></div>
+          <div class="feature-icon-nano">
+            <Icon name="lucide:shield-check" />
+          </div>
+          <h3>Satisfaction Guaranteed</h3>
+          <p>{globalStats.satisfaction}% satisfaction. Join with 30-day money-back guarantee.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Route CTA - Compact -->
+  <section class="benefits-route-nano">
+    <div class="container">
+      <div class="route-card-nano reveal">
+        <div class="route-orb"></div>
+        <div class="route-content">
+          <span class="route-badge">Member Benefits</span>
+          <h2>See every benefit in one place</h2>
+          <p>ROI calculator, feature explorer, testimonials, events, and community activity.</p>
+        </div>
+        <a href="/membership/benefits" class="route-btn">
+          <Icon name="lucide:gift" />
+          <span>Explore Full Benefits</span>
+          <Icon name="lucide:arrow-right" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Component -->
+  <PricingComparison />
+</PageLayout>
+
+<script>
+  function initReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach((item) => observer.observe(item));
+  }
+
+  document.addEventListener('DOMContentLoaded', initReveal);
+</script>
+
+<style>
+  /* ===== HERO CTA NANO ===== */
+  .hero-cta-nano {
+    display: flex;
+    gap: 0.7rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+
+  .btn-nano {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.4rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .btn-nano :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .btn-primary {
+    background: var(--gradient);
+    color: var(--white);
+    box-shadow: 0 10px 24px rgba(var(--accent-rgb), 0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px rgba(var(--accent-rgb), 0.4);
+  }
+
+  .btn-shine {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent,
+      rgba(255, 255, 255, 0.25),
+      transparent
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .btn-primary:hover .btn-shine {
+    opacity: 1;
+  }
+
+  .btn-secondary {
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.3);
+    background: rgba(var(--surface-875-rgb), 0.5);
+    backdrop-filter: blur(8px);
+    color: var(--text);
+  }
+
+  .btn-secondary:hover {
+    transform: translateY(-3px);
+    border-color: rgba(var(--cyan-400-rgb), 0.5);
+    background: rgba(var(--surface-875-rgb), 0.7);
+  }
+
+  /* ===== WHY JOIN - NANO ===== */
+  .why-join-nano {
+    padding: 3rem 0;
+    background: linear-gradient(180deg, transparent, rgba(var(--surface-900-rgb), 0.4), transparent);
+  }
+
+  .section-title-nano {
+    text-align: center;
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-family: var(--font-display);
+    font-weight: 700;
+    margin-bottom: 1.8rem;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+
+  .features-nano-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  .feature-nano {
+    position: relative;
+    padding: 1rem;
+    background: rgba(var(--surface-875-rgb), 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.1);
+    border-radius: 12px;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .feature-glow {
+    position: absolute;
+    inset: -60px;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(var(--accent-rgb), 0.15) 0%,
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .feature-nano:hover .feature-glow {
+    opacity: 1;
+  }
+
+  .feature-nano:hover {
+    border-color: rgba(var(--cyan-400-rgb), 0.3);
+    background: rgba(var(--surface-875-rgb), 0.6);
+    transform: translateY(-5px);
+  }
+
+  .feature-icon-nano {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(var(--accent-rgb), 0.12);
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .feature-icon-nano :global(svg) {
+    width: 24px;
+    height: 24px;
+  }
+
+  .feature-nano:hover .feature-icon-nano {
+    background: rgba(var(--accent-rgb), 0.2);
+    transform: scale(1.1) rotate(-8deg);
+  }
+
+  .feature-nano h3 {
+    margin: 0 0 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  .feature-nano p {
+    margin: 0;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  /* ===== BENEFITS ROUTE - NANO ===== */
+  .benefits-route-nano {
+    padding: 3rem 0;
+  }
+
+  .route-card-nano {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: rgba(var(--surface-875-rgb), 0.5);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.2);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .route-orb {
+    position: absolute;
+    inset: -70px;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(var(--accent-rgb), 0.15) 0%,
+      transparent 60%
+    );
+    opacity: 0.8;
+    animation: orbFloat 8s ease-in-out infinite;
+  }
+
+  @keyframes orbFloat {
+    0%, 100% {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+  }
+
+  .route-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .route-badge {
+    display: inline-flex;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.2);
+    border-radius: 100px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    background: rgba(var(--surface-875-rgb), 0.5);
+    backdrop-filter: blur(6px);
+  }
+
+  .route-content h2 {
+    margin: 0.5rem 0 0.5rem;
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-family: var(--font-display);
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .route-content p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    max-width: 60ch;
+  }
+
+  .route-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 10px;
+    background: var(--gradient);
+    color: var(--white);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.3);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+    white-space: nowrap;
+    z-index: 1;
+  }
+
+  .route-btn :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .route-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(var(--accent-rgb), 0.4);
+  }
+
+  /* ===== REVEAL ANIMATION ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease var(--delay, 0s), transform 0.6s ease var(--delay, 0s);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 980px) {
+    .features-nano-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-cta-nano {
+      flex-direction: column;
+    }
+
+    .btn-nano {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .features-nano-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .route-card-nano {
+      flex-direction: column;
+      text-align: center;
+      padding: 1.3rem;
+    }
+
+    .route-content p {
+      margin: 0 auto;
+    }
+
+    .route-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

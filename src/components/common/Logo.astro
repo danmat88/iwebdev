@@ -1,0 +1,83 @@
+ ---
+ 
+ ---
+
+
+
+<a href="/" class="logo" aria-label="International Association of Web Developers">
+    <div class="logo-terminal">
+      <div class="logo-svg-wrapper">
+         <img 
+           src="/logo.svg"
+           alt="iawd"
+           class="logo-svg"
+         />
+         <div class="logo-tint"></div>      
+      </div>
+      <span class="logo-cmd">IAWD.ORG</span>
+      <span class="logo-cursor"></span>
+    </div>
+</a>
+
+
+
+<style>
+  .logo {
+    display: block;
+    text-decoration: none;
+  }
+  .logo-terminal {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: var(--bg-tertiary); 
+    border-radius: 8px;
+    font-family: var(--font-code);
+    font-size: 18px;
+    transition: all 0.3 ease;
+  }
+  .logo:hover .logo-terminal { 
+    box-shadow: 0 0 24px var(--accent-glow);
+  } 
+  .logo-svg-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+  .logo-svg {
+    height: 34px;
+    width: auto;
+    vertical-align: middle;
+    box-shadow: 0 10px 24px var(--accent-glow);
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+  }
+  .logo-tint {
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    opacity: 0.28;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    border-radius: inherit;
+    border-radius: 50%;
+  }
+  .logo-cmd {
+    color: var(--accent);
+    font-weight: 800;
+  }
+  
+  .logo-cursor {
+    width: 8px;
+    height: 20px;
+    background: var(--accent);
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+   
+</style>

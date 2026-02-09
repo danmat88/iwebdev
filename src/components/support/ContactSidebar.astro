@@ -1,0 +1,401 @@
+---
+/**
+ * ContactSidebar.astro
+ * =====================
+ * Sticky sidebar with team, method nav, and quick info
+ */
+
+import { Icon } from 'astro-icon/components';
+import type { TeamMember, SocialLink } from '../contact.types';
+
+interface Props {
+  team: TeamMember[];
+  socials: SocialLink[];
+}
+
+const { team, socials } = Astro.props;
+---
+
+<div class="sidebar-inner">
+  <!-- Method Navigation -->
+  <div class="sidebar-section">
+    <div class="section-header">
+      <Icon name="lucide:layout-grid" />
+      <span>Contact Methods</span>
+    </div>
+    <nav class="method-nav">
+      <button class="method-btn active" data-method="chat">
+        <span class="method-bar"></span>
+        <span class="method-icon"><Icon name="lucide:message-circle" /></span>
+        <span class="method-info">
+          <span class="method-name">Live Chat</span>
+          <span class="method-desc">Instant support</span>
+        </span>
+        <span class="method-badge online">
+          <span class="online-dot"></span>
+        </span>
+      </button>
+      <button class="method-btn" data-method="message">
+        <span class="method-bar"></span>
+        <span class="method-icon"><Icon name="lucide:mail" /></span>
+        <span class="method-info">
+          <span class="method-name">Send Message</span>
+          <span class="method-desc">Detailed inquiry</span>
+        </span>
+      </button>
+      <button class="method-btn" data-method="call">
+        <span class="method-bar"></span>
+        <span class="method-icon"><Icon name="lucide:video" /></span>
+        <span class="method-info">
+          <span class="method-name">Schedule Call</span>
+          <span class="method-desc">Video meeting</span>
+        </span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Team -->
+  <div class="sidebar-section">
+     
+  </div>
+
+  <!-- Quick Info -->
+  <div class="sidebar-card">
+    <div class="card-icon">
+      <Icon name="lucide:shield-check" />
+    </div>
+    <div class="card-content">
+      <span class="card-title">Private & Secure</span>
+      <span class="card-text">All conversations are encrypted</span>
+    </div>
+  </div>
+
+  <!-- Social Links -->
+  <div class="sidebar-section social-section">
+    <div class="section-header">
+      <Icon name="lucide:share-2" />
+      <span>Follow Us</span>
+    </div>
+    <div class="social-grid">
+      {socials.map((s) => (
+        <a href={s.url} class="social-btn" target="_blank" rel="noopener" aria-label={s.label}>
+          <Icon name={s.icon} />
+        </a>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .sidebar-inner {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .sidebar-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .section-header :global(svg) {
+    width: 15px;
+    height: 15px;
+    color: var(--accent);
+  }
+
+  /* Method Nav */
+  .method-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .method-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 12px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-family: var(--font-primary);
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .method-btn:hover {
+    background: var(--bg-secondary);
+    border-color: var(--border);
+  }
+
+  .method-btn.active {
+    background: var(--bg-card);
+    border-color: var(--accent);
+  }
+
+  .method-bar {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 0;
+    background: var(--gradient);
+    border-radius: 0 2px 2px 0;
+    transition: height 0.25s ease;
+  }
+
+  .method-btn.active .method-bar {
+    height: 20px;
+  }
+
+  .method-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .method-btn:hover .method-icon {
+    background: var(--bg-tertiary);
+  }
+
+  .method-btn.active .method-icon {
+    background: var(--accent-glow);
+  }
+
+  .method-icon :global(svg) {
+    width: 15px;
+    height: 15px;
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+
+  .method-btn:hover .method-icon :global(svg) {
+    color: var(--text-secondary);
+  }
+
+  .method-btn.active .method-icon :global(svg) {
+    color: var(--accent);
+  }
+
+  .method-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .method-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    transition: color 0.2s;
+  }
+
+  .method-btn.active .method-name {
+    color: var(--accent);
+  }
+
+  .method-desc {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  .method-badge.online {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+  }
+
+  .online-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--green-500);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* Team */
+  .team-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .team-member {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    transition: background 0.2s;
+  }
+
+  .team-member:hover {
+    background: var(--bg-tertiary);
+  }
+
+  .member-avatar {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color);
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--black);
+    position: relative;
+  }
+
+  .member-avatar::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--bg-secondary);
+    background: var(--text-muted);
+  }
+
+  .member-avatar[data-status="online"]::after {
+    background: var(--green-500);
+  }
+
+  .member-avatar[data-status="away"]::after {
+    background: var(--amber-500);
+  }
+
+  .member-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .member-name {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .member-role {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  /* Card */
+  .sidebar-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    background: linear-gradient(135deg, rgba(var(--green-500-rgb), 0.1), transparent);
+    border: 1px solid rgba(var(--green-500-rgb), 0.2);
+    border-radius: 12px;
+  }
+
+  .card-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(var(--green-500-rgb), 0.15);
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+
+  .card-icon :global(svg) {
+    width: 18px;
+    height: 18px;
+    color: var(--green-500);
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .card-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .card-text {
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  /* Social */
+  .social-section {
+    margin-top: auto;
+  }
+
+  .social-grid {
+    display: flex;
+    gap: 8px;
+  }
+
+  .social-btn {
+    flex: 1;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    border-radius: 9px;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+  }
+
+  .social-btn:hover {
+    background: var(--accent-glow);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .social-btn :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+</style>

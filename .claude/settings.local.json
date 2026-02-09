@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(npm install:*)",
+      "Bash(find:*)",
+      "Bash(find src/components -name \"*.astro\" -exec sed -i \"s|from ''../../../config/contact\\\\.config''|from ''../../../content/pages/support/contact.config''|g\" {} +)",
+      "Bash(npm run build:*)"
+    ]
+  }
+}

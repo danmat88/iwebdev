@@ -1,0 +1,507 @@
+﻿---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/common/PageHero.astro';
+import PricingComparison from '../../components/membership/PricingComparison.astro';
+import { Icon } from 'astro-icon/components';
+---
+
+<PageLayout
+  title="Join IAWD | Become a Member"
+  description="Join the International Association of Web Developers. Get access to webinars, mentorship, certifications, and a global community."
+>
+  <PageHero
+    badge="Start Your Journey"
+    badgeIcon="lucide:rocket"
+    title="Transform your career"
+    highlight="starting today"
+    subtitle="Join thousands of developers worldwide who are accelerating their growth with IAWD membership."
+  >
+    <!-- Trust Indicators - Compact Pills -->
+    <div class="trust-pills">
+      <div class="trust-pill">
+        <Icon name="lucide:shield-check" />
+        <span>30-day guarantee</span>
+      </div>
+      <div class="trust-pill">
+        <Icon name="lucide:lock" />
+        <span>Secure payment</span>
+      </div>
+      <div class="trust-pill">
+        <Icon name="lucide:zap" />
+        <span>Instant access</span>
+      </div>
+    </div>
+  </PageHero>
+
+  <!-- Pricing Section -->
+  <PricingComparison />
+
+  <!-- Next Steps - Ultra Compact -->
+  <section class="next-steps-nano">
+    <div class="container">
+      <div class="section-header-nano">
+        <h2>What Happens Next?</h2>
+        <p>Your journey starts the moment you join</p>
+      </div>
+
+      <div class="steps-nano-grid">
+        <article class="step-nano reveal">
+          <div class="step-glow"></div>
+          <div class="step-number-wrap">
+            <div class="step-number">1</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h3>Instant Access</h3>
+            <p>Member portal, Slack, and all webinar recordings. Immediately.</p>
+          </div>
+        </article>
+
+        <article class="step-nano reveal" style="--delay: 0.08s">
+          <div class="step-glow"></div>
+          <div class="step-number-wrap">
+            <div class="step-number">2</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h3>Build Profile</h3>
+            <p>Share skills, goals, interests for personalized experience.</p>
+          </div>
+        </article>
+
+        <article class="step-nano reveal" style="--delay: 0.16s">
+          <div class="step-glow"></div>
+          <div class="step-number-wrap">
+            <div class="step-number">3</div>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step-content">
+            <h3>Get Matched</h3>
+            <p>Mentor pairing + tailored webinars, groups, learning paths.</p>
+          </div>
+        </article>
+
+        <article class="step-nano reveal" style="--delay: 0.24s">
+          <div class="step-glow"></div>
+          <div class="step-number-wrap">
+            <div class="step-number">4</div>
+          </div>
+          <div class="step-content">
+            <h3>Start Growing</h3>
+            <p>First webinar, discussions, connections that last a lifetime.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ - Compact Grid -->
+  <section class="faq-nano">
+    <div class="container">
+      <div class="section-header-nano">
+        <h2>Common Questions</h2>
+        <p>Everything you need to know</p>
+      </div>
+
+      <div class="faq-nano-grid">
+        <article class="faq-nano-item reveal">
+          <div class="faq-glow"></div>
+          <div class="faq-icon">
+            <Icon name="lucide:rotate-ccw" />
+          </div>
+          <h4>Can I cancel anytime?</h4>
+          <p>Yes! Cancel anytime, no penalties. Plus 30-day money-back guarantee.</p>
+        </article>
+
+        <article class="faq-nano-item reveal" style="--delay: 0.05s">
+          <div class="faq-glow"></div>
+          <div class="faq-icon">
+            <Icon name="lucide:gift" />
+          </div>
+          <h4>Free trial available?</h4>
+          <p>No trials, but generous free tier + 30-day money-back guarantee.</p>
+        </article>
+
+        <article class="faq-nano-item reveal" style="--delay: 0.1s">
+          <div class="faq-glow"></div>
+          <div class="faq-icon">
+            <Icon name="lucide:credit-card" />
+          </div>
+          <h4>Payment methods?</h4>
+          <p>All major credit cards, PayPal. Annual plans can be invoiced.</p>
+        </article>
+
+        <article class="faq-nano-item reveal" style="--delay: 0.15s">
+          <div class="faq-glow"></div>
+          <div class="faq-icon">
+            <Icon name="lucide:graduation-cap" />
+          </div>
+          <h4>Student discounts?</h4>
+          <p>Yes! 50% off with valid .edu email. Contact us for details.</p>
+        </article>
+      </div>
+
+      <div class="faq-cta-nano reveal" style="--delay: 0.2s">
+        <p>More questions?</p>
+        <a href="/support/faq" class="faq-link">
+          <span>View Full FAQ</span>
+          <Icon name="lucide:arrow-right" />
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<script>
+  function initReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach((item) => observer.observe(item));
+  }
+
+  document.addEventListener('DOMContentLoaded', initReveal);
+</script>
+
+<style>
+  /* ===== TRUST PILLS ===== */
+  .trust-pills {
+    display: flex;
+    gap: 0.7rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+
+  .trust-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.9rem;
+    background: rgba(var(--surface-875-rgb), 0.5);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.15);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .trust-pill :global(svg) {
+    width: 14px;
+    height: 14px;
+    color: var(--accent);
+  }
+
+  .trust-pill:hover {
+    border-color: rgba(var(--cyan-400-rgb), 0.3);
+    background: rgba(var(--surface-875-rgb), 0.7);
+    transform: translateY(-2px);
+  }
+
+  /* ===== NEXT STEPS - NANO ===== */
+  .next-steps-nano {
+    padding: 3rem 0;
+    background: linear-gradient(180deg, transparent, rgba(var(--surface-900-rgb), 0.4), transparent);
+  }
+
+  .section-header-nano {
+    text-align: center;
+    margin-bottom: 1.8rem;
+  }
+
+  .section-header-nano h2 {
+    margin: 0 0 0.4rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-family: var(--font-display);
+    color: var(--text);
+    letter-spacing: -0.03em;
+  }
+
+  .section-header-nano p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .steps-nano-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.8rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .step-nano {
+    position: relative;
+    padding: 1rem;
+    background: rgba(var(--surface-875-rgb), 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.1);
+    border-radius: 12px;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .step-glow {
+    position: absolute;
+    inset: -60px;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(var(--accent-rgb), 0.15) 0%,
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .step-nano:hover .step-glow {
+    opacity: 1;
+  }
+
+  .step-nano:hover {
+    border-color: rgba(var(--cyan-400-rgb), 0.3);
+    background: rgba(var(--surface-875-rgb), 0.6);
+    transform: translateY(-4px);
+  }
+
+  .step-number-wrap {
+    position: relative;
+    margin-bottom: 0.8rem;
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(var(--accent-rgb), 0.15);
+    border: 2px solid rgba(var(--accent-rgb), 0.3);
+    color: var(--accent);
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: var(--font-display);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .step-nano:hover .step-number {
+    background: rgba(var(--accent-rgb), 0.25);
+    border-color: rgba(var(--accent-rgb), 0.5);
+    transform: scale(1.1) rotate(-5deg);
+  }
+
+  .step-connector {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      rgba(var(--cyan-400-rgb), 0.3),
+      rgba(var(--cyan-400-rgb), 0.1)
+    );
+    transform: translateY(-50%);
+    margin-left: 0.8rem;
+  }
+
+  .step-nano:last-child .step-connector {
+    display: none;
+  }
+
+  .step-content h3 {
+    margin: 0 0 0.4rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  .step-content p {
+    margin: 0;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  /* ===== FAQ - NANO ===== */
+  .faq-nano {
+    padding: 3rem 0;
+  }
+
+  .faq-nano-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .faq-nano-item {
+    position: relative;
+    padding: 1rem;
+    background: rgba(var(--surface-875-rgb), 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.1);
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .faq-glow {
+    position: absolute;
+    inset: -50px;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(var(--accent-rgb), 0.12) 0%,
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .faq-nano-item:hover .faq-glow {
+    opacity: 1;
+  }
+
+  .faq-nano-item:hover {
+    border-color: rgba(var(--cyan-400-rgb), 0.3);
+    background: rgba(var(--surface-875-rgb), 0.6);
+    transform: translateY(-3px);
+  }
+
+  .faq-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(var(--accent-rgb), 0.12);
+    color: var(--accent);
+    margin-bottom: 0.7rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .faq-icon :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .faq-nano-item:hover .faq-icon {
+    background: rgba(var(--accent-rgb), 0.2);
+    transform: rotate(-8deg) scale(1.1);
+  }
+
+  .faq-nano-item h4 {
+    margin: 0 0 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  .faq-nano-item p {
+    margin: 0;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  .faq-cta-nano {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(var(--surface-875-rgb), 0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.15);
+    border-radius: 12px;
+  }
+
+  .faq-cta-nano p {
+    margin: 0 0 0.7rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .faq-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: rgba(var(--accent-rgb), 0.12);
+    border: 1px solid rgba(var(--accent-rgb), 0.25);
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .faq-link :global(svg) {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .faq-link:hover {
+    background: rgba(var(--accent-rgb), 0.2);
+    border-color: rgba(var(--accent-rgb), 0.4);
+    transform: translateY(-2px);
+  }
+
+  .faq-link:hover :global(svg) {
+    transform: translateX(3px);
+  }
+
+  /* ===== REVEAL ANIMATION ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease var(--delay, 0s), transform 0.6s ease var(--delay, 0s);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 980px) {
+    .steps-nano-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .step-connector {
+      display: none;
+    }
+
+    .faq-nano-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .steps-nano-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .trust-pills {
+      gap: 0.5rem;
+    }
+
+    .trust-pill {
+      padding: 0.4rem 0.7rem;
+      font-size: 0.7rem;
+    }
+  }
+</style>

@@ -1,0 +1,1101 @@
+---
+/**
+ * ContactForm.astro - Ultra Compact Edition
+ * ==========================================
+ */
+
+import { Icon } from 'astro-icon/components';
+import { contactConfig } from '../../content/pages/support/contact.config';
+
+const { topics } = contactConfig;
+---
+
+<div class="content-panel" data-panel="message" id="panel-message">
+  <div class="form-wrapper">
+    <!-- Form Card -->
+    <div class="form-card">
+      <!-- Progress -->
+      <div class="progress">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="steps">
+          <div class="step active" data-s="1">
+            <span class="step-dot">1</span>
+            <span class="step-text">Topic</span>
+          </div>
+          <div class="step" data-s="2">
+            <span class="step-dot">2</span>
+            <span class="step-text">Details</span>
+          </div>
+          <div class="step" data-s="3">
+            <span class="step-dot">3</span>
+            <span class="step-text">Send</span>
+          </div>
+        </div>
+      </div>
+
+      <form id="message-form">
+        <!-- Step 1 -->
+        <div class="form-step active" data-step="1">
+          <div class="step-head">
+            <div class="step-icon"><Icon name="lucide:help-circle" /></div>
+            <div>
+              <h3>What can we help with?</h3>
+              <p>Select a topic to route your message.</p>
+            </div>
+          </div>
+          <div class="topics">
+            {topics.map((t, i) => (
+              <label class="topic">
+                <input type="radio" name="topic" value={t.id} checked={i === 0} />
+                <span class="topic-box">
+                  <Icon name={t.icon} />
+                  <span>{t.label}</span>
+                  <span class="topic-check"><Icon name="lucide:check" /></span>
+                </span>
+              </label>
+            ))}
+          </div>
+          <div class="step-actions">
+            <button type="button" class="btn primary" data-next="2">
+              Continue <Icon name="lucide:arrow-right" />
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="form-step" data-step="2">
+          <div class="step-head">
+            <div class="step-icon"><Icon name="lucide:edit-3" /></div>
+            <div>
+              <h3>Tell us more</h3>
+              <p>Share details so we can help faster.</p>
+            </div>
+          </div>
+          <div class="fields">
+            <div class="row">
+              <div class="field">
+                <label><Icon name="lucide:user" />Name</label>
+                <input type="text" name="name" placeholder="John Doe" required />
+              </div>
+              <div class="field">
+                <label><Icon name="lucide:mail" />Email</label>
+                <input type="email" name="email" placeholder="john@example.com" required />
+              </div>
+            </div>
+            <div class="field">
+              <label><Icon name="lucide:type" />Subject</label>
+              <input type="text" name="subject" placeholder="Brief summary" required />
+            </div>
+            <div class="field">
+              <label><Icon name="lucide:message-square" />Message</label>
+              <textarea name="message" rows="4" placeholder="Describe your question..." required></textarea>
+            </div>
+            <div class="field">
+              <label>
+                <Icon name="lucide:paperclip" />Attachments 
+                <span class="opt">(optional)</span>
+              </label>
+              <div class="dropzone" id="dropzone">
+                <Icon name="lucide:upload-cloud" />
+                <span>Drop files or click to upload</span>
+                <input type="file" multiple hidden />
+              </div>
+            </div>
+          </div>
+          <div class="step-actions dual">
+            <button type="button" class="btn ghost" data-back="1">
+              <Icon name="lucide:arrow-left" />Back
+            </button>
+            <button type="button" class="btn primary" data-next="3">
+              Review <Icon name="lucide:arrow-right" />
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="form-step" data-step="3">
+          <div class="step-head">
+            <div class="step-icon"><Icon name="lucide:check-circle" /></div>
+            <div>
+              <h3>Ready to send?</h3>
+              <p>Review your message before sending.</p>
+            </div>
+          </div>
+          <div class="review">
+            <div class="review-row">
+              <span>Topic</span>
+              <strong id="r-topic">General</strong>
+            </div>
+            <div class="review-row">
+              <span>From</span>
+              <strong id="r-from">-</strong>
+            </div>
+            <div class="review-row">
+              <span>Subject</span>
+              <strong id="r-subject">-</strong>
+            </div>
+            <div class="review-row full">
+              <span>Message</span>
+              <p id="r-message">-</p>
+            </div>
+          </div>
+          <label class="checkbox">
+            <input type="checkbox" name="copy" />
+            <span class="check-box"><Icon name="lucide:check" /></span>
+            <span>Send me a copy</span>
+          </label>
+          <div class="step-actions dual">
+            <button type="button" class="btn ghost" data-back="2">
+              <Icon name="lucide:edit" />Edit
+            </button>
+            <button type="submit" class="btn primary submit-btn">
+              <span class="btn-default"><Icon name="lucide:send" />Send Message</span>
+              <span class="btn-loading"><Icon name="lucide:loader-2" class="spin" />Sending...</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Success -->
+        <div class="form-step success-step" data-step="success">
+          <div class="success-anim">
+            <div class="rings">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="success-icon"><Icon name="lucide:check" /></div>
+          </div>
+          <h3>Message sent!</h3>
+          <p>We'll get back to you within 24 hours.</p>
+          <div class="success-badge">
+            <Icon name="lucide:mail-check" />Confirmation sent to your email
+          </div>
+          <button type="button" class="btn ghost" id="reset-form">
+            <Icon name="lucide:plus" />Send another
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="form-side">
+      <div class="side-block">
+        <h4><Icon name="lucide:sparkles" />What to expect</h4>
+        <div class="expect">
+          <div class="expect-item">
+            <div class="e-icon"><Icon name="lucide:mail-check" /></div>
+            <div>
+              <strong>Confirmation email</strong>
+              <span>Copy of your message</span>
+            </div>
+          </div>
+          <div class="expect-item">
+            <div class="e-icon"><Icon name="lucide:clock" /></div>
+            <div>
+              <strong>24h response</strong>
+              <span>Usually faster</span>
+            </div>
+          </div>
+          <div class="expect-item">
+            <div class="e-icon"><Icon name="lucide:user-check" /></div>
+            <div>
+              <strong>Personal reply</strong>
+              <span>From a real human</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="side-block alt">
+        <span><Icon name="lucide:zap" />Need faster help?</span>
+        <button class="side-btn" data-switch="chat">
+          <Icon name="lucide:message-circle" />Start live chat
+          <Icon name="lucide:chevron-right" />
+        </button>
+      </div>
+      <div class="secure-note">
+        <Icon name="lucide:shield-check" />Your data is encrypted
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('message-form') as HTMLFormElement;
+  const steps = form?.querySelectorAll('.form-step');
+  const progressSteps = document.querySelectorAll('.step');
+  const progressFill = document.getElementById('progress-fill');
+
+  function goTo(step: string) {
+    steps?.forEach(s => s.classList.remove('active'));
+    form?.querySelector(`[data-step="${step}"]`)?.classList.add('active');
+
+    const n = parseInt(step) || 0;
+    if (progressFill && n > 0) {
+      progressFill.style.width = `${((n - 1) / 2) * 100}%`;
+    }
+    
+    progressSteps.forEach((ps, i) => {
+      ps.classList.remove('active', 'done');
+      if (i + 1 < n) ps.classList.add('done');
+      else if (i + 1 === n) ps.classList.add('active');
+    });
+
+    if (step === '3') {
+      const d = new FormData(form);
+      const t = d.get('topic') as string;
+      document.getElementById('r-topic')!.textContent = t?.charAt(0).toUpperCase() + t?.slice(1) || '-';
+      document.getElementById('r-from')!.textContent = `${d.get('name')} <${d.get('email')}>`;
+      document.getElementById('r-subject')!.textContent = d.get('subject') as string || '-';
+      document.getElementById('r-message')!.textContent = d.get('message') as string || '-';
+    }
+  }
+
+  form?.querySelectorAll('[data-next]').forEach(b => {
+    b.addEventListener('click', () => goTo((b as HTMLButtonElement).dataset.next!));
+  });
+
+  form?.querySelectorAll('[data-back]').forEach(b => {
+    b.addEventListener('click', () => goTo((b as HTMLButtonElement).dataset.back!));
+  });
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('.submit-btn');
+    btn?.classList.add('loading');
+    await new Promise(r => setTimeout(r, 1500));
+    btn?.classList.remove('loading');
+    goTo('success');
+  });
+
+  document.getElementById('reset-form')?.addEventListener('click', () => {
+    form?.reset();
+    goTo('1');
+  });
+
+  const drop = document.getElementById('dropzone');
+  const fileIn = drop?.querySelector('input');
+  drop?.addEventListener('click', () => fileIn?.click());
+  drop?.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    drop.classList.add('over');
+  });
+  drop?.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop?.addEventListener('drop', (e) => {
+    e.preventDefault();
+    drop.classList.remove('over');
+  });
+});
+</script>
+
+<style>
+  /* ============================================
+     PANEL BASE
+     ============================================ */
+  .content-panel[data-panel="message"] {
+    display: none;
+  }
+
+  .content-panel[data-panel="message"].active {
+    display: block;
+    animation: fadeUp 0.3s ease;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ============================================
+     LAYOUT
+     ============================================ */
+  .form-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 16px;
+  }
+
+  /* ============================================
+     FORM CARD
+     ============================================ */
+  .form-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+  }
+
+  /* ============================================
+     PROGRESS
+     ============================================ */
+  .progress {
+    margin-bottom: 24px;
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: var(--gradient);
+    border-radius: 2px;
+    width: 0;
+    transition: width 0.3s ease;
+  }
+
+  .steps {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .step-dot {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all 0.2s;
+  }
+
+  .step.active .step-dot {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+    color: var(--accent);
+  }
+
+  .step.done .step-dot {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--black);
+  }
+
+  .step-text {
+    font-size: 10px;
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+
+  .step.active .step-text,
+  .step.done .step-text {
+    color: var(--text);
+  }
+
+  /* ============================================
+     FORM STEPS
+     ============================================ */
+  .form-step {
+    display: none;
+  }
+
+  .form-step.active {
+    display: block;
+    animation: stepIn 0.3s ease;
+  }
+
+  @keyframes stepIn {
+    from {
+      opacity: 0;
+      transform: translateX(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .step-head {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .step-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-glow);
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+
+  .step-icon :global(svg) {
+    width: 18px;
+    height: 18px;
+    color: var(--accent);
+  }
+
+  .step-head h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .step-head p {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  /* ============================================
+     TOPICS
+     ============================================ */
+  .topics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .topic input {
+    display: none;
+  }
+
+  .topic-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 10px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+  }
+
+  .topic-box :global(svg:first-child) {
+    width: 18px;
+    height: 18px;
+    color: var(--text-muted);
+    transition: color 0.15s;
+  }
+
+  .topic-box span:not(.topic-check) {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .topic-check {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-tertiary);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.15s;
+  }
+
+  .topic-check :global(svg) {
+    width: 10px;
+    height: 10px;
+    color: var(--black);
+  }
+
+  .topic-box:hover {
+    border-color: var(--border-hover);
+  }
+
+  .topic-box:hover :global(svg:first-child) {
+    color: var(--accent);
+  }
+
+  .topic input:checked + .topic-box {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .topic input:checked + .topic-box :global(svg:first-child) {
+    color: var(--accent);
+  }
+
+  .topic input:checked + .topic-box .topic-check {
+    opacity: 1;
+    transform: scale(1);
+    background: var(--accent);
+  }
+
+  /* ============================================
+     FIELDS
+     ============================================ */
+  .fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .field label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .field label :global(svg) {
+    width: 11px;
+    height: 11px;
+    color: var(--text-muted);
+  }
+
+  .opt {
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+
+  .field input,
+  .field textarea {
+    padding: 10px 12px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: var(--font-primary);
+    color: var(--text);
+    outline: none;
+    transition: all 0.15s;
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+  }
+
+  .field textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  /* ============================================
+     DROPZONE
+     ============================================ */
+  .dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 20px;
+    background: var(--bg-secondary);
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .dropzone:hover,
+  .dropzone.over {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .dropzone :global(svg) {
+    width: 20px;
+    height: 20px;
+    color: var(--text-muted);
+  }
+
+  .dropzone span {
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  /* ============================================
+     REVIEW
+     ============================================ */
+  .review {
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 14px;
+  }
+
+  .review-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+  }
+
+  .review-row:last-child {
+    border-bottom: none;
+  }
+
+  .review-row.full {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .review-row span {
+    color: var(--text-muted);
+  }
+
+  .review-row strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .review-row p {
+    color: var(--text-secondary);
+    line-height: 1.5;
+    background: var(--bg-tertiary);
+    padding: 8px 10px;
+    border-radius: 6px;
+    width: 100%;
+  }
+
+  /* ============================================
+     CHECKBOX
+     ============================================ */
+  .checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    cursor: pointer;
+  }
+
+  .checkbox input {
+    display: none;
+  }
+
+  .check-box {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+
+  .check-box :global(svg) {
+    width: 10px;
+    height: 10px;
+    color: var(--black);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .checkbox input:checked + .check-box {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .checkbox input:checked + .check-box :global(svg) {
+    opacity: 1;
+  }
+
+  .checkbox > span:last-child {
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  /* ============================================
+     ACTIONS
+     ============================================ */
+  .step-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .step-actions.dual {
+    justify-content: space-between;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .btn.primary {
+    flex: 1;
+    background: var(--gradient);
+    border: none;
+    color: var(--black);
+  }
+
+  .btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--accent-glow);
+  }
+
+  .btn.ghost {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+
+  .btn.ghost:hover {
+    border-color: var(--border-hover);
+    color: var(--text);
+  }
+
+  /* ============================================
+     SUBMIT BUTTON LOADING
+     ============================================ */
+  .submit-btn .btn-loading {
+    display: none;
+  }
+
+  .submit-btn.loading .btn-default {
+    display: none;
+  }
+
+  .submit-btn.loading .btn-loading {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .spin {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* ============================================
+     SUCCESS
+     ============================================ */
+  .success-step {
+    text-align: center;
+    padding: 30px 0;
+  }
+
+  .success-anim {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 16px;
+  }
+
+  .rings {
+    position: absolute;
+    inset: 0;
+  }
+
+  .rings span {
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--green-500);
+    border-radius: 50%;
+    animation: ring 2s ease-out infinite;
+  }
+
+  .rings span:nth-child(2) {
+    animation-delay: 0.3s;
+  }
+
+  .rings span:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes ring {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.6;
+    }
+    100% {
+      transform: scale(1.4);
+      opacity: 0;
+    }
+  }
+
+  .success-icon {
+    position: absolute;
+    inset: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--green-500), var(--green-400));
+    border-radius: 50%;
+  }
+
+  .success-icon :global(svg) {
+    width: 24px;
+    height: 24px;
+    color: var(--white);
+  }
+
+  .success-step h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .success-step > p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  .success-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--bg-secondary);
+    border-radius: 99px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  .success-badge :global(svg) {
+    width: 12px;
+    height: 12px;
+    color: var(--green-500);
+  }
+
+  /* ============================================
+     SIDEBAR
+     ============================================ */
+  .form-side {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .side-block {
+    padding: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  .side-block h4 {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .side-block h4 :global(svg) {
+    width: 13px;
+    height: 13px;
+    color: var(--accent);
+  }
+
+  .expect {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .expect-item {
+    display: flex;
+    gap: 10px;
+  }
+
+  .e-icon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-glow);
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .e-icon :global(svg) {
+    width: 12px;
+    height: 12px;
+    color: var(--accent);
+  }
+
+  .expect-item strong {
+    display: block;
+    font-size: 10px;
+    color: var(--text);
+    margin-bottom: 1px;
+  }
+
+  .expect-item span {
+    font-size: 9px;
+    color: var(--text-muted);
+  }
+
+  /* ============================================
+     ALT BLOCK
+     ============================================ */
+  .side-block.alt {
+    background: linear-gradient(135deg, var(--accent-glow), transparent);
+    border-color: rgba(var(--cyan-400-rgb), 0.2);
+  }
+
+  .side-block.alt > span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+  }
+
+  .side-block.alt > span :global(svg) {
+    width: 12px;
+    height: 12px;
+    color: var(--accent);
+  }
+
+  .side-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    padding: 9px 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 11px;
+    font-family: var(--font-primary);
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .side-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .side-btn :global(svg) {
+    width: 12px;
+    height: 12px;
+  }
+
+  .side-btn :global(svg:last-child) {
+    margin-left: auto;
+  }
+
+  /* ============================================
+     SECURE NOTE
+     ============================================ */
+  .secure-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 10px;
+    color: var(--text-muted);
+    padding: 8px;
+  }
+
+  .secure-note :global(svg) {
+    width: 12px;
+    height: 12px;
+    color: var(--green-500);
+  }
+
+  /* ============================================
+     RESPONSIVE
+     ============================================ */
+  @media (max-width: 900px) {
+    .form-wrapper {
+      grid-template-columns: 1fr;
+    }
+
+    .form-side {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .topics {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .row {
+      grid-template-columns: 1fr;
+    }
+
+    .steps {
+      gap: 4px;
+    }
+
+    .step-text {
+      display: none;
+    }
+  }
+</style>

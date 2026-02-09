@@ -1,0 +1,969 @@
+﻿---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/common/PageHero.astro';
+import { Icon } from 'astro-icon/components';
+import { siteConfig } from '../../content/global/site.config';
+import { globalStats } from '../../content/global/stats.config';
+---
+
+<PageLayout
+  title="About IAWD"
+  description={siteConfig.description}
+>
+  <PageHero
+    badge="About Us"
+    badgeIcon="lucide:sparkles"
+    title="Empowering developers"
+    highlight="worldwide"
+    subtitle={siteConfig.description}
+  >
+    <!-- Compact Stats Pills -->
+    <div class="stats-pills-container">
+      <div class="stat-pill" data-target={globalStats.members.total}>
+        <div class="pill-glow"></div>
+        <div class="pill-icon">
+          <Icon name="lucide:users" />
+        </div>
+        <div class="pill-content">
+          <span class="pill-value" data-counter>0</span>
+          <span class="pill-label">Members</span>
+        </div>
+      </div>
+      
+      <div class="stat-pill" data-target={globalStats.countries.total} style="--delay: 0.1s">
+        <div class="pill-glow"></div>
+        <div class="pill-icon">
+          <Icon name="lucide:globe" />
+        </div>
+        <div class="pill-content">
+          <span class="pill-value" data-counter>0</span>
+          <span class="pill-label">Countries</span>
+        </div>
+      </div>
+      
+      <div class="stat-pill" data-target={globalStats.webinars.yearly} style="--delay: 0.2s">
+        <div class="pill-glow"></div>
+        <div class="pill-icon">
+          <Icon name="lucide:video" />
+        </div>
+        <div class="pill-content">
+          <span class="pill-value" data-counter>0</span>
+          <span class="pill-label">Webinars/Year</span>
+        </div>
+      </div>
+      
+      <div class="stat-pill" data-target={globalStats.satisfaction} style="--delay: 0.3s">
+        <div class="pill-glow"></div>
+        <div class="pill-icon">
+          <Icon name="lucide:heart" />
+        </div>
+        <div class="pill-content">
+          <span class="pill-value" data-counter>0</span>
+          <span class="pill-label">Satisfaction</span>
+        </div>
+      </div>
+    </div>
+  </PageHero>
+
+  <!-- Mission Section - Ultra Compact -->
+  <section class="mission-section">
+    <div class="container">
+      <div class="mission-grid">
+        <article class="mission-nano reveal">
+          <div class="nano-header">
+            <div class="nano-icon">
+              <Icon name="lucide:target" />
+            </div>
+            <h3>Mission</h3>
+          </div>
+          <p>Global community for developers at every level. Accessible education, meaningful mentorship, community power.</p>
+        </article>
+
+        <article class="mission-nano reveal" style="--delay: 0.08s">
+          <div class="nano-header">
+            <div class="nano-icon">
+              <Icon name="lucide:eye" />
+            </div>
+            <h3>Vision</h3>
+          </div>
+          <p>Every aspiring developer gets resources, support, and opportunities to succeed—regardless of location or background.</p>
+        </article>
+
+        <article class="mission-nano reveal" style="--delay: 0.16s">
+          <div class="nano-header">
+            <div class="nano-icon">
+              <Icon name="lucide:heart" />
+            </div>
+            <h3>Impact</h3>
+          </div>
+          <p>Transforming lives through education. Opening doors through networking. Building futures through mentorship.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compact Timeline -->
+  <section class="timeline-section">
+    <div class="container">
+      <div class="section-header-nano reveal">
+        <span class="nano-badge"><Icon name="lucide:clock" /> Our Journey</span>
+        <h2>Evolution</h2>
+      </div>
+
+      <div class="timeline-nano">
+        <div class="timeline-track"></div>
+        
+        <div class="timeline-node reveal" style="--index: 0">
+          <div class="node-pulse"></div>
+          <div class="node-content">
+            <div class="node-year">{siteConfig.founded}</div>
+            <div class="node-title">Founded</div>
+            <div class="node-desc">Started with 50 members in one country. Vision: make web dev education accessible everywhere.</div>
+          </div>
+        </div>
+
+        <div class="timeline-node reveal" style="--index: 1; --delay: 0.08s">
+          <div class="node-pulse"></div>
+          <div class="node-content">
+            <div class="node-year">2020</div>
+            <div class="node-title">Global Expansion</div>
+            <div class="node-desc">1,000 members × 25 countries. First certification program launched.</div>
+          </div>
+        </div>
+
+        <div class="timeline-node reveal" style="--index: 2; --delay: 0.16s">
+          <div class="node-pulse"></div>
+          <div class="node-content">
+            <div class="node-year">2022</div>
+            <div class="node-title">Mentorship Launch</div>
+            <div class="node-desc">1-on-1 mentorship connecting juniors with pros. 5,000+ members.</div>
+          </div>
+        </div>
+
+        <div class="timeline-node reveal" style="--index: 3; --delay: 0.24s">
+          <div class="node-pulse"></div>
+          <div class="node-content">
+            <div class="node-year">2024</div>
+            <div class="node-title">Summit Era</div>
+            <div class="node-desc">10,000+ members in {globalStats.countries.display} countries. First annual summit.</div>
+          </div>
+        </div>
+
+        <div class="timeline-node reveal" style="--index: 4; --delay: 0.32s">
+          <div class="node-pulse"></div>
+          <div class="node-content">
+            <div class="node-year">2026</div>
+            <div class="node-title">Now</div>
+            <div class="node-desc">{globalStats.members.display} members • {globalStats.webinars.display} webinars/year • 12 cert tracks • Real impact.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Compact Grid -->
+  <section class="values-section">
+    <div class="container">
+      <div class="section-header-nano reveal">
+        <span class="nano-badge"><Icon name="lucide:compass" /> Core Values</span>
+        <h2>What Drives Us</h2>
+      </div>
+
+      <div class="values-nano-grid">
+        <article class="value-nano reveal">
+          <div class="value-icon-wrap">
+            <div class="value-icon-bg"></div>
+            <Icon name="lucide:users" />
+          </div>
+          <h4>Inclusivity</h4>
+          <p>Everyone belongs. We celebrate diversity and create welcoming spaces for all backgrounds and levels.</p>
+        </article>
+
+        <article class="value-nano reveal" style="--delay: 0.06s">
+          <div class="value-icon-wrap">
+            <div class="value-icon-bg"></div>
+            <Icon name="lucide:award" />
+          </div>
+          <h4>Quality</h4>
+          <p>Excellence in everything—webinars, certifications, community support. No compromises.</p>
+        </article>
+
+        <article class="value-nano reveal" style="--delay: 0.12s">
+          <div class="value-icon-wrap">
+            <div class="value-icon-bg"></div>
+            <Icon name="lucide:handshake" />
+          </div>
+          <h4>Community</h4>
+          <p>Stronger together. Collaboration, support, and shared success power our mission.</p>
+        </article>
+
+        <article class="value-nano reveal" style="--delay: 0.18s">
+          <div class="value-icon-wrap">
+            <div class="value-icon-bg"></div>
+            <Icon name="lucide:trending-up" />
+          </div>
+          <h4>Growth</h4>
+          <p>Continuous learning drives us. We help members reach their full potential.</p>
+        </article>
+
+        <article class="value-nano reveal" style="--delay: 0.24s">
+          <div class="value-icon-wrap">
+            <div class="value-icon-bg"></div>
+            <Icon name="lucide:globe" />
+          </div>
+          <h4>Accessibility</h4>
+          <p>Knowledge for all, regardless of location or finances. Barriers stay low.</p>
+        </article>
+
+        <article class="value-nano reveal" style="--delay: 0.30s">
+          <div class="value-icon-wrap">
+            <div class="value-icon-bg"></div>
+            <Icon name="lucide:heart-handshake" />
+          </div>
+          <h4>Integrity</h4>
+          <p>Transparency, honesty, accountability in every interaction and decision.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compact CTA -->
+  <section class="about-cta-section">
+    <div class="container">
+      <div class="cta-nano reveal">
+        <div class="cta-glow-ring"></div>
+        <div class="cta-icon-mega">
+          <div class="icon-orbit"></div>
+          <Icon name="lucide:rocket" />
+        </div>
+        <h3>Join the Movement</h3>
+        <p>{globalStats.members.display} developers building the web's future. Your turn.</p>
+        <div class="cta-actions">
+          <a href="/membership/join" class="cta-btn cta-primary">
+            <Icon name="lucide:user-plus" />
+            <span>Become a Member</span>
+            <div class="btn-glow"></div>
+          </a>
+          <a href="/about/leadership" class="cta-btn cta-secondary">
+            <Icon name="lucide:users" />
+            <span>Meet the Team</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<script>
+  function animateCounter(element: HTMLElement, target: number, duration = 1800) {
+    const stepTime = 16;
+    const increment = target / (duration / stepTime);
+    let value = 0;
+
+    const timer = setInterval(() => {
+      value += increment;
+      if (value >= target) {
+        value = target;
+        clearInterval(timer);
+      }
+      element.textContent = Math.floor(value).toLocaleString();
+    }, stepTime);
+  }
+
+  function initCounters() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const pill = entry.target as HTMLElement;
+        if (pill.dataset.animated === 'true') return;
+
+        const counter = pill.querySelector('[data-counter]') as HTMLElement;
+        const target = Number(pill.dataset.target || 0);
+        
+        if (counter) {
+          animateCounter(counter, target);
+          pill.dataset.animated = 'true';
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.stat-pill[data-target]').forEach((item) => observer.observe(item));
+  }
+
+  function initReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach((item) => observer.observe(item));
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initCounters();
+    initReveal();
+  });
+</script>
+
+<style>
+  /* ===== COMPACT STATS PILLS ===== */
+  .stats-pills-container {
+    margin: 2rem auto 0;
+    display: flex;
+    gap: 0.7rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 900px;
+  }
+
+  .stat-pill {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.7rem 1rem;
+    background: rgba(var(--surface-875-rgb), 0.5);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.15);
+    border-radius: 100px;
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    animation: pillReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: var(--delay, 0s);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes pillReveal {
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .stat-pill:hover {
+    border-color: rgba(var(--cyan-400-rgb), 0.4);
+    background: rgba(var(--surface-875-rgb), 0.7);
+    transform: translateY(-3px);
+  }
+
+  .pill-glow {
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--accent), var(--cyan-400));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .stat-pill:hover .pill-glow {
+    opacity: 0.5;
+  }
+
+  .pill-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: rgba(var(--accent-rgb), 0.12);
+    color: var(--accent);
+    flex-shrink: 0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .pill-icon :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .stat-pill:hover .pill-icon {
+    background: rgba(var(--accent-rgb), 0.2);
+    transform: rotate(-8deg) scale(1.1);
+  }
+
+  .pill-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .pill-value {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .pill-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+
+  /* ===== MISSION SECTION - NANO ===== */
+  .mission-section {
+    padding: 3.5rem 0;
+  }
+
+  .mission-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .mission-nano {
+    position: relative;
+    background: rgba(var(--surface-875-rgb), 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.1);
+    border-radius: 12px;
+    padding: 0.9rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mission-nano::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, transparent, rgba(var(--cyan-400-rgb), 0.2), transparent);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .mission-nano:hover::before {
+    opacity: 1;
+  }
+
+  .mission-nano:hover {
+    border-color: rgba(var(--cyan-400-rgb), 0.3);
+    background: rgba(var(--surface-875-rgb), 0.6);
+    transform: translateY(-4px);
+  }
+
+  .nano-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .nano-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(var(--accent-rgb), 0.12);
+    color: var(--accent);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .nano-icon :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .mission-nano:hover .nano-icon {
+    background: rgba(var(--accent-rgb), 0.2);
+    transform: rotate(-8deg) scale(1.1);
+  }
+
+  .nano-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  .mission-nano p {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  /* ===== TIMELINE - NANO ===== */
+  .timeline-section {
+    padding: 3.5rem 0;
+    background: linear-gradient(180deg, transparent, rgba(var(--surface-900-rgb), 0.4), transparent);
+  }
+
+  .section-header-nano {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .nano-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 100px;
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.2);
+    background: rgba(var(--surface-875-rgb), 0.5);
+    backdrop-filter: blur(8px);
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .nano-badge :global(svg) {
+    width: 12px;
+    height: 12px;
+  }
+
+  .section-header-nano h2 {
+    margin: 0;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-family: var(--font-display);
+    color: var(--text);
+    letter-spacing: -0.03em;
+  }
+
+  .timeline-nano {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1.5rem 0;
+  }
+
+  .timeline-track {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgba(var(--cyan-400-rgb), 0.3) 20%,
+      rgba(var(--cyan-400-rgb), 0.3) 80%,
+      transparent
+    );
+    transform: translateX(-50%);
+  }
+
+  .timeline-node {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .timeline-node:nth-child(even) .node-content {
+    margin-right: auto;
+    margin-left: 2.5rem;
+  }
+
+  .timeline-node:nth-child(odd) .node-content {
+    margin-left: auto;
+    margin-right: 2.5rem;
+  }
+
+  .node-pulse {
+    position: absolute;
+    left: 50%;
+    top: 1rem;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.2);
+    z-index: 2;
+    animation: nodePulse 3s ease-in-out infinite;
+    animation-delay: calc(var(--index, 0) * 0.3s);
+  }
+
+  @keyframes nodePulse {
+    0%, 100% {
+      box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.2);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(var(--accent-rgb), 0.4);
+    }
+  }
+
+  .node-content {
+    width: calc(50% - 2rem);
+    padding: 0.8rem;
+    background: rgba(var(--surface-875-rgb), 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.1);
+    border-radius: 10px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .node-content:hover {
+    border-color: rgba(var(--cyan-400-rgb), 0.3);
+    background: rgba(var(--surface-875-rgb), 0.7);
+    transform: scale(1.02);
+  }
+
+  .node-year {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.75rem;
+    margin-bottom: 0.2rem;
+    font-family: var(--font-mono);
+  }
+
+  .node-title {
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .node-desc {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  /* ===== VALUES - NANO GRID ===== */
+  .values-section {
+    padding: 3.5rem 0;
+  }
+
+  .values-nano-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .value-nano {
+    position: relative;
+    padding: 0.9rem;
+    background: rgba(var(--surface-875-rgb), 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.1);
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .value-nano:hover {
+    border-color: rgba(var(--cyan-400-rgb), 0.3);
+    background: rgba(var(--surface-875-rgb), 0.6);
+    transform: translateY(-4px);
+  }
+
+  .value-icon-wrap {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.6rem;
+    color: var(--accent);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .value-icon-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background: rgba(var(--accent-rgb), 0.12);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .value-nano:hover .value-icon-bg {
+    background: rgba(var(--accent-rgb), 0.2);
+    transform: rotate(-8deg);
+  }
+
+  .value-icon-wrap :global(svg) {
+    width: 18px;
+    height: 18px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .value-nano:hover .value-icon-wrap :global(svg) {
+    transform: scale(1.15);
+  }
+
+  .value-nano h4 {
+    margin: 0 0 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  .value-nano p {
+    margin: 0;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  /* ===== COMPACT CTA ===== */
+  .about-cta-section {
+    padding: 3.5rem 0;
+  }
+
+  .cta-nano {
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: rgba(var(--surface-875-rgb), 0.5);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.2);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .cta-glow-ring {
+    position: absolute;
+    inset: -100px;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(var(--accent-rgb), 0.15) 0%,
+      transparent 60%
+    );
+    opacity: 0.6;
+    animation: ctaGlow 8s ease-in-out infinite;
+  }
+
+  @keyframes ctaGlow {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+  }
+
+  .cta-icon-mega {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+
+  .icon-orbit {
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 2px solid rgba(var(--accent-rgb), 0.2);
+    animation: iconOrbit 8s linear infinite;
+  }
+
+  @keyframes iconOrbit {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .cta-icon-mega :global(svg) {
+    width: 32px;
+    height: 32px;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 0 20px rgba(var(--accent-rgb), 0.4));
+  }
+
+  .cta-nano h3 {
+    margin: 0 0 0.6rem;
+    font-size: 1.6rem;
+    font-family: var(--font-display);
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .cta-nano p {
+    margin: 0 0 1.5rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .cta-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .cta-primary {
+    background: var(--gradient);
+    color: var(--white);
+    box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.3);
+  }
+
+  .cta-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(var(--accent-rgb), 0.4);
+  }
+
+  .btn-glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .cta-primary:hover .btn-glow {
+    opacity: 1;
+  }
+
+  .cta-secondary {
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.3);
+    background: rgba(var(--surface-875-rgb), 0.5);
+    backdrop-filter: blur(8px);
+    color: var(--text);
+  }
+
+  .cta-secondary:hover {
+    transform: translateY(-3px);
+    border-color: rgba(var(--cyan-400-rgb), 0.5);
+    background: rgba(var(--surface-875-rgb), 0.7);
+  }
+
+  .cta-btn :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* ===== REVEAL ANIMATION ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease var(--delay, 0s), transform 0.6s ease var(--delay, 0s);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 980px) {
+    .mission-grid,
+    .values-nano-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .stats-pills-container {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .stats-pills-container {
+      gap: 0.5rem;
+    }
+
+    .stat-pill {
+      padding: 0.6rem 0.8rem;
+    }
+
+    .pill-value {
+      font-size: 1rem;
+    }
+
+    .pill-label {
+      font-size: 0.65rem;
+    }
+
+    .timeline-track {
+      left: 1.5rem;
+    }
+
+    .timeline-node:nth-child(even) .node-content,
+    .timeline-node:nth-child(odd) .node-content {
+      margin-left: 3rem;
+      margin-right: 0;
+      width: calc(100% - 3rem);
+    }
+
+    .node-pulse {
+      left: 1.5rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .mission-grid,
+    .values-nano-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stats-pills-container {
+      justify-content: flex-start;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 0 0.5rem;
+    }
+
+    .stats-pills-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .stat-pill {
+      flex-shrink: 0;
+    }
+
+    .cta-nano {
+      padding: 1.5rem 1rem;
+    }
+
+    .cta-nano h3 {
+      font-size: 1.3rem;
+    }
+
+    .cta-actions {
+      flex-direction: column;
+    }
+
+    .cta-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

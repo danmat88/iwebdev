@@ -1,0 +1,842 @@
+﻿---
+/**
+ * LiveWorldMapPanel
+ * Extracted map state from WorldMapCarousel for reuse.
+ */
+import { Icon } from 'astro-icon/components';
+import { heroConfig } from '../../../content/pages/home/hero.config';
+
+const { mapHotspots } = heroConfig;
+---
+
+<div class="map-state visible" data-live-world-map>
+    <!-- Transition glow effect -->
+    <div class="transition-glow"></div>
+    
+    <!-- Edge flares during transition -->
+    <div class="edge-flares">
+      <div class="edge-flare top"></div>
+      <div class="edge-flare right"></div>
+      <div class="edge-flare bottom"></div>
+      <div class="edge-flare left"></div>
+    </div>
+    
+    <div class="map-shrink-wrapper">
+      <!-- Atmospheric effects -->
+      <div class="map-atmosphere"></div>
+      <div class="map-grid-overlay"></div>
+      <div class="map-vignette"></div>
+
+      <!-- Live stats panel -->
+      <div class="map-stats-panel">
+        <div class="stat-item">
+          <span class="stat-icon"><Icon name="lucide:users" /></span>
+          <span class="stat-value online-count">367</span>
+          <span class="stat-label">online now</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon"><Icon name="lucide:globe" /></span>
+          <span class="stat-value">80+</span>
+          <span class="stat-label">countries</span>
+        </div>
+        <div class="stat-item pulse">
+          <span class="stat-icon"><Icon name="lucide:activity" /></span>
+          <span class="stat-value activity-count">24</span>
+          <span class="stat-label">active sessions</span>
+        </div>
+      </div>
+
+      <!-- Scan line -->
+      <div class="entrance-scan-line"></div>
+
+      <!-- SVG Map -->
+      <svg class="world-map" viewBox="0 0 1016.371 514.609" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--accent)" stop-opacity="0" />
+            <stop offset="50%" stop-color="var(--accent)" stop-opacity="0.9" />
+            <stop offset="100%" stop-color="var(--accent-2)" stop-opacity="0" />
+          </linearGradient>
+          <linearGradient id="arcGradAlt" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--accent-2)" stop-opacity="0" />
+            <stop offset="50%" stop-color="var(--accent-2)" stop-opacity="0.7" />
+            <stop offset="100%" stop-color="var(--accent)" stop-opacity="0" />
+          </linearGradient>
+          <radialGradient id="spotGrad">
+            <stop offset="0%" stop-color="var(--cyan-400)" stop-opacity="0.15" />
+            <stop offset="100%" stop-color="transparent" />
+          </radialGradient>
+          <radialGradient id="hotspotGlow">
+            <stop offset="0%" stop-color="var(--accent)" />
+            <stop offset="50%" stop-color="var(--accent)" stop-opacity="0.3" />
+            <stop offset="100%" stop-color="transparent" />
+          </radialGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <g class="map-paths"></g>
+        <g class="map-arcs-g arcs-layer"></g>
+        <g class="map-data-flow data-flow-layer"></g>
+        <circle r="80" fill="url(#spotGrad)" opacity="0" class="map-spotlight spotlight-circle" />
+      </svg>
+
+      <!-- Hotspots overlay -->
+      <div class="map-hotspots">
+        {mapHotspots.map((hotspot, i) => (
+          <div 
+            class="hotspot" 
+            data-city={hotspot.city} 
+            data-info={hotspot.info} 
+            style={`left:${hotspot.left};top:${hotspot.top};--delay:${i * 0.1}s`}
+          >
+            <span class="hotspot-ring"></span>
+            <span class="hotspot-ring ring-2"></span>
+            <span class="hotspot-core"></span>
+          </div>
+        ))}
+      </div>
+
+      <!-- Pings (pointer-events: none) -->
+      <div class="map-pings"></div>
+
+      <!-- Tooltip -->
+      <div class="map-tooltip">
+        <div class="tooltip-header">
+          <span class="tooltip-icon"><Icon name="lucide:map-pin" /></span>
+          <span class="tooltip-city"></span>
+        </div>
+        <div class="tooltip-body">
+          <span class="tooltip-info"></span>
+          <span class="tooltip-status">
+            <span class="status-dot"></span>
+            <span>Live</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  import { initLiveWorldMapPanels } from './liveWorldMapRuntime';
+
+  const bootLiveWorldMaps = () => {
+    initLiveWorldMapPanels();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootLiveWorldMaps, { once: true });
+  } else {
+    bootLiveWorldMaps();
+  }
+
+  document.addEventListener('astro:page-load', bootLiveWorldMaps);
+</script>
+
+<style>
+  /* ===== MAP STATE ===== */
+.map-state {
+    position: absolute;
+    inset: 0;
+    display: none;
+    opacity: 0;
+    cursor: crosshair;
+  }
+
+  .map-state.visible {
+    display: block;
+    opacity: 1;
+  }
+
+  .map-state.entering {
+    animation: stateEnter 0.8s ease-out forwards;
+  }
+
+  .map-state.exiting {
+    animation: stateExit 0.8s ease-in forwards;
+  }
+
+  /* Transition glow effect - bright flash */
+  .transition-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, 
+      rgba(var(--white-rgb), 1) 0%, 
+      rgba(var(--cyan-400-rgb), 0.9) 30%, 
+      rgba(var(--cyan-400-rgb), 0.4) 60%, 
+      transparent 80%
+    );
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .map-state.exiting .transition-glow {
+    animation: flashBurst 0.9s ease-out forwards;
+  }
+
+  .map-state.entering .transition-glow {
+    animation: flashFadeIn 0.9s ease-out forwards;
+  }
+
+  @keyframes flashBurst {
+    0% { 
+      transform: translate(-50%, -50%) scale(0.2);
+      opacity: 0;
+    }
+    30% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    60% {
+      transform: translate(-50%, -50%) scale(3);
+      opacity: 0.8;
+    }
+    100% { 
+      transform: translate(-50%, -50%) scale(8);
+      opacity: 0;
+    }
+  }
+
+  @keyframes flashFadeIn {
+    0% { 
+      transform: translate(-50%, -50%) scale(8);
+      opacity: 0;
+    }
+    40% {
+      transform: translate(-50%, -50%) scale(3);
+      opacity: 0.6;
+    }
+    70% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.8;
+    }
+    100% { 
+      transform: translate(-50%, -50%) scale(0.2);
+      opacity: 0;
+    }
+  }
+
+  /* Edge flares during map transition */
+  .edge-flares {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 90;
+    overflow: hidden;
+  }
+
+  .edge-flare {
+    position: absolute;
+    background: linear-gradient(90deg, 
+      transparent, 
+      rgba(var(--cyan-400-rgb), 0.8), 
+      rgba(var(--white-rgb), 0.9), 
+      rgba(var(--cyan-400-rgb), 0.8), 
+      transparent
+    );
+    opacity: 0;
+  }
+
+  .edge-flare.top, .edge-flare.bottom {
+    left: 0;
+    right: 0;
+    height: 4px;
+  }
+
+  .edge-flare.left, .edge-flare.right {
+    top: 0;
+    bottom: 0;
+    width: 4px;
+  }
+
+  .edge-flare.top { top: 0; }
+  .edge-flare.bottom { bottom: 0; }
+  .edge-flare.left { left: 0; background: linear-gradient(180deg, transparent, rgba(var(--cyan-400-rgb), 0.8), rgba(var(--white-rgb), 0.9), rgba(var(--cyan-400-rgb), 0.8), transparent); }
+  .edge-flare.right { right: 0; background: linear-gradient(180deg, transparent, rgba(var(--cyan-400-rgb), 0.8), rgba(var(--white-rgb), 0.9), rgba(var(--cyan-400-rgb), 0.8), transparent); }
+
+  .map-state.exiting .edge-flare {
+    animation: edgeFlareIn 0.5s ease-out forwards;
+  }
+
+  .map-state.exiting .edge-flare.top { animation-delay: 0s; }
+  .map-state.exiting .edge-flare.right { animation-delay: 0.05s; }
+  .map-state.exiting .edge-flare.bottom { animation-delay: 0.1s; }
+  .map-state.exiting .edge-flare.left { animation-delay: 0.15s; }
+
+  @keyframes edgeFlareIn {
+    0% {
+      opacity: 0;
+      filter: blur(2px);
+    }
+    30% {
+      opacity: 1;
+      filter: blur(0);
+    }
+    100% {
+      opacity: 0;
+      filter: blur(4px);
+    }
+  }
+
+  @keyframes stateEnter {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes stateExit {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  /* ===== MAP SHRINK WRAPPER ===== */
+  .map-shrink-wrapper {
+    position: absolute;
+    inset: 0;
+    transform-origin: center center;
+  }
+
+  /* Iris/aperture closing effect */
+  .map-shrink-wrapper.shrinking {
+    animation: irisClose 0.9s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+  }
+
+  .map-shrink-wrapper.expanding {
+    animation: irisOpen 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes irisClose {
+    0% {
+      clip-path: circle(100% at 50% 50%);
+      opacity: 1;
+      transform: scale(1);
+    }
+    40% {
+      clip-path: circle(60% at 50% 50%);
+      opacity: 1;
+      transform: scale(0.98);
+    }
+    70% {
+      clip-path: circle(25% at 50% 50%);
+      opacity: 0.8;
+      transform: scale(0.95);
+    }
+    100% {
+      clip-path: circle(0% at 50% 50%);
+      opacity: 0;
+      transform: scale(0.9);
+    }
+  }
+
+  @keyframes irisOpen {
+    0% {
+      clip-path: circle(0% at 50% 50%);
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    30% {
+      clip-path: circle(25% at 50% 50%);
+      opacity: 0.8;
+      transform: scale(0.95);
+    }
+    60% {
+      clip-path: circle(60% at 50% 50%);
+      opacity: 1;
+      transform: scale(0.98);
+    }
+    100% {
+      clip-path: circle(100% at 50% 50%);
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Scan line during map exit */
+  .map-state.exiting .entrance-scan-line {
+    animation: scanSweep 0.7s ease-in-out forwards;
+  }
+
+  @keyframes scanSweep {
+    0% { 
+      top: 0;
+      opacity: 0;
+      height: 4px;
+    }
+    15% {
+      opacity: 1;
+      height: 8px;
+    }
+    85% {
+      opacity: 1;
+      height: 8px;
+    }
+    100% { 
+      top: 100%;
+      opacity: 0;
+      height: 4px;
+    }
+  }
+
+  /* Map atmosphere */
+  .map-atmosphere {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(var(--cyan-400-rgb), 0.03), transparent 70%);
+    pointer-events: none;
+  }
+
+  .map-grid-overlay {
+    position: absolute;
+    inset: 0;
+    background: 
+      linear-gradient(90deg, rgba(var(--cyan-400-rgb), 0.02) 1px, transparent 1px),
+      linear-gradient(rgba(var(--cyan-400-rgb), 0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .map-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(var(--black-rgb), 0.4) 100%);
+    pointer-events: none;
+  }
+
+  /* Stats panel */
+  .map-stats-panel {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    gap: 16px;
+    padding: 8px 14px;
+    background: rgba(var(--surface-780-rgb), 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 8px;
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.15);
+    z-index: 20;
+  }
+
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+  }
+
+  .stat-icon {
+    color: var(--accent);
+    display: flex;
+  }
+
+  .stat-icon :global(svg) {
+    width: 12px;
+    height: 12px;
+  }
+
+  .stat-value {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .stat-label {
+    color: var(--text-muted);
+  }
+
+  .stat-item.pulse .stat-value {
+    animation: statPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes statPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  /* World map SVG */
+  .world-map {
+    position: absolute;
+    inset: 20px;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    object-fit: contain;
+    z-index: 3;
+  }
+
+  /* Country paths - base style */
+  .world-map :global(.country-path) {
+    fill: rgba(var(--surface-700-rgb), 0.6) !important;
+    stroke: rgba(var(--white-rgb), 0.08) !important;
+    stroke-width: 0.4;
+    cursor: pointer;
+    transition: fill 0.3s ease, stroke 0.3s ease, filter 0.3s ease;
+    animation: pathFadeIn 0.5s ease both;
+  }
+
+  @keyframes pathFadeIn {
+    from { fill: transparent !important; stroke-opacity: 0; }
+    to { fill: rgba(var(--surface-700-rgb), 0.6) !important; stroke-opacity: 1; }
+  }
+
+  /* Country hover effect */
+  .world-map :global(.country-path:hover),
+  .world-map :global(.country-path.hovered) {
+    fill: rgba(var(--cyan-400-rgb), 0.25) !important;
+    stroke: rgba(var(--cyan-400-rgb), 0.6) !important;
+    stroke-width: 0.8;
+    filter: drop-shadow(0 0 8px rgba(var(--cyan-400-rgb), 0.5));
+  }
+
+  .world-map :global(.arc-path) {
+    stroke-dasharray: 8 4;
+    animation: arcFlow 2s linear infinite;
+  }
+
+  @keyframes arcFlow {
+    to { stroke-dashoffset: -24; }
+  }
+
+  /* Connection arcs on hover */
+  .world-map :global(.connection-arc) {
+    transition: stroke-dashoffset 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    filter: drop-shadow(0 0 4px var(--accent));
+  }
+
+  .world-map :global(.data-particle) {
+    fill: var(--accent);
+    filter: drop-shadow(0 0 8px var(--accent)) drop-shadow(0 0 16px var(--accent));
+  }
+
+  /* Animated arc glow */
+  .arcs-layer {
+    opacity: 0.9;
+  }
+
+  .data-flow-layer {
+    opacity: 1;
+  }
+
+  /* Hotspots */
+  .map-hotspots {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    pointer-events: none;
+    z-index: 15;
+  }
+
+  .hotspot {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    margin-left: -12px;
+    margin-top: -12px;
+    pointer-events: auto;
+    cursor: pointer;
+    z-index: 10;
+    animation: hotspotIn 0.6s ease backwards;
+    animation-delay: var(--delay);
+  }
+
+  @keyframes hotspotIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .hotspot-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    transform: translate(-50%, -50%);
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 
+      0 0 8px var(--accent), 
+      0 0 16px rgba(var(--cyan-400-rgb), 0.6),
+      0 0 24px rgba(var(--cyan-400-rgb), 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .hotspot-ring {
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: ringPulse 2.5s ease-in-out infinite;
+  }
+
+  .hotspot-ring.ring-2 {
+    inset: -4px;
+    border-width: 1px;
+    opacity: 0.3;
+    animation-delay: -1.25s;
+  }
+
+  @keyframes ringPulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.8); opacity: 0; }
+  }
+
+  .hotspot:hover .hotspot-core,
+  .hotspot.active .hotspot-core {
+    background: var(--white);
+    width: 10px;
+    height: 10px;
+    box-shadow: 
+      0 0 12px var(--accent), 
+      0 0 24px var(--accent), 
+      0 0 36px rgba(var(--cyan-400-rgb), 0.6);
+  }
+
+  .hotspot:hover .hotspot-ring,
+  .hotspot.active .hotspot-ring {
+    animation: none;
+    border-color: var(--white);
+    opacity: 0.8;
+    transform: scale(1.5);
+  }
+
+  .hotspot.connected .hotspot-core {
+    background: rgba(var(--indigo-400-rgb), 1);
+    box-shadow: 
+      0 0 8px rgba(var(--indigo-400-rgb), 0.8), 
+      0 0 16px rgba(var(--indigo-400-rgb), 0.5);
+  }
+
+  .hotspot.connected .hotspot-ring {
+    border-color: rgba(var(--indigo-400-rgb), 0.6);
+    animation: connectedPulse 1s ease-in-out infinite;
+  }
+
+  @keyframes connectedPulse {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.3); opacity: 0.3; }
+  }
+
+  /* Pings */
+  .map-pings {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+  }
+
+  .map-ping {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    transform: translate(-50%, -50%);
+  }
+
+  .map-ping::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pingDot 2.5s ease-out forwards;
+  }
+
+  .map-ping::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    animation: pingRipple 2.5s ease-out forwards;
+  }
+
+  @keyframes pingDot {
+    0% { transform: scale(0); opacity: 1; }
+    20% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.3); opacity: 0; }
+  }
+
+  @keyframes pingRipple {
+    0% { transform: scale(0.5); opacity: 0; }
+    20% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(5); opacity: 0; }
+  }
+
+  /* Tooltip */
+  .map-tooltip {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 12px;
+    background: rgba(var(--surface-780-rgb), 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.3);
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 30;
+    opacity: 0;
+    transform: translateY(4px) scale(0.95);
+    transition: all 0.2s ease;
+    min-width: 120px;
+  }
+
+  .map-tooltip.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .tooltip-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .tooltip-icon {
+    color: var(--accent);
+  }
+
+  .tooltip-icon :global(svg) {
+    width: 12px;
+    height: 12px;
+  }
+
+  .tooltip-city {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .tooltip-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .tooltip-info {
+    font-size: 10px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .tooltip-status {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+    color: var(--green-500-light);
+  }
+
+  .tooltip-status .status-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--green-500-light);
+    border-radius: 50%;
+    animation: statusBlink 1.5s ease-in-out infinite;
+  }
+
+  @keyframes statusBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .entrance-scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(var(--cyan-400-rgb), 0.5) 15%, 
+      rgba(var(--white-rgb), 0.95) 48%,
+      rgba(var(--white-rgb), 0.95) 52%,
+      rgba(var(--cyan-400-rgb), 0.5) 85%, 
+      transparent 100%
+    );
+    opacity: 0;
+    pointer-events: none;
+    z-index: 200;
+    box-shadow: 
+      0 0 20px rgba(var(--cyan-400-rgb), 0.8),
+      0 0 40px rgba(var(--cyan-400-rgb), 0.4);
+  }
+
+  /* Scan line during map entrance */
+  .map-state.entering .entrance-scan-line {
+    animation: scanReveal 0.8s ease-out forwards;
+    animation-delay: 0.1s;
+  }
+
+  @keyframes scanReveal {
+    0% { 
+      top: -4px;
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% { 
+      top: 100%;
+      opacity: 0;
+    }
+  }
+
+  :global([data-theme="daylight"]) .map-stats-panel {
+    background: rgba(var(--white-rgb), 0.9);
+    border-color: rgba(var(--info-rgb), 0.2);
+  }
+
+  :global([data-theme="daylight"]) .world-map :global(.country-path) {
+    fill: rgba(var(--zinc-300-rgb), 0.5);
+    stroke: rgba(var(--black-rgb), 0.1);
+  }
+
+  :global([data-theme="daylight"]) .world-map :global(.country-path:hover),
+  :global([data-theme="daylight"]) .world-map :global(.country-path.hovered) {
+    fill: rgba(var(--info-rgb), 0.3);
+    stroke: rgba(var(--info-rgb), 0.6);
+  }
+
+  :global([data-theme="daylight"]) .map-tooltip {
+    background: rgba(var(--white-rgb), 0.95);
+    border-color: rgba(var(--info-rgb), 0.3);
+  }
+
+  :global([data-theme="daylight"]) .map-grid-overlay {
+    background: 
+      linear-gradient(90deg, rgba(var(--info-rgb), 0.03) 1px, transparent 1px),
+      linear-gradient(rgba(var(--info-rgb), 0.03) 1px, transparent 1px);
+  }
+
+  @media (max-width: 768px) {
+    .map-stats-panel {
+      gap: 8px;
+      padding: 6px 8px;
+    }
+
+    .stat-label {
+      display: none;
+    }
+
+    .map-tooltip {
+      display: none;
+    }
+  }
+</style>

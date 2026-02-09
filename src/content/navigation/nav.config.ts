@@ -1,0 +1,193 @@
+/**
+ * NAVIGATION CONFIGURATION
+ * =========================
+ * Main navigation menu configuration
+ *
+ * This file defines the structure of the main navigation menu including:
+ * - Top-level navigation items
+ * - Dropdown submenus
+ * - Icons and featured items
+ * - Theme configuration
+ */
+
+// ============================================
+// TYPE DEFINITIONS
+// ============================================
+
+export interface SubMenuItem {
+  label: string;
+  href: string;
+  desc: string;
+  icon: string;
+  highlight?: boolean;
+}
+
+export interface NavItem {
+  label: string;
+  href: string;
+  icon: string;
+  featured?: boolean;
+  submenu?: SubMenuItem[];
+}
+
+export interface Theme {
+  id: string;
+  name: string;
+  color: string;
+  icon: string;
+}
+
+// ============================================
+// NAVIGATION ITEMS
+// ============================================
+
+export const navItems: NavItem[] = [
+  {
+    label: 'Home',
+    href: '/',
+    icon: 'lucide:home'
+  },
+  {
+    label: 'About',
+    href: '/about',
+    icon: 'lucide:lightbulb',
+    submenu: [
+      {
+        label: 'About IAWD',
+        href: '/about',
+        desc: 'Our mission and story',
+        icon: 'lucide:book-open'
+      },
+      {
+        label: 'Leadership',
+        href: '/about/leadership',
+        desc: 'Meet our team',
+        icon: 'lucide:users'
+      },
+      {
+        label: 'FAQ',
+        href: '/support/faq',
+        desc: 'Common questions',
+        icon: 'lucide:help-circle'
+      },
+      {
+        label: 'Contact Us',
+        href: '/support/contact',
+        desc: 'Get in touch',
+        icon: 'lucide:mail'
+      },
+    ]
+  },
+  {
+    label: 'Membership',
+    href: '/membership',
+    icon: 'lucide:star',
+    featured: true,
+    submenu: [
+      {
+        label: 'Why Join?',
+        href: '/membership',
+        desc: 'Discover the benefits',
+        icon: 'lucide:target'
+      },
+      {
+        label: 'Benefits',
+        href: '/membership/benefits',
+        desc: 'What you get',
+        icon: 'lucide:gift'
+      },
+      {
+        label: 'Community',
+        href: '/membership/community',
+        desc: 'Connect with peers',
+        icon: 'lucide:handshake'
+      },
+      {
+        label: 'Join or Renew',
+        href: '/membership/join',
+        desc: 'Become a member',
+        icon: 'lucide:rocket',
+        highlight: true
+      },
+    ]
+  },
+  {
+    label: 'Training',
+    href: '/training',
+    icon: 'lucide:book-marked',
+    submenu: [
+      {
+        label: 'Webinars',
+        href: '/training/webinars',
+        desc: 'Online sessions',
+        icon: 'lucide:video'
+      },
+      {
+        label: 'Live Events',
+        href: '/training/events',
+        desc: 'In-person meetups',
+        icon: 'lucide:calendar-days'
+      },
+      {
+        label: 'Certifications',
+        href: '/training/certifications',
+        desc: 'Get certified',
+        icon: 'lucide:trophy'
+      },
+    ]
+  },
+];
+
+// ============================================
+// THEME CONFIGURATION
+// ============================================
+
+export const themes: Theme[] = [
+  {
+    id: 'iawd',
+    name: 'IAWD',
+    color: '#00b2a7',
+    icon: 'lucide:sparkles'
+  },
+];
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+/**
+ * Get navigation item by href
+ */
+export function getNavItemByHref(href: string): NavItem | undefined {
+  return navItems.find(item => item.href === href);
+}
+
+/**
+ * Get all navigation items with submenus
+ */
+export function getNavItemsWithSubmenus(): NavItem[] {
+  return navItems.filter(item => item.submenu && item.submenu.length > 0);
+}
+
+/**
+ * Get featured navigation items
+ */
+export function getFeaturedNavItems(): NavItem[] {
+  return navItems.filter(item => item.featured);
+}
+
+/**
+ * Get all submenu items (flattened)
+ */
+export function getAllSubmenuItems(): SubMenuItem[] {
+  return navItems
+    .filter(item => item.submenu)
+    .flatMap(item => item.submenu || []);
+}
+
+/**
+ * Get highlighted submenu items
+ */
+export function getHighlightedSubmenuItems(): SubMenuItem[] {
+  return getAllSubmenuItems().filter(item => item.highlight);
+}

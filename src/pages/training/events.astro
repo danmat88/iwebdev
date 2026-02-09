@@ -1,0 +1,464 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/common/PageHero.astro';
+import { Icon } from 'astro-icon/components';
+import EventsCalendar from '../../components/training/EventsCalendar.astro';
+---
+
+<PageLayout
+  title="Live Events | IAWD Training"
+  description="Join us for workshops, hackathons, and our annual summit. Connect with developers in person and level up your skills."
+>
+  <PageHero
+    badge="Live Events"
+    badgeIcon="lucide:calendar-days"
+    title="Meet, learn, and grow"
+    highlight="together in person"
+    subtitle="Join us for workshops, hackathons, and our flagship annual summit. Network with developers and learn from industry leaders."
+  />
+
+  <!-- Events Component -->
+  <EventsCalendar />
+
+  <!-- Event Types - Compact Grid -->
+  <section class="event-types-nano">
+    <div class="container">
+      <h2 class="section-title-nano">Types of Events</h2>
+      <div class="types-nano-grid">
+        <article class="type-nano-card reveal">
+          <div class="type-glow"></div>
+          <div class="type-icon-wrap">
+            <Icon name="lucide:presentation" />
+          </div>
+          <h3>Workshops</h3>
+          <p>Hands-on, in-person sessions. Build real projects. Limited to 30 participants for personalized attention.</p>
+        </article>
+
+        <article class="type-nano-card reveal" style="--delay: 0.05s">
+          <div class="type-glow"></div>
+          <div class="type-icon-wrap">
+            <Icon name="lucide:code" />
+          </div>
+          <h3>Hackathons</h3>
+          <p>48-hour coding challenges with prizes, mentors, and networking. Build innovative projects and collaborate.</p>
+        </article>
+
+        <article class="type-nano-card reveal" style="--delay: 0.1s">
+          <div class="type-glow"></div>
+          <div class="type-icon-wrap">
+            <Icon name="lucide:calendar-check" />
+          </div>
+          <h3>Annual Summit</h3>
+          <p>Our flagship 3-day conference featuring keynotes, workshops, and networking with 500+ developers worldwide.</p>
+        </article>
+
+        <article class="type-nano-card reveal" style="--delay: 0.15s">
+          <div class="type-glow"></div>
+          <div class="type-icon-wrap">
+            <Icon name="lucide:coffee" />
+          </div>
+          <h3>Local Meetups</h3>
+          <p>Casual monthly meetups in 45+ cities. Grab coffee, share knowledge, and connect with local developers.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Next Summit - Compact Hero -->
+  <section class="next-summit-nano">
+    <div class="container">
+      <div class="summit-card-nano reveal">
+        <div class="summit-orb"></div>
+        <div class="summit-badge-nano">Coming Soon</div>
+        <h2>2026 Global Dev Summit</h2>
+        <p class="summit-date-nano">June 15-17, 2026 • San Francisco, CA</p>
+        <p class="summit-desc-nano">
+          Three days of learning, networking, and celebrating web development. 
+          Featuring 50+ speakers from Google, Meta, Netflix, and more.
+        </p>
+
+        <div class="summit-highlights-nano">
+          <div class="highlight-nano">
+            <Icon name="lucide:users" />
+            <span>500+ Attendees</span>
+          </div>
+          <div class="highlight-nano">
+            <Icon name="lucide:mic" />
+            <span>50+ Speakers</span>
+          </div>
+          <div class="highlight-nano">
+            <Icon name="lucide:calendar-days" />
+            <span>3 Days</span>
+          </div>
+          <div class="highlight-nano">
+            <Icon name="lucide:globe" />
+            <span>40+ Countries</span>
+          </div>
+        </div>
+
+        <div class="summit-cta-nano">
+          <a href="#notify" class="btn-nano btn-primary">
+            <Icon name="lucide:bell" />
+            <span>Notify Me When Registration Opens</span>
+            <div class="btn-shine"></div>
+          </a>
+          <a href="#learn-more" class="btn-nano btn-secondary">
+            <Icon name="lucide:info" />
+            <span>Learn More</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<script>
+  function initReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach((item) => observer.observe(item));
+  }
+
+  document.addEventListener('DOMContentLoaded', initReveal);
+</script>
+
+<style>
+  /* ===== EVENT TYPES - NANO ===== */
+  .event-types-nano {
+    padding: 3rem 0;
+    background: linear-gradient(180deg, transparent, rgba(var(--surface-900-rgb), 0.4), transparent);
+  }
+
+  .section-title-nano {
+    text-align: center;
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-family: var(--font-display);
+    font-weight: 700;
+    margin-bottom: 1.8rem;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+
+  .types-nano-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .type-nano-card {
+    position: relative;
+    padding: 1.2rem;
+    background: rgba(var(--surface-875-rgb), 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.1);
+    border-radius: 12px;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .type-glow {
+    position: absolute;
+    inset: -60px;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(var(--accent-rgb), 0.15) 0%,
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .type-nano-card:hover .type-glow {
+    opacity: 1;
+  }
+
+  .type-nano-card:hover {
+    border-color: rgba(var(--cyan-400-rgb), 0.3);
+    background: rgba(var(--surface-875-rgb), 0.6);
+    transform: translateY(-5px);
+  }
+
+  .type-icon-wrap {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(var(--accent-rgb), 0.12);
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .type-icon-wrap :global(svg) {
+    width: 24px;
+    height: 24px;
+  }
+
+  .type-nano-card:hover .type-icon-wrap {
+    background: rgba(var(--accent-rgb), 0.2);
+    transform: scale(1.1) rotate(-8deg);
+  }
+
+  .type-nano-card h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  .type-nano-card p {
+    margin: 0;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  /* ===== NEXT SUMMIT - NANO ===== */
+  .next-summit-nano {
+    padding: 3rem 0;
+  }
+
+  .summit-card-nano {
+    position: relative;
+    max-width: 750px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 2rem 1.8rem;
+    background: rgba(var(--surface-875-rgb), 0.5);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.2);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .summit-orb {
+    position: absolute;
+    inset: -90px;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(var(--accent-rgb), 0.2) 0%,
+      transparent 60%
+    );
+    opacity: 0.9;
+    animation: summitOrbFloat 8s ease-in-out infinite;
+  }
+
+  @keyframes summitOrbFloat {
+    0%, 100% {
+      opacity: 0.9;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+  }
+
+  .summit-badge-nano {
+    position: relative;
+    display: inline-block;
+    padding: 0.35rem 0.8rem;
+    background: rgba(var(--accent-rgb), 0.15);
+    border: 1px solid rgba(var(--accent-rgb), 0.3);
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+    z-index: 1;
+  }
+
+  .summit-card-nano h2 {
+    position: relative;
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-family: var(--font-display);
+    color: var(--text);
+    letter-spacing: -0.03em;
+    z-index: 1;
+  }
+
+  .summit-date-nano {
+    position: relative;
+    margin: 0 0 0.8rem;
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 600;
+    z-index: 1;
+  }
+
+  .summit-desc-nano {
+    position: relative;
+    margin: 0 auto 1.5rem;
+    max-width: 580px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    z-index: 1;
+  }
+
+  .summit-highlights-nano {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    z-index: 1;
+  }
+
+  .highlight-nano {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.9rem;
+    background: rgba(var(--surface-875-rgb), 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.15);
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .highlight-nano:hover {
+    border-color: rgba(var(--cyan-400-rgb), 0.3);
+    background: rgba(var(--surface-875-rgb), 0.8);
+    transform: translateY(-2px);
+  }
+
+  .highlight-nano :global(svg) {
+    width: 16px;
+    height: 16px;
+    color: var(--accent);
+  }
+
+  .summit-cta-nano {
+    position: relative;
+    display: flex;
+    gap: 0.7rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    z-index: 1;
+  }
+
+  .btn-nano {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .btn-nano :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .btn-primary {
+    background: var(--gradient);
+    color: var(--white);
+    box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(var(--accent-rgb), 0.4);
+  }
+
+  .btn-shine {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent,
+      rgba(255, 255, 255, 0.25),
+      transparent
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .btn-primary:hover .btn-shine {
+    opacity: 1;
+  }
+
+  .btn-secondary {
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.3);
+    background: rgba(var(--surface-875-rgb), 0.5);
+    backdrop-filter: blur(8px);
+    color: var(--text);
+  }
+
+  .btn-secondary:hover {
+    transform: translateY(-3px);
+    border-color: rgba(var(--cyan-400-rgb), 0.5);
+    background: rgba(var(--surface-875-rgb), 0.7);
+  }
+
+  /* ===== REVEAL ANIMATION ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease var(--delay, 0s), transform 0.6s ease var(--delay, 0s);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 980px) {
+    .types-nano-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .types-nano-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .summit-card-nano {
+      padding: 1.5rem 1rem;
+    }
+
+    .summit-highlights-nano {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .highlight-nano {
+      justify-content: center;
+    }
+
+    .summit-cta-nano {
+      flex-direction: column;
+    }
+
+    .btn-nano {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

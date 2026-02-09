@@ -1,0 +1,315 @@
+---
+/**
+ * PricingComparison.astro
+ * Full-featured pricing comparison for membership pages
+ * Includes header, toggle, cards, value calculator, and trust indicators
+ */
+import { pricingConfig } from '../../content/pages/membership/pricing.config';
+import PricingHeader from './PricingHeader.astro';
+import PricingToggle from './PricingToggle.astro';
+import PricingCard from '../cards/PricingCard.astro';
+import ValueCalculator from './ValueCalculator.astro';
+import TrustIndicators from './TrustIndicators.astro';
+
+const { header, billingToggle, tiers, valueCalculator, trustIndicators } = pricingConfig;
+---
+
+<section class="pricing-section">
+  <!-- Atmosphere -->
+  <div class="pricing-atmosphere">
+    <div class="atmosphere-orb orb-1"></div>
+    <div class="atmosphere-orb orb-2"></div>
+    <canvas class="pricing-particles" id="pricing-particles"></canvas>
+    <div class="grid-overlay-pricing"></div>
+  </div>
+
+  <div class="pricing-container">
+    <!-- Header Component -->
+    <PricingHeader header={header} />
+
+    <!-- Toggle Component -->
+    <PricingToggle toggle={billingToggle} />
+
+    <!-- Cards Grid -->
+    <div class="pricing-grid">
+      {tiers.map((tier) => (
+        <PricingCard tier={tier} />
+      ))}
+    </div>
+
+    <!-- Value Calculator Component -->
+    <ValueCalculator calculator={valueCalculator} />
+
+    <!-- Trust Indicators Component -->
+    <TrustIndicators indicators={trustIndicators} />
+  </div>
+</section>
+
+<script define:vars={{ tiers }}>
+document.addEventListener('DOMContentLoaded', () => {
+  // ===== PARTICLE SYSTEM =====
+  const rootStyles = getComputedStyle(document.documentElement);
+  const cyan400Rgb = rootStyles.getPropertyValue('--cyan-400-rgb').trim() || '34, 211, 238';
+
+  const canvas = document.getElementById('pricing-particles');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resize() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      particles = [];
+      for (let i = 0; i < 30; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.2,
+          vy: (Math.random() - 0.5) * 0.2,
+          size: Math.random() * 1.5 + 0.5,
+          alpha: Math.random() * 0.3 + 0.1
+        });
+      }
+    }
+
+    function animate() {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${cyan400Rgb}, ${p.alpha})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(animate);
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+    animate();
+  }
+
+  // ===== FEATURED CARD BURST =====
+  tiers.forEach(tier => {
+    if (tier.featured) {
+      const burst = document.getElementById(`featured-burst-${tier.id}`);
+      if (burst) {
+        for (let i = 0; i < 12; i++) {
+          const particle = document.createElement('div');
+          particle.className = 'burst-particle';
+          particle.style.setProperty('--angle', `${i * 30}deg`);
+          particle.style.setProperty('--delay', `${i * 0.1}s`);
+          burst.appendChild(particle);
+        }
+      }
+    }
+  });
+
+  // ===== CTA PARTICLES =====
+  tiers.forEach(tier => {
+    if (tier.featured) {
+      const ctaParticles = document.getElementById(`cta-particles-${tier.id}`);
+      if (ctaParticles) {
+        for (let i = 0; i < 8; i++) {
+          const particle = document.createElement('span');
+          particle.className = 'cta-particle';
+          particle.style.setProperty('--delay', `${i * 0.15}s`);
+          particle.style.setProperty('--x', `${(Math.random() - 0.5) * 100}%`);
+          particle.style.setProperty('--y', `${(Math.random() - 0.5) * 100}%`);
+          ctaParticles.appendChild(particle);
+        }
+      }
+    }
+  });
+
+  // ===== PRICING TOGGLE =====
+  const toggleAnnual = document.getElementById('toggle-annual');
+  const toggleMonthly = document.getElementById('toggle-monthly');
+  const toggleSlider = document.getElementById('toggle-slider');
+  const paidTiers = tiers.filter(t => t.pricing.type === 'paid');
+
+  function updatePricing(plan) {
+    if (plan === 'annual') {
+      toggleAnnual?.classList.add('active');
+      toggleMonthly?.classList.remove('active');
+      toggleSlider?.classList.remove('moved');
+
+      paidTiers.forEach(tier => {
+        const priceAmount = document.getElementById(`price-amount-${tier.id}`);
+        const pricePeriod = document.getElementById(`price-period-${tier.id}`);
+        if (priceAmount) priceAmount.textContent = tier.pricing.annual.price;
+        if (pricePeriod) pricePeriod.textContent = tier.pricing.period.annual;
+      });
+
+      document.querySelectorAll('.annual-only').forEach(el => el.style.display = '');
+    } else {
+      toggleAnnual?.classList.remove('active');
+      toggleMonthly?.classList.add('active');
+      toggleSlider?.classList.add('moved');
+
+      paidTiers.forEach(tier => {
+        const priceAmount = document.getElementById(`price-amount-${tier.id}`);
+        const pricePeriod = document.getElementById(`price-period-${tier.id}`);
+        if (priceAmount) priceAmount.textContent = tier.pricing.monthly.price;
+        if (pricePeriod) pricePeriod.textContent = tier.pricing.period.monthly;
+      });
+
+      document.querySelectorAll('.annual-only').forEach(el => el.style.display = 'none');
+    }
+  }
+
+  toggleAnnual?.addEventListener('click', () => updatePricing('annual'));
+  toggleMonthly?.addEventListener('click', () => updatePricing('monthly'));
+});
+</script>
+
+<style>
+  /* ===== SECTION BASE ===== */
+  .pricing-section {
+    position: relative;
+    padding: 100px 0;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-secondary) 100%);
+  }
+
+  .pricing-atmosphere {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .atmosphere-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    animation: orbFloat 12s ease-in-out infinite;
+  }
+
+  .orb-1 {
+    top: -10%;
+    left: 10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(var(--cyan-400-rgb), 0.08), transparent 70%);
+  }
+
+  .orb-2 {
+    bottom: -10%;
+    right: 10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(var(--indigo-400-rgb), 0.06), transparent 70%);
+    animation-delay: -6s;
+  }
+
+  @keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -30px) scale(1.05); }
+  }
+
+  .pricing-particles {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .grid-overlay-pricing {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(var(--white-rgb), 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(var(--white-rgb), 0.015) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent);
+  }
+
+  .pricing-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ===== PRICING GRID ===== */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  /* ===== PARTICLE ANIMATIONS ===== */
+  :global(.burst-particle) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 50%;
+    transform-origin: center;
+    animation: burstOut 3s ease-in-out infinite;
+    animation-delay: var(--delay);
+    opacity: 0;
+  }
+
+  @keyframes burstOut {
+    0% {
+      transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) scale(1);
+      opacity: 0;
+    }
+    20% {
+      opacity: 0.6;
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(var(--angle)) translateX(150px) scale(0);
+      opacity: 0;
+    }
+  }
+
+  :global(.cta-particle) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    height: 3px;
+    background: var(--white);
+    border-radius: 50%;
+    opacity: 0;
+    animation: ctaParticleFloat 2s ease-in-out infinite;
+    animation-delay: var(--delay);
+  }
+
+  @keyframes ctaParticleFloat {
+    0%, 100% {
+      transform: translate(-50%, -50%) translate(0, 0);
+      opacity: 0;
+    }
+    30%, 70% {
+      opacity: 0.8;
+    }
+    50% {
+      transform: translate(-50%, -50%) translate(var(--x), var(--y));
+    }
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 968px) {
+    .pricing-section {
+      padding: 80px 0;
+    }
+
+    .pricing-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+</style>

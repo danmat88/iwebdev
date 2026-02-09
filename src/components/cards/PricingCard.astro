@@ -1,0 +1,408 @@
+---
+/**
+ * PricingCard.astro
+ * Individual pricing tier card with features and CTA
+ */
+import { Icon } from 'astro-icon/components';
+import type { PricingTier } from './pricing.types';
+
+interface Props {
+  tier: PricingTier;
+}
+
+const { tier } = Astro.props;
+---
+
+<div 
+  class={`pricing-card card-${tier.id} ${tier.featured ? 'card-featured' : ''} visible`}
+  data-tier={tier.id}
+>
+  <div class={`card-glow ${tier.featured ? 'glow-featured' : ''}`}></div>
+  <div class={`card-border-light ${tier.featured ? 'border-featured' : ''}`}></div>
+  
+  {tier.featured && (
+    <>
+      <div class="featured-burst" id={`featured-burst-${tier.id}`}></div>
+      <div class="featured-label">
+        <span class="featured-text">{tier.featuredLabel}</span>
+        <span class="featured-shine"></span>
+      </div>
+    </>
+  )}
+
+  <div class="card-header">
+    <div class={`tier-badge ${tier.featured ? 'badge-featured' : ''}`}>
+      <Icon name={tier.icon} width="14" height="14" />
+      <span>{tier.name}</span>
+    </div>
+
+    {/* FREE TIER */}
+    {tier.pricing.type === 'free' && (
+      <div class="tier-price">
+        <span class="price-amount">{tier.pricing.amount}</span>
+        <span class="price-period">{tier.pricing.period}</span>
+      </div>
+    )}
+
+    {/* PAID TIER */}
+    {tier.pricing.type === 'paid' && (
+      <div class="tier-price">
+        {tier.pricing.annual?.originalPrice && (
+          <div class="price-strike annual-only" id={`price-strike-${tier.id}`}>
+            {tier.pricing.currency}{tier.pricing.annual.originalPrice}
+          </div>
+        )}
+        <div class="price-main">
+          <span class="price-currency">{tier.pricing.currency}</span>
+          <span class="price-amount" id={`price-amount-${tier.id}`}>
+            {tier.pricing.annual?.price}
+          </span>
+          <span class="price-period" id={`price-period-${tier.id}`}>
+            {tier.pricing.period?.annual}
+          </span>
+        </div>
+        {tier.pricing.annual?.savings && (
+          <div class="price-savings annual-only">{tier.pricing.annual.savings}</div>
+        )}
+      </div>
+    )}
+
+    {/* CUSTOM TIER */}
+    {tier.pricing.type === 'custom' && (
+      <div class="tier-price">
+        <span class="price-amount">{tier.pricing.amount}</span>
+        <span class="price-period">{tier.pricing.period}</span>
+      </div>
+    )}
+
+    <p class="tier-tagline">{tier.tagline}</p>
+  </div>
+
+  <div class="card-body">
+    <div class="feature-list">
+      {tier.features.map((feature) => (
+        <div class={`feature-item ${feature.included ? 'included' : 'excluded'} ${tier.featured && feature.bold ? 'featured-item' : ''}`}>
+          <span class={feature.included ? 'feature-check' : 'feature-x'}>
+            {feature.included ? '✓' : '×'}
+          </span>
+          <span>
+            {feature.bold ? <strong>{feature.text}</strong> : feature.text}
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <a href={tier.cta.url} class={`card-cta cta-${tier.cta.style}`}>
+      {tier.featured && (
+        <span class="cta-particles-mini" id={`cta-particles-${tier.id}`}></span>
+      )}
+      <span class={tier.featured ? 'cta-content-inner' : ''}>{tier.cta.text}</span>
+      <Icon name="lucide:arrow-right" width="16" height="16" />
+    </a>
+  </div>
+</div>
+
+<style>
+  .pricing-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .pricing-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent);
+  }
+
+  .card-glow {
+    position: absolute;
+    inset: -1px;
+    background: var(--gradient);
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 0;
+    filter: blur(20px);
+  }
+
+  .pricing-card:hover .card-glow {
+    opacity: 0.15;
+  }
+
+  .card-border-light {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gradient);
+    border-radius: 20px 20px 0 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .pricing-card:hover .card-border-light {
+    transform: scaleX(1);
+  }
+
+  /* FEATURED CARD */
+  .card-featured {
+    border-color: var(--accent);
+    box-shadow: 0 0 40px var(--accent-glow);
+  }
+
+  .glow-featured {
+    opacity: 0.2;
+  }
+
+  .border-featured {
+    transform: scaleX(1);
+  }
+
+  .featured-label {
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 16px;
+    background: var(--gradient);  
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    overflow: hidden;
+    z-index: 10;
+  }
+
+  .featured-shine {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(var(--white-rgb), 0.3), transparent);
+    animation: shine 2s linear infinite;
+  }
+
+  @keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .featured-burst {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* CARD CONTENT */
+  .card-header {
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tier-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  .badge-featured {
+    background: var(--accent-glow);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .tier-price {
+    margin-bottom: 12px;
+  }
+
+  .price-strike {
+    font-size: 16px;
+    color: var(--text-muted);
+    text-decoration: line-through;
+    margin-bottom: 4px;
+  }
+
+  .price-main {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+
+  .price-currency {
+    font-size: 20px;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  .price-amount {
+    font-size: 48px;
+    font-weight: 700;
+    font-family: var(--font-display);
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  .price-period {
+    font-size: 15px;
+    color: var(--text-secondary);
+  }
+
+  .price-savings {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  .tier-tagline {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  .card-body {
+    flex: 1;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+  }
+
+  .feature-item.included {
+    color: var(--text);
+  }
+
+  .feature-item.excluded {
+    color: var(--text-muted);
+    opacity: 0.5;
+  }
+
+  .feature-check,
+  .feature-x {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .feature-check {
+    background: var(--accent-glow);
+    color: var(--accent);
+  }
+
+  .feature-x {
+    background: rgba(var(--white-rgb), 0.03);
+    color: var(--text-muted);
+  }
+
+  .featured-item {
+    padding: 8px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  .card-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-primary {
+    background: var(--accent);
+    color: var(--text);
+    border: none;
+    box-shadow: 0 4px 20px var(--accent-glow);
+  }
+
+  .cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px var(--accent-glow);
+  }
+
+  .cta-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .cta-outline:hover {
+    background: var(--bg-secondary);
+    border-color: var(--accent);
+  }
+
+  .cta-particles-mini {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .cta-content-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 968px) {
+    .pricing-card {
+      padding: 28px 24px;
+    }
+  }
+</style>

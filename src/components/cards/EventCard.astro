@@ -1,0 +1,313 @@
+---
+/**
+ * EventCard.astro
+ * Reusable event card component with live indicator support
+ */
+interface Props {
+  event: {
+    isLive?: boolean;
+    month: string;
+    day?: string;
+    type: 'workshop' | 'talk' | 'hackathon';
+    name: string;
+    speaker: string;
+    time?: string;
+    attendees?: string;
+    watching?: string;
+  };
+}
+
+const { event } = Astro.props;
+---
+
+<div class={`event-card ${event.isLive ? 'live' : ''}`} data-event>
+  <div class="event-glow"></div>
+  <div class="event-inner">
+    <div class="event-date">
+      <span class="event-month">{event.month}</span>
+      {event.isLive ? (
+        <span class="event-day-indicator live-indicator">
+          <span class="live-ring"></span>
+          <span class="live-ring delay"></span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polygon points="23 7 16 12 23 17 23 7" fill="currentColor" stroke="none"/>
+            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+          </svg>
+        </span>
+      ) : (
+        <span class="event-day">{event.day}</span>
+      )}
+    </div>
+
+    <div class="event-info">
+      <div class="event-top">
+        <span class={`event-type ${event.type}`}>{event.type === 'talk' ? 'Tech Talk' : event.type.charAt(0).toUpperCase() + event.type.slice(1)}</span>
+        {event.isLive && (
+          <span class="event-live-badge">
+            <span class="live-dot-sm"></span>
+            LIVE
+          </span>
+        )}
+      </div>
+      <h4 class="event-name">{event.name}</h4>
+      <div class="event-meta">
+        <span class="event-speaker">{event.speaker}</span>
+        {event.time && <span class="event-time">{event.time}</span>}
+        {(event.attendees || event.watching) && (
+          <span class="event-attendees">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+            </svg>
+            {event.watching || event.attendees}
+          </span>
+        )}
+      </div>
+    </div>
+
+    <div class="event-action">
+      <span class={`event-btn ${event.isLive ? 'join' : 'rsvp'}`}>
+        {event.isLive ? 'Join' : 'RSVP'}
+      </span>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Event Card */
+  .event-card {
+    position: relative;
+    border-radius: 16px;
+    padding: 1px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .event-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .event-glow {
+    position: absolute;
+    inset: -1px;
+    border-radius: 16px;
+    background: var(--gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+  }
+
+  .event-card:hover .event-glow { opacity: 0.4; }
+
+  .event-card.live .event-glow {
+    background: linear-gradient(135deg, var(--red-500), var(--orange-500));
+    opacity: 0.3;
+    animation: liveGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes liveGlow {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.5; }
+  }
+
+  .event-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+  }
+
+  .event-card:hover .event-inner {
+    border-color: transparent;
+    box-shadow: 0 12px 40px rgba(var(--black-rgb), 0.2);
+  }
+
+  .event-card.live .event-inner {
+    border-color: rgba(var(--red-500-rgb), 0.2);
+    background: linear-gradient(135deg, var(--bg-card), rgba(var(--red-500-rgb), 0.03));
+  }
+
+  /* Event Date */
+  .event-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-width: 52px;
+    text-align: center;
+  }
+
+  .event-month {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .event-card.live .event-month { color: var(--red-500); }
+
+  .event-day {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .live-indicator {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--red-500);
+  }
+
+  .live-ring {
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--red-500);
+    border-radius: 50%;
+    animation: ringExpand 2s ease-out infinite;
+    opacity: 0;
+  }
+
+  .live-ring.delay { animation-delay: 1s; }
+
+  @keyframes ringExpand {
+    0% { transform: scale(0.5); opacity: 0.6; }
+    100% { transform: scale(1.3); opacity: 0; }
+  }
+
+  /* Event Info */
+  .event-info { flex: 1; min-width: 0; }
+
+  .event-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .event-type {
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .event-type.workshop { background: rgba(var(--cyan-400-rgb), 0.1); color: var(--accent); }
+  .event-type.talk { background: rgba(var(--indigo-400-rgb), 0.1); color: var(--accent-2); }
+  .event-type.hackathon { background: rgba(var(--pink-400-rgb), 0.1); color: var(--accent-3); }
+
+  .event-live-badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    background: rgba(var(--red-500-rgb), 0.1);
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--red-500);
+  }
+
+  .live-dot-sm {
+    width: 5px;
+    height: 5px;
+    background: var(--red-500);
+    border-radius: 50%;
+    animation: liveDotPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes liveDotPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .event-name {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .event-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .event-attendees, .event-time {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Event Action */
+  .event-action {
+    flex-shrink: 0;
+  }
+
+  .event-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 18px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: var(--font-display);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .event-btn.rsvp {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+
+  .event-btn.rsvp:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .event-btn.join {
+    background: linear-gradient(135deg, var(--red-500), var(--orange-500));
+    color: var(--white);
+    border: none;
+    box-shadow: 0 4px 15px rgba(var(--red-500-rgb), 0.25);
+  }
+
+  .event-btn.join:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(var(--red-500-rgb), 0.35);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .event-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .event-date { flex-direction: row; gap: 8px; }
+    .event-name { white-space: normal; }
+  }
+</style>

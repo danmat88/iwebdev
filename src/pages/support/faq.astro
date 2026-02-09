@@ -1,0 +1,20 @@
+﻿---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/common/PageHero.astro';
+import FAQExplorer from '../../components/support/FAQExplorer.astro';
+---
+
+<PageLayout
+  title="FAQ - Frequently Asked Questions | IAWD"
+  description="Find answers to common questions about IAWD membership, features, and platform."
+>
+  <PageHero
+    badge="Help Center"
+    badgeIcon="lucide:help-circle"
+    title="How can we"
+    highlight="help you?"
+    subtitle="Find answers to common questions, explore support topics, and get unstuck quickly."
+  />
+  <FAQExplorer showHero={false} />
+</PageLayout>
+

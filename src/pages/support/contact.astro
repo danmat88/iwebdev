@@ -1,0 +1,20 @@
+﻿---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/common/PageHero.astro';
+import ContactPage from '../../components/support/ContactPage.astro';
+---
+
+<PageLayout
+  title="Contact Us | IAWD"
+  description="Get in touch with the IAWD team. We're here to help with questions, feedback, and support."
+>
+  <PageHero
+    badge="Contact"
+    badgeIcon="lucide:messages-square"
+    title="Let's get you"
+    highlight="the right support"
+    subtitle="Reach the team, choose your preferred channel, and get fast, practical help."
+  />
+  <ContactPage showHero={false} />
+</PageLayout>
+

@@ -1,0 +1,469 @@
+ ---
+/**
+ * FAQItem.astro
+ * =============
+ * Fixed-height collapsed, smooth expand
+ */
+import { Icon } from 'astro-icon/components';
+import type { FAQItem } from '../faq.types';
+
+interface Props {
+  faq: FAQItem;
+  showFeedback?: boolean;
+  index?: number;
+}
+
+const { faq, showFeedback = true, index = 0 } = Astro.props;
+---
+
+<article 
+  class="faq-item"
+  data-id={faq.id}
+  data-category={faq.category}
+  data-popular={faq.popular ? 'true' : 'false'}
+  id={faq.id}
+  style={`--i: ${index}`}
+>
+  <button class="faq-trigger" aria-expanded="false" aria-controls={`a-${faq.id}`}>
+    <div class="trigger-main">
+      {faq.popular && (
+        <span class="pop-tag">
+          <Icon name="lucide:flame" />
+          Popular
+        </span>
+      )}
+      <span class="question-text">{faq.question}</span>
+    </div>
+    <span class="trigger-icon">
+      <span class="icon-bar bar-h"></span>
+      <span class="icon-bar bar-v"></span>
+    </span>
+  </button>
+
+  <div class="faq-body" id={`a-${faq.id}`}>
+    <div class="body-inner">
+      <div class="answer-content" set:html={faq.answer} />
+      
+      <div class="answer-bar">
+        <button class="copy-btn" data-id={faq.id}>
+          <Icon name="lucide:link-2" />
+          <span class="copy-text">Copy link</span>
+          <span class="copy-done">Copied!</span>
+        </button>
+        
+        {showFeedback && (
+          <div class="feedback">
+            <span class="fb-q">Helpful?</span>
+            <div class="fb-btns">
+              <button class="fb-btn" data-vote="yes"><Icon name="lucide:thumbs-up" /></button>
+              <button class="fb-btn" data-vote="no"><Icon name="lucide:thumbs-down" /></button>
+            </div>
+            <span class="fb-done"><Icon name="lucide:check" /> Thanks!</span>
+          </div>
+        )}
+      </div>
+
+      {faq.related && faq.related.length > 0 && (
+        <div class="related-section">
+          <span class="related-title">Related</span>
+          {faq.related.slice(0, 2).map((id) => (
+            <a href={`#${id}`} class="related-link" data-related={id}>
+              <Icon name="lucide:corner-down-right" />
+              <span class="related-text"></span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</article>
+
+<style>
+  .faq-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    animation: itemIn 0.4s ease calc(var(--i) * 30ms) both;
+  }
+
+  @keyframes itemIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .faq-item.hidden { display: none; }
+
+  .faq-item:hover {
+    border-color: var(--border-hover);
+  }
+
+  .faq-item.open {
+    border-color: var(--accent);
+    box-shadow: 0 8px 24px rgba(var(--black-rgb), 0.08), 0 0 0 1px var(--accent-glow);
+  }
+
+  /* Trigger - FIXED HEIGHT */
+  .faq-trigger {
+    width: 100%;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 18px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .faq-trigger:hover {
+    background: rgba(var(--white-rgb), 0.015);
+  }
+
+  .trigger-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .question-text {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+    /* Fixed 2 lines max when closed */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .faq-item.open .question-text {
+    -webkit-line-clamp: unset;
+    color: var(--accent);
+  }
+
+  .pop-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    width: fit-content;
+    padding: 3px 8px;
+    background: linear-gradient(135deg, rgba(var(--pink-400-rgb), 0.12), rgba(var(--indigo-400-rgb), 0.08));
+    border: 1px solid rgba(var(--pink-400-rgb), 0.25);
+    border-radius: 6px;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--accent-3);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .pop-tag :global(svg) {
+    width: 9px;
+    height: 9px;
+  }
+
+  /* Toggle icon */
+  .trigger-icon {
+    position: relative;
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    background: var(--bg-secondary);
+    border-radius: 7px;
+    transition: all 0.3s ease;
+  }
+
+  .faq-item:hover .trigger-icon {
+    background: var(--bg-tertiary);
+  }
+
+  .faq-item.open .trigger-icon {
+    background: var(--accent);
+  }
+
+  .icon-bar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: var(--text-muted);
+    border-radius: 1px;
+    transition: all 0.3s ease;
+  }
+
+  .bar-h {
+    width: 10px;
+    height: 2px;
+    transform: translate(-50%, -50%);
+  }
+
+  .bar-v {
+    width: 2px;
+    height: 10px;
+    transform: translate(-50%, -50%);
+  }
+
+  .faq-item:hover .icon-bar {
+    background: var(--text-secondary);
+  }
+
+  .faq-item.open .icon-bar {
+    background: var(--black);
+  }
+
+  .faq-item.open .bar-v {
+    transform: translate(-50%, -50%) rotate(90deg);
+    opacity: 0;
+  }
+
+  /* Body */
+  .faq-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .faq-item.open .faq-body {
+    grid-template-rows: 1fr;
+  }
+
+  .body-inner {
+    overflow: hidden;
+  }
+
+  .answer-content {
+    padding: 0 18px 16px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  .answer-content :global(a) {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .answer-content :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  /* Bar */
+  .answer-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 18px;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+  }
+
+  .copy-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-size: 11px;
+    font-weight: 500;
+    font-family: var(--font-primary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .copy-btn:hover {
+    background: var(--bg-tertiary);
+    color: var(--text);
+  }
+
+  .copy-btn.copied {
+    background: var(--accent-glow);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .copy-btn :global(svg) {
+    width: 12px;
+    height: 12px;
+  }
+
+  .copy-done { display: none; }
+  .copy-btn.copied .copy-text { display: none; }
+  .copy-btn.copied .copy-done { display: inline; }
+
+  /* Feedback */
+  .feedback {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .fb-q {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .fb-btns {
+    display: flex;
+    gap: 4px;
+  }
+
+  .fb-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .fb-btn:hover {
+    transform: scale(1.05);
+  }
+
+  .fb-btn[data-vote="yes"]:hover {
+    background: rgba(var(--green-500-rgb), 0.1);
+    border-color: var(--green-500);
+    color: var(--green-500);
+  }
+
+  .fb-btn[data-vote="no"]:hover {
+    background: rgba(var(--red-500-rgb), 0.1);
+    border-color: var(--red-500);
+    color: var(--red-500);
+  }
+
+  .fb-btn :global(svg) {
+    width: 13px;
+    height: 13px;
+  }
+
+  .fb-btn.picked {
+    background: var(--accent-glow);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .fb-done {
+    display: none;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  .fb-done :global(svg) {
+    width: 12px;
+    height: 12px;
+  }
+
+  .feedback.done .fb-q,
+  .feedback.done .fb-btns { display: none; }
+  .feedback.done .fb-done { display: flex; }
+
+  /* Related */
+  .related-section {
+    padding: 12px 18px 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .related-title {
+    display: block;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+
+  .related-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    margin-bottom: 6px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .related-link:last-child {
+    margin-bottom: 0;
+  }
+
+  .related-link:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--accent);
+    color: var(--accent);
+    padding-left: 16px;
+  }
+
+  .related-link :global(svg) {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+
+  .related-link:hover :global(svg) {
+    color: var(--accent);
+  }
+
+  .related-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    .faq-trigger {
+      padding: 14px 14px;
+      min-height: 58px;
+    }
+
+    .question-text {
+      font-size: 13px;
+    }
+
+    .answer-content {
+      padding: 0 14px 14px;
+      font-size: 12px;
+    }
+
+    .answer-bar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 14px;
+    }
+
+    .related-section {
+      padding: 10px 14px 14px;
+    }
+  }
+</style>

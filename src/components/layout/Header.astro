@@ -1,0 +1,1211 @@
+---
+import { navItems } from '../../content/navigation/nav.config';
+import { Icon } from 'astro-icon/components';
+import Logo from '../common/Logo.astro';
+
+const currentPath = Astro.url.pathname;
+
+function isActive(href: string): boolean {
+  if (href === '/') {
+    return currentPath === '/';
+  }
+  return currentPath.startsWith(href);
+}
+---
+
+<header class="header" id="header">
+  <div class="header-bg"></div>
+  <div class="header-border"></div>
+
+  <nav class="nav">
+    <Logo />
+
+    <!-- Center Navigation -->
+    <div class="nav-center">
+      <div class="nav-links">
+        {navItems.map((item) => (
+          <div class={`nav-item ${item.featured ? 'featured' : ''} ${isActive(item.href) ? 'active' : ''}`}>
+            <a href={item.href} class="nav-link">
+              <span class="nav-code">{`<`}</span>
+              <span class="nav-text">{item.label}</span>
+              <span class="nav-code">{item.submenu ? ' />' : '/>'}</span>
+              {item.submenu && (
+                <svg class="nav-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              )}
+            </a>
+            {item.submenu && (
+              <div class="dropdown">
+                <div class="dropdown-window">
+                  <div class="dropdown-header">
+                    <div class="dropdown-dots">
+                      <span></span><span></span><span></span>
+                    </div>
+                    <span class="dropdown-title">{item.label.toLowerCase()}.tsx</span>
+                  </div>
+                  <div class="dropdown-content">
+                    {item.submenu.map((sub, i) => (
+                      <a href={sub.href} class={`dropdown-link ${sub.highlight ? 'highlight' : ''}`}>
+                        <span class="line-num">{i + 1}</span>
+                        <span class="link-icon"><Icon name={sub.icon} size={18} /></span>
+                        <div class="link-content">
+                          <span class="link-label">{sub.label}</span>
+                          <span class="link-desc">{sub.desc}</span>
+                        </div>
+                        <span class="link-arrow">→</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Right Actions -->
+    <div class="nav-actions">
+      <button class="cmd-palette" id="cmd-trigger" aria-label="Command Palette">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <span class="cmd-text">Search</span>
+        <span class="cmd-key">⌘K</span>
+      </button>
+
+      <a href="https://members.iwebdev.org" class="sign-in">
+        Sign In
+      </a>
+
+      <a href="/membership/join" class="cta-btn">
+        <span class="cta-text">Join IAWD</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button class="mobile-btn" id="mobile-btn" aria-label="Menu">
+      <span class="burger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="mobile-bg"></div>
+    <div class="mobile-content">
+      <div class="mobile-search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input type="text" placeholder="Search..." class="mobile-search-input" />
+      </div>
+      
+      {navItems.map((item, i) => (
+        <div class="mobile-group" style={`--i: ${i}`}>
+          <a href={item.href} class={`mobile-link main ${isActive(item.href) ? 'active' : ''}`}>
+            <span class="mobile-icon"><Icon name={item.icon} size={18} /></span>
+            <span>{item.label}</span>
+            {isActive(item.href) && <span class="mobile-active-dot"></span>}
+          </a>
+          {item.submenu && (
+            <div class="mobile-sub">
+              {item.submenu.map((sub) => (
+                <a href={sub.href} class={`mobile-link ${sub.highlight ? 'highlight' : ''}`}>
+                  <span class="sub-icon"><Icon name={sub.icon} size={14} /></span>
+                  <span>{sub.label}</span>
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+
+      <div class="mobile-actions">
+        <a href="https://members.iwebdev.org" class="mobile-secondary">Sign In</a>
+        <a href="/membership/join" class="mobile-primary">
+          <span>Join IAWD</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Command Palette Modal -->
+<div class="cmd-modal" id="cmd-modal">
+  <div class="cmd-backdrop" id="cmd-backdrop"></div>
+  <div class="cmd-container">
+    <div class="cmd-window">
+      <div class="cmd-search-wrapper">
+        <svg class="cmd-search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input 
+          type="text" 
+          class="cmd-input" 
+          id="cmd-input" 
+          placeholder="Search pages, docs, tutorials..."
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <div class="cmd-esc">ESC</div>
+      </div>
+
+      <div class="cmd-results" id="cmd-results">
+        <div class="cmd-section">
+          <div class="cmd-section-title">Quick Actions</div>
+          <div class="cmd-items">
+            <button class="cmd-item" data-href="/start">
+              <span class="cmd-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+              </span>
+              <span class="cmd-item-content">
+                <span class="cmd-item-title">Start Learning</span>
+                <span class="cmd-item-desc">Begin your developer journey</span>
+              </span>
+              <span class="cmd-item-arrow">→</span>
+            </button>
+            <button class="cmd-item" data-href="/membership/join">
+              <span class="cmd-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                </svg>
+              </span>
+              <span class="cmd-item-content">
+                <span class="cmd-item-title">Join IAWD</span>
+                <span class="cmd-item-desc">Become a member today</span>
+              </span>
+              <span class="cmd-item-arrow">→</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="cmd-section">
+          <div class="cmd-section-title">Navigation</div>
+          <div class="cmd-items">
+            <button class="cmd-item" data-href="/">
+              <span class="cmd-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+              </span>
+              <span class="cmd-item-content">
+                <span class="cmd-item-title">Home</span>
+                <span class="cmd-item-desc">Return to homepage</span>
+              </span>
+              <span class="cmd-item-arrow">→</span>
+            </button>
+            <button class="cmd-item" data-href="/about">
+              <span class="cmd-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="16" x2="12" y2="12"/>
+                  <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+              </span>
+              <span class="cmd-item-content">
+                <span class="cmd-item-title">About IAWD</span>
+                <span class="cmd-item-desc">Our mission and story</span>
+              </span>
+              <span class="cmd-item-arrow">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-footer">
+        <div class="cmd-footer-item">
+          <kbd>↑</kbd><kbd>↓</kbd> Navigate
+        </div>
+        <div class="cmd-footer-item">
+          <kbd>↵</kbd> Open
+        </div>
+        <div class="cmd-footer-item">
+          <kbd>ESC</kbd> Close
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const header = document.getElementById('header');
+    const cmdModal = document.getElementById('cmd-modal');
+    const cmdTrigger = document.getElementById('cmd-trigger');
+    const cmdBackdrop = document.getElementById('cmd-backdrop');
+    const cmdInput = document.getElementById('cmd-input');
+    const mobileBtn = document.getElementById('mobile-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    document.documentElement.setAttribute('data-theme', 'iawd');
+
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      if (currentScroll <= 0) {
+        header?.classList.remove('scrolled');
+      } else {
+        header?.classList.add('scrolled');
+      }
+      lastScroll = currentScroll;
+    });
+
+    const openCmd = () => {
+      cmdModal?.classList.add('active');
+      cmdInput?.focus();
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeCmd = () => {
+      cmdModal?.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    cmdTrigger?.addEventListener('click', openCmd);
+    cmdBackdrop?.addEventListener('click', closeCmd);
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        openCmd();
+      }
+      if (e.key === 'Escape') {
+        closeCmd();
+      }
+    });
+
+    const cmdItems = document.querySelectorAll('.cmd-item');
+    cmdItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const href = item.getAttribute('data-href');
+        if (href) {
+          window.location.href = href;
+        }
+      });
+    });
+
+    mobileBtn?.addEventListener('click', () => {
+      mobileMenu?.classList.toggle('active');
+      document.body.classList.toggle('menu-open');
+    });
+  });
+</script>
+
+<style>
+  /* ============================================= */
+  /* HEADER VARIABLES */
+  /* ============================================= */
+  .header {
+    /* Dimensions */
+    --header-height: 60px;
+    --header-padding-x: 32px;
+    --header-max-width: 1400px;
+    
+    /* Transitions */
+    --header-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Backdrop */
+    --header-backdrop-blur: 20px;
+    --header-backdrop-opacity: 0.95;
+    
+    /* Border */
+    --header-border-gradient: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+  }
+
+  /* ============================================= */
+  /* HEADER BASE */
+  /* ============================================= */
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transition: var(--header-transition);
+  }
+
+  .header-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--bg-overlay);
+    backdrop-filter: blur(var(--header-backdrop-blur));
+    -webkit-backdrop-filter: blur(var(--header-backdrop-blur));
+    opacity: 0;
+    transition: var(--header-transition);
+  }
+
+  .header.scrolled .header-bg {
+    opacity: 1;
+  }
+
+  .header-border {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--header-border-gradient);
+    opacity: 0;
+    transition: var(--header-transition);
+  }
+
+  .header.scrolled .header-border {
+    opacity: 1;
+  }
+
+  .nav {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--header-padding-x);
+    height: var(--header-height);
+    max-width: var(--header-max-width);
+    margin: 0 auto;
+  }
+
+  /* ============================================= */
+  /* NAVIGATION VARIABLES */
+  /* ============================================= */
+  .nav-center {
+    /* Spacing */
+    --nav-gap: 2px;
+    --nav-link-padding: 8px 14px;
+    
+    /* Typography */
+    --nav-font-size: 13px;
+    --nav-code-font-size: 12px;
+    
+    /* Transitions */
+    --nav-transition: all 0.2s ease;
+    
+    /* Colors */
+    --nav-active-bg: var(--bg-secondary);
+  }
+
+  /* ============================================= */
+  /* NAVIGATION LINKS */
+  /* ============================================= */
+  .nav-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    margin: 0 40px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--nav-gap);
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-item.featured::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 6px;
+    height: 6px;
+    background: var(--gradient);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: var(--nav-link-padding);
+    font-size: var(--nav-font-size);
+    font-weight: 500;
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: var(--nav-transition);
+    position: relative;
+  }
+
+  .nav-item.active .nav-link,
+  .nav-link:hover {
+    color: var(--text);
+    background: var(--nav-active-bg);
+  }
+
+  .nav-code {
+    color: var(--accent);
+    font-size: var(--nav-code-font-size);
+  }
+
+  .nav-chevron {
+    margin-left: 2px;
+    color: var(--text-muted);
+    transition: transform 0.2s ease;
+  }
+
+  .nav-item:hover .nav-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* ============================================= */
+  /* DROPDOWN VARIABLES */
+  /* ============================================= */
+  .dropdown {
+    /* Dimensions */
+    --dropdown-min-width: 300px;
+    --dropdown-padding: 6px;
+    
+    /* Spacing */
+    --dropdown-gap: 10px;
+    --dropdown-link-padding: 10px 8px;
+    
+    /* Typography */
+    --dropdown-title-size: 11px;
+    --dropdown-label-size: 13px;
+    --dropdown-desc-size: 11px;
+    --dropdown-linenum-size: 10px;
+    
+    /* Colors */
+    --dropdown-bg: var(--bg-modal);
+    --dropdown-header-bg: var(--bg-secondary);
+    
+    /* Effects */
+    --dropdown-shadow: 0 20px 60px rgba(var(--black-rgb), 0.4);
+    --dropdown-backdrop-blur: 20px;
+    
+    /* Transitions */
+    --dropdown-transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* ============================================= */
+  /* DROPDOWN */
+  /* ============================================= */
+  .dropdown {
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--dropdown-transition);
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  .nav-item:hover .dropdown {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .dropdown-window {
+    min-width: var(--dropdown-min-width);
+    background: var(--dropdown-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 0;
+    box-shadow: var(--dropdown-shadow);
+    backdrop-filter: blur(var(--dropdown-backdrop-blur));
+    -webkit-backdrop-filter: blur(var(--dropdown-backdrop-blur));
+    overflow: hidden;
+  }
+
+  .dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--dropdown-header-bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dropdown-dots {
+    display: flex;
+    gap: 4px;
+  }
+
+  .dropdown-dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-hover);
+  }
+
+  .dropdown-dots span:nth-child(1) { background: var(--terminal-dot-red-alt); }
+  .dropdown-dots span:nth-child(2) { background: var(--terminal-dot-yellow-alt); }
+  .dropdown-dots span:nth-child(3) { background: var(--terminal-dot-green-alt); }
+
+  .dropdown-title {
+    font-family: var(--font-mono);
+    font-size: var(--dropdown-title-size);
+    color: var(--text-muted);
+  }
+
+  .dropdown-content {
+    padding: var(--dropdown-padding);
+  }
+
+  .dropdown-link {
+    display: grid;
+    grid-template-columns: 20px 22px 1fr 20px;
+    align-items: center;
+    gap: var(--dropdown-gap);
+    padding: var(--dropdown-link-padding);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--dropdown-transition);
+  }
+
+  .dropdown-link:hover {
+    background: var(--bg-tertiary);
+  }
+
+  .dropdown-link.highlight {
+    background: var(--accent-muted);
+    border: 1px solid rgba(var(--accent-rgb), 0.2);
+  }
+
+  .dropdown-link.highlight:hover {
+    background: var(--accent-strong);
+  }
+
+  .line-num {
+    font-family: var(--font-mono);
+    font-size: var(--dropdown-linenum-size);
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  .link-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+
+  .link-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .link-label {
+    font-size: var(--dropdown-label-size);
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .link-desc {
+    font-size: var(--dropdown-desc-size);
+    color: var(--text-muted);
+  }
+
+  .link-arrow {
+    color: var(--text-muted);
+    font-size: 14px;
+    opacity: 0;
+    transition: all 0.2s ease;
+  }
+
+  .dropdown-link:hover .link-arrow {
+    opacity: 1;
+    transform: translateX(2px);
+  }
+
+  /* ============================================= */
+  /* NAV ACTIONS VARIABLES */
+  /* ============================================= */
+  .nav-actions {
+    /* Spacing */
+    --action-gap: 12px;
+    --action-padding: 7px 12px;
+    --cta-padding: 8px 16px;
+    
+    /* Typography */
+    --action-font-size: 12px;
+    --action-key-size: 11px;
+    --cta-font-size: 13px;
+    
+    /* Transitions */
+    --action-transition: all 0.2s ease;
+    
+    /* Effects */
+    --action-shadow: 0 2px 12px var(--accent-glow);
+  }
+
+  /* ============================================= */
+  /* NAV ACTIONS */
+  /* ============================================= */
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--action-gap);
+  }
+
+  .cmd-palette {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: var(--action-padding);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: var(--action-font-size);
+    color: var(--text-secondary);
+    transition: var(--action-transition);
+    cursor: pointer;
+  }
+
+  .cmd-palette:hover {
+    border-color: var(--accent);
+    background: var(--bg-tertiary);
+  }
+
+  .cmd-text {
+    font-weight: 500;
+  }
+
+  .cmd-key {
+    font-family: var(--font-mono);
+    font-size: var(--action-key-size);
+    padding: 2px 5px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+
+  .sign-in {
+    font-size: var(--cta-font-size);
+    font-weight: 500;
+    color: var(--text-secondary);
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: var(--action-transition);
+    border-radius: var(--radius-md);
+  }
+
+  .sign-in:hover {
+    color: var(--text);
+    background: var(--bg-secondary);
+  }
+
+  .cta-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: var(--cta-padding);
+    background: var(--gradient);
+    color: var(--black);
+    font-size: var(--cta-font-size);
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    box-shadow: var(--action-shadow);
+    transition: var(--action-transition);
+  }
+
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--accent-glow);
+  }
+
+  /* ============================================= */
+  /* MOBILE MENU VARIABLES */
+  /* ============================================= */
+  .mobile-menu {
+    /* Transitions */
+    --mobile-transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* Spacing */
+    --mobile-padding: 72px 20px 32px;
+    --mobile-gap: 6px;
+    
+    /* Link styling */
+    --mobile-link-padding: 12px 14px;
+  }
+
+  /* ============================================= */
+  /* MOBILE BUTTON */
+  /* ============================================= */
+  .mobile-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--action-transition);
+  }
+
+  .mobile-btn:hover {
+    border-color: var(--accent);
+  }
+
+  .burger {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .burger span {
+    width: 16px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-menu.active ~ .mobile-btn .burger span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .mobile-menu.active ~ .mobile-btn .burger span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-menu.active ~ .mobile-btn .burger span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* ============================================= */
+  /* MOBILE MENU */
+  /* ============================================= */
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--mobile-transition);
+  }
+
+  .mobile-menu.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+  }
+
+  .mobile-content {
+    position: relative;
+    padding: var(--mobile-padding);
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--mobile-gap);
+  }
+
+  .mobile-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+
+  .mobile-search svg {
+    color: var(--text-muted);
+    width: 16px;
+    height: 16px;
+  }
+
+  .mobile-search-input {
+    flex: 1;
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+  }
+
+  .mobile-search-input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .mobile-group {
+    animation: slideInMobile 0.4s ease both;
+    animation-delay: calc(var(--i) * 0.05s);
+  }
+
+  @keyframes slideInMobile {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .mobile-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: var(--mobile-link-padding);
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-link.main {
+    font-weight: 600;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+  }
+
+  .mobile-link.main.active {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.1), rgba(var(--accent-2-rgb), 0.1));
+  }
+
+  .mobile-active-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin-left: auto;
+  }
+
+  .mobile-link:hover {
+    background: var(--bg-tertiary);
+  }
+
+  .mobile-icon, 
+  .sub-icon { 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+
+  .mobile-sub {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin-top: 6px;
+    padding-left: 0;
+  }
+
+  .mobile-sub .mobile-link {
+    font-size: 12px;
+    padding: 10px 12px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+  }
+
+  .mobile-sub .mobile-link.highlight {
+    background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.15), rgba(var(--accent-2-rgb), 0.15));
+    border-color: rgba(var(--accent-rgb), 0.3);
+    color: var(--accent);
+  }
+
+  .mobile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 20px;
+  }
+
+  .mobile-secondary,
+  .mobile-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-secondary {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .mobile-primary {
+    background: var(--gradient);
+    color: var(--black);
+    box-shadow: 0 4px 16px var(--accent-glow);
+  }
+
+  :global(body.menu-open) {
+    overflow: hidden;
+  }
+
+  /* ============================================= */
+  /* COMMAND PALETTE VARIABLES */
+  /* ============================================= */
+  .cmd-modal {
+    /* Dimensions */
+    --cmd-max-width: 640px;
+    --cmd-padding-top: 12vh;
+    
+    /* Effects */
+    --cmd-backdrop-blur: 8px;
+    --cmd-shadow: 0 25px 80px rgba(var(--black-rgb), 0.5);
+    
+    /* Transitions */
+    --cmd-transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* ============================================= */
+  /* COMMAND PALETTE */
+  /* ============================================= */
+  .cmd-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: var(--cmd-padding-top);
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--cmd-transition);
+  }
+
+  .cmd-modal.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .cmd-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(var(--black-rgb), 0.7);
+    backdrop-filter: blur(var(--cmd-backdrop-blur));
+    -webkit-backdrop-filter: blur(var(--cmd-backdrop-blur));
+  }
+
+  .cmd-container {
+    position: relative;
+    width: 100%;
+    max-width: var(--cmd-max-width);
+    margin: 0 20px;
+    transform: scale(0.95);
+    transition: var(--cmd-transition);
+  }
+
+  .cmd-modal.active .cmd-container {
+    transform: scale(1);
+  }
+
+  .cmd-window {
+    background: var(--bg-modal);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--cmd-shadow);
+  }
+
+  .cmd-search-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cmd-search-icon {
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  .cmd-input {
+    flex: 1;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: var(--text);
+    outline: none;
+  }
+
+  .cmd-input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .cmd-esc {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 4px 8px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-muted);
+  }
+
+  .cmd-results {
+    max-height: 50vh;
+    overflow-y: auto;
+    padding: 8px;
+  }
+
+  .cmd-section {
+    margin-bottom: 16px;
+  }
+
+  .cmd-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .cmd-section-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 8px 12px 6px;
+  }
+
+  .cmd-items {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .cmd-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+  }
+
+  .cmd-item:hover {
+    background: var(--bg-tertiary);
+  }
+
+  .cmd-item-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .cmd-item-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .cmd-item-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .cmd-item-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .cmd-item-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .cmd-item-arrow {
+    color: var(--text-muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: all 0.2s ease;
+  }
+
+  .cmd-item:hover .cmd-item-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .cmd-footer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    background: var(--bg-secondary);
+  }
+
+  .cmd-footer-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .cmd-footer kbd {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 3px 6px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-secondary);
+  }
+
+  /* ============================================= */
+  /* RESPONSIVE */
+  /* ============================================= */
+  @media (max-width: 1100px) {
+    .nav-center { display: none; }
+    .sign-in { display: none; }
+    .cmd-palette { display: none; }
+    .mobile-btn { display: flex; }
+  }
+
+  @media (max-width: 640px) {
+    .nav { padding: 0 16px; }
+    .cta-btn { display: none; }
+    .mobile-sub { grid-template-columns: 1fr; }
+    .cmd-modal { padding-top: 6vh; }
+    .cmd-container { margin: 0 10px; }
+    .cmd-results { max-height: 45vh; }
+  }
+</style>

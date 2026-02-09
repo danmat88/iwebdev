@@ -1,0 +1,227 @@
+---
+/**
+ * FAQCategories.astro
+ */
+import { Icon } from 'astro-icon/components';
+import type { FAQCategory } from '../faq.types';
+
+interface Props {
+  categories: FAQCategory[];
+}
+
+const { categories } = Astro.props;
+---
+
+<nav class="cats">
+  <button class="cat-btn active" data-cat="all">
+    <span class="cat-bar"></span>
+    <span class="cat-ico"><Icon name="lucide:layers" /></span>
+    <span class="cat-info">
+      <span class="cat-name">All</span>
+      <span class="cat-desc">Everything</span>
+    </span>
+    <span class="cat-count" id="count-all">0</span>
+  </button>
+  
+  {categories.map((c) => (
+    <button class="cat-btn" data-cat={c.id} title={c.description}>
+      <span class="cat-bar"></span>
+      <span class="cat-ico"><Icon name={c.icon} /></span>
+      <span class="cat-info">
+        <span class="cat-name">{c.name}</span>
+        <span class="cat-desc">{c.description}</span>
+      </span>
+      <span class="cat-count" id={`count-${c.id}`}>0</span>
+    </button>
+  ))}
+</nav>
+
+<style>
+  .cats {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .cat-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 12px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-family: var(--font-primary);
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: hidden;
+  }
+
+  .cat-btn:hover {
+    background: var(--bg-secondary);
+    border-color: var(--border);
+  }
+
+  .cat-btn.active {
+    background: var(--bg-card);
+    border-color: var(--accent);
+  }
+
+  .cat-bar {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 0;
+    background: var(--gradient);
+    border-radius: 0 2px 2px 0;
+    transition: height 0.25s ease;
+  }
+
+  .cat-btn.active .cat-bar {
+    height: 20px;
+  }
+
+  .cat-ico {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .cat-btn:hover .cat-ico {
+    background: var(--bg-tertiary);
+  }
+
+  .cat-btn.active .cat-ico {
+    background: var(--accent-glow);
+  }
+
+  .cat-ico :global(svg) {
+    width: 15px;
+    height: 15px;
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+
+  .cat-btn:hover .cat-ico :global(svg) {
+    color: var(--text-secondary);
+  }
+
+  .cat-btn.active .cat-ico :global(svg) {
+    color: var(--accent);
+  }
+
+  .cat-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .cat-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    transition: color 0.2s;
+  }
+
+  .cat-btn.active .cat-name {
+    color: var(--accent);
+  }
+
+  .cat-desc {
+    font-size: 10px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cat-count {
+    min-width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .cat-btn:hover .cat-count {
+    background: var(--bg-tertiary);
+  }
+
+  .cat-btn.active .cat-count {
+    background: var(--accent);
+    color: var(--black);
+  }
+
+  /* Mobile horizontal */
+  @media (max-width: 850px) {
+    .cats {
+      flex-direction: row;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+
+    .cats::-webkit-scrollbar { display: none; }
+
+    .cat-btn {
+      flex-shrink: 0;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+    }
+
+    .cat-bar { display: none; }
+
+    .cat-ico {
+      width: 28px;
+      height: 28px;
+    }
+
+    .cat-ico :global(svg) {
+      width: 13px;
+      height: 13px;
+    }
+
+    .cat-info { display: none; }
+
+    .cat-btn.active {
+      background: var(--gradient);
+      border-color: transparent;
+    }
+
+    .cat-btn.active .cat-ico {
+      background: rgba(var(--black-rgb), 0.15);
+    }
+
+    .cat-btn.active .cat-ico :global(svg) {
+      color: var(--black);
+    }
+
+    .cat-btn.active .cat-count {
+      background: rgba(var(--black-rgb), 0.15);
+      color: var(--black);
+    }
+  }
+</style>

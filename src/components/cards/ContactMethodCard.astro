@@ -1,0 +1,133 @@
+---
+/**
+ * ContactMethodCard.astro
+ * ========================
+ * Bento-style method selection card with visual preview
+ */
+
+import { Icon } from 'astro-icon/components';
+import type { ContactMethod } from '../contact.types';
+
+interface Props {
+  method: ContactMethod;
+  active?: boolean;
+  index?: number;
+}
+
+const { method, active = false, index = 0 } = Astro.props;
+---
+
+<button 
+  class:list={['method-card', { active }]}
+  data-method={method.id}
+  style={`--delay: ${index * 80}ms`}
+>
+  <div class="card-glow"></div>
+  
+  <div class="card-content">
+    <div class="card-preview">
+      {method.preview === 'chat' && (
+        <div class="preview-chat">
+          <div class="bubble bubble-in"><span class="bubble-avatar">SC</span><span class="bubble-text">Hey! How can I help? 👋</span></div>
+          <div class="bubble bubble-out"><span class="bubble-text">I have a question...</span></div>
+          <div class="bubble bubble-in"><span class="bubble-avatar">SC</span><span class="bubble-typing"><span></span><span></span><span></span></span></div>
+        </div>
+      )}
+      {method.preview === 'message' && (
+        <div class="preview-message">
+          <div class="pm-header"><Icon name="lucide:mail" /><span>New Message</span></div>
+          <div class="pm-field"><span class="pm-label">To</span><span class="pm-value">support@iawd.org</span></div>
+          <div class="pm-field"><span class="pm-label">Subject</span><span class="pm-value pm-typing">Question about...</span></div>
+          <div class="pm-body"><span class="pm-cursor"></span></div>
+        </div>
+      )}
+      {method.preview === 'call' && (
+        <div class="preview-call">
+          <div class="pc-calendar">
+            <div class="pc-header"><Icon name="lucide:chevron-left" /><span>Feb 2026</span><Icon name="lucide:chevron-right" /></div>
+            <div class="pc-days"><span>3</span><span class="today">4</span><span class="avail">5</span><span class="avail">6</span><span class="avail selected">7</span></div>
+          </div>
+          <div class="pc-times"><span>10am</span><span class="active">2pm</span><span>4pm</span></div>
+        </div>
+      )}
+    </div>
+
+    <div class="card-info">
+      <div class={`card-badge badge-${method.badge.variant}`}><Icon name={method.badge.icon} />{method.badge.text}</div>
+      <h3>{method.title}</h3>
+      <p>{method.description}</p>
+      <div class="card-status">
+        {method.status.online && <span class="online-dot"></span>}
+        {method.status.icon && <Icon name={method.status.icon} />}
+        <span>{method.status.text}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-check"><Icon name="lucide:check" /></div>
+</button>
+
+<style>
+  .method-card{position:relative;display:flex;flex-direction:column;min-height:300px;background:var(--bg-card);border:2px solid var(--border);border-radius:20px;padding:0;cursor:pointer;overflow:hidden;text-align:left;font-family: var(--font-primary);transition:all .4s cubic-bezier(.16,1,.3,1);animation:cardIn .5s ease calc(var(--delay)) both}
+  @keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+  .method-card::before{content:'';position:absolute;inset:0;background:radial-gradient(500px circle at var(--mx,50%) var(--my,50%),var(--accent-glow),transparent 40%);opacity:0;transition:opacity .3s}
+  .method-card:hover::before{opacity:1}
+  .method-card:hover{border-color:var(--border-hover);transform:translateY(-4px);box-shadow:0 20px 40px rgba(var(--black-rgb), .1)}
+  .method-card.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 20px 40px rgba(var(--black-rgb), .12)}
+  .card-glow{position:absolute;top:0;left:0;right:0;height:150px;background:linear-gradient(135deg,var(--accent-glow) 0%,transparent 60%);opacity:.3;transition:opacity .3s}
+  .method-card.active .card-glow{opacity:.6}
+  .card-content{position:relative;flex:1;display:flex;flex-direction:column;padding:24px}
+  .card-preview{flex:1;display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+  .preview-chat{display:flex;flex-direction:column;gap:8px;width:100%;max-width:200px}
+  .bubble{display:flex;align-items:flex-end;gap:8px;animation:bubbleIn .4s ease both}
+  .bubble-in{align-self:flex-start}.bubble-out{align-self:flex-end;flex-direction:row-reverse}
+  @keyframes bubbleIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .bubble:nth-child(1){animation-delay:.2s}.bubble:nth-child(2){animation-delay:.4s}.bubble:nth-child(3){animation-delay:.6s}
+  .bubble-avatar{width:22px;height:22px;display:flex;align-items:center;justify-content:center;background:var(--gradient);border-radius:50%;font-size:8px;font-weight:700;color:var(--black);flex-shrink:0}
+  .bubble-text{padding:8px 12px;background:var(--bg-secondary);border-radius:12px;font-size:11px;color:var(--text)}
+  .bubble-in .bubble-text{background:var(--accent-glow);color:var(--accent);border-bottom-left-radius:4px}
+  .bubble-out .bubble-text{border-bottom-right-radius:4px}
+  .bubble-typing{display:flex;gap:3px;padding:10px 14px;background:var(--accent-glow);border-radius:12px;border-bottom-left-radius:4px}
+  .bubble-typing span{width:5px;height:5px;background:var(--accent);border-radius:50%;animation:typing 1.4s ease-in-out infinite}
+  .bubble-typing span:nth-child(2){animation-delay:.2s}.bubble-typing span:nth-child(3){animation-delay:.4s}
+  @keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-3px)}}
+  .preview-message{width:100%;max-width:180px;background:var(--bg-secondary);border-radius:12px;overflow:hidden}
+  .pm-header{display:flex;align-items:center;gap:6px;padding:10px 12px;background:var(--bg-tertiary);font-size:10px;font-weight:600;color:var(--text)}
+  .pm-header :global(svg){width:12px;height:12px;color:var(--accent-2)}
+  .pm-field{display:flex;gap:8px;padding:8px 12px;border-bottom:1px solid var(--border)}
+  .pm-label{font-size:9px;color:var(--text-muted);min-width:36px}
+  .pm-value{font-size:10px;color:var(--text)}
+  .pm-typing{border-right:2px solid var(--accent-2);animation:blink 1s step-end infinite}
+  @keyframes blink{50%{border-color:transparent}}
+  .pm-body{height:30px;padding:8px 12px}
+  .pm-cursor{display:inline-block;width:2px;height:10px;background:var(--accent-2);animation:blink 1s step-end infinite}
+  .preview-call{width:100%;max-width:160px}
+  .pc-calendar{background:var(--bg-secondary);border-radius:10px;padding:10px;margin-bottom:8px}
+  .pc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:10px;font-weight:600;color:var(--text)}
+  .pc-header :global(svg){width:10px;height:10px;color:var(--text-muted)}
+  .pc-days{display:flex;gap:4px;justify-content:center}
+  .pc-days span{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-secondary);border-radius:6px}
+  .pc-days .today{background:var(--bg-tertiary);color:var(--text);font-weight:600}
+  .pc-days .avail{background:var(--accent-glow);color:var(--accent)}
+  .pc-days .selected{background:var(--accent-3);color:var(--black)}
+  .pc-times{display:flex;gap:4px}
+  .pc-times span{flex:1;padding:6px;background:var(--bg-secondary);border-radius:6px;font-size:9px;color:var(--text-secondary);text-align:center}
+  .pc-times .active{background:var(--accent-3);color:var(--black);font-weight:600}
+  .card-info{position:relative}
+  .card-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+  .card-badge :global(svg){width:11px;height:11px}
+  .badge-primary{background:var(--accent-glow);color:var(--accent)}
+  .badge-secondary{background:rgba(var(--indigo-400-rgb), .15);color:var(--accent-2)}
+  .badge-tertiary{background:rgba(var(--pink-400-rgb), .15);color:var(--accent-3)}
+  .card-info h3{font-family: var(--font-display);font-size:18px;font-weight:600;color:var(--text);margin-bottom:4px}
+  .card-info p{font-size:13px;color:var(--text-secondary);margin-bottom:10px}
+  .card-status{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted)}
+  .card-status :global(svg){width:12px;height:12px;opacity:.6}
+  .online-dot{width:7px;height:7px;background:var(--green-500);border-radius:50%;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+  .card-check{position:absolute;top:16px;right:16px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:var(--bg-secondary);border:2px solid var(--border);border-radius:50%;color:transparent;transition:all .3s ease}
+  .method-card.active .card-check{background:var(--accent);border-color:var(--accent);color:var(--black)}
+  .card-check :global(svg){width:13px;height:13px}
+  @media(max-width:1000px){.method-card{min-height:180px}.card-content{flex-direction:row;align-items:center}.card-preview{flex:0 0 160px;margin-bottom:0;margin-right:20px}}
+  @media(max-width:600px){.card-preview{display:none}.card-content{flex-direction:column}.method-card{min-height:auto}}
+</style>

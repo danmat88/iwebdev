@@ -1,0 +1,525 @@
+﻿---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/common/PageHero.astro';
+import { Icon } from 'astro-icon/components';
+import { globalStats } from '../../content/global/stats.config';
+---
+
+<PageLayout
+  title="Live Webinars | IAWD Training"
+  description="Join live webinars led by industry experts. Learn new skills, ask questions, and connect with other developers."
+>
+  <PageHero
+    badge="Live Webinars"
+    badgeIcon="lucide:video"
+    title="Learn from experts,"
+    highlight="live every week"
+    subtitle={`${globalStats.webinars.display} live webinars per year on the latest technologies, frameworks, and best practices. All sessions recorded for members.`}
+  />
+
+  <!-- Webinar Benefits - Compact Pills -->
+  <section class="webinar-benefits-nano">
+    <div class="container">
+      <div class="benefits-nano-grid">
+        <article class="benefit-nano reveal">
+          <div class="benefit-icon-nano">
+            <Icon name="lucide:video" />
+          </div>
+          <h3>Live & Interactive</h3>
+          <p>Ask questions in real-time, interact with instructors</p>
+        </article>
+
+        <article class="benefit-nano reveal" style="--delay: 0.05s">
+          <div class="benefit-icon-nano">
+            <Icon name="lucide:clock" />
+          </div>
+          <h3>Weekly Schedule</h3>
+          <p>New webinars every week covering various topics</p>
+        </article>
+
+        <article class="benefit-nano reveal" style="--delay: 0.1s">
+          <div class="benefit-icon-nano">
+            <Icon name="lucide:play-circle" />
+          </div>
+          <h3>On-Demand Access</h3>
+          <p>Can't attend live? Watch recordings anytime</p>
+        </article>
+
+        <article class="benefit-nano reveal" style="--delay: 0.15s">
+          <div class="benefit-icon-nano">
+            <Icon name="lucide:award" />
+          </div>
+          <h3>Certificates</h3>
+          <p>Earn certificates for attended webinars</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Webinars - Compact Cards -->
+  <section class="upcoming-webinars-nano">
+    <div class="container">
+      <div class="section-header-nano">
+        <h2>Upcoming Webinars</h2>
+        <p>Join us live or watch the recordings later</p>
+      </div>
+
+      <div class="webinars-nano-list">
+        <article class="webinar-nano-card reveal">
+          <div class="webinar-glow"></div>
+          <div class="webinar-date-nano">
+            <div class="date-day-nano">15</div>
+            <div class="date-month-nano">Feb</div>
+          </div>
+          <div class="webinar-content-nano">
+            <span class="webinar-tag-nano frontend">Frontend</span>
+            <h3>Modern CSS Techniques</h3>
+            <p>Container queries, CSS Grid updates, new layout patterns</p>
+            <div class="webinar-meta-nano">
+              <span><Icon name="lucide:user" /> Sarah Chen</span>
+              <span><Icon name="lucide:clock" /> 2:00 PM EST</span>
+              <span><Icon name="lucide:users" /> 234/300</span>
+            </div>
+          </div>
+          <a href="#register" class="webinar-cta-nano">
+            <span>Register</span>
+            <Icon name="lucide:arrow-right" />
+          </a>
+        </article>
+
+        <article class="webinar-nano-card reveal" style="--delay: 0.05s">
+          <div class="webinar-glow"></div>
+          <div class="webinar-date-nano">
+            <div class="date-day-nano">18</div>
+            <div class="date-month-nano">Feb</div>
+          </div>
+          <div class="webinar-content-nano">
+            <span class="webinar-tag-nano backend">Backend</span>
+            <h3>TypeScript Deep Dive</h3>
+            <p>Advanced TypeScript patterns, generics, type safety</p>
+            <div class="webinar-meta-nano">
+              <span><Icon name="lucide:user" /> Mike Johnson</span>
+              <span><Icon name="lucide:clock" /> 11:00 AM EST</span>
+              <span><Icon name="lucide:users" /> 156/200</span>
+            </div>
+          </div>
+          <a href="#register" class="webinar-cta-nano">
+            <span>Register</span>
+            <Icon name="lucide:arrow-right" />
+          </a>
+        </article>
+
+        <article class="webinar-nano-card reveal" style="--delay: 0.1s">
+          <div class="webinar-glow"></div>
+          <div class="webinar-date-nano">
+            <div class="date-day-nano">20</div>
+            <div class="date-month-nano">Feb</div>
+          </div>
+          <div class="webinar-content-nano">
+            <span class="webinar-tag-nano career">Career</span>
+            <h3>Career AMA with Industry Leaders</h3>
+            <p>Career growth, job searching, tech interviews</p>
+            <div class="webinar-meta-nano">
+              <span><Icon name="lucide:user" /> Panel Discussion</span>
+              <span><Icon name="lucide:clock" /> 6:00 PM EST</span>
+              <span><Icon name="lucide:users" /> 89/500</span>
+            </div>
+          </div>
+          <a href="#register" class="webinar-cta-nano">
+            <span>Register</span>
+            <Icon name="lucide:arrow-right" />
+          </a>
+        </article>
+      </div>
+
+      <div class="view-all-nano reveal" style="--delay: 0.15s">
+        <p>Members get access to all webinars + 200+ hours of recordings</p>
+        <a href="/membership/join" class="btn-nano btn-primary">
+          <Icon name="lucide:rocket" />
+          <span>Become a Member</span>
+          <div class="btn-shine"></div>
+        </a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<script>
+  function initReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach((item) => observer.observe(item));
+  }
+
+  document.addEventListener('DOMContentLoaded', initReveal);
+</script>
+
+<style>
+  /* ===== WEBINAR BENEFITS - NANO ===== */
+  .webinar-benefits-nano {
+    padding: 2rem 0;
+  }
+
+  .benefits-nano-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  .benefit-nano {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(var(--surface-875-rgb), 0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.1);
+    border-radius: 10px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .benefit-nano:hover {
+    border-color: rgba(var(--cyan-400-rgb), 0.25);
+    background: rgba(var(--surface-875-rgb), 0.5);
+    transform: translateY(-3px);
+  }
+
+  .benefit-icon-nano {
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+
+  .benefit-icon-nano :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .benefit-nano h3 {
+    margin: 0 0 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+    font-family: var(--font-display);
+  }
+
+  .benefit-nano p {
+    margin: 0;
+    font-size: 0.7rem;
+    line-height: 1.4;
+    color: var(--text-secondary);
+  }
+
+  /* ===== UPCOMING WEBINARS - NANO ===== */
+  .upcoming-webinars-nano {
+    padding: 3rem 0;
+    background: linear-gradient(180deg, transparent, rgba(var(--surface-900-rgb), 0.4), transparent);
+  }
+
+  .section-header-nano {
+    text-align: center;
+    margin-bottom: 1.8rem;
+  }
+
+  .section-header-nano h2 {
+    margin: 0 0 0.4rem;
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.03em;
+  }
+
+  .section-header-nano p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .webinars-nano-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .webinar-nano-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem;
+    background: rgba(var(--surface-875-rgb), 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.1);
+    border-radius: 12px;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .webinar-glow {
+    position: absolute;
+    inset: -60px;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(var(--accent-rgb), 0.15) 0%,
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .webinar-nano-card:hover .webinar-glow {
+    opacity: 1;
+  }
+
+  .webinar-nano-card:hover {
+    border-color: rgba(var(--cyan-400-rgb), 0.3);
+    background: rgba(var(--surface-875-rgb), 0.6);
+    transform: translateY(-3px);
+  }
+
+  .webinar-date-nano {
+    flex-shrink: 0;
+    width: 54px;
+    height: 54px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(var(--accent-rgb), 0.12);
+    border: 1px solid rgba(var(--accent-rgb), 0.25);
+    border-radius: 10px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .webinar-nano-card:hover .webinar-date-nano {
+    background: rgba(var(--accent-rgb), 0.18);
+    border-color: rgba(var(--accent-rgb), 0.4);
+    transform: scale(1.05);
+  }
+
+  .date-day-nano {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    font-family: var(--font-display);
+  }
+
+  .date-month-nano {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .webinar-content-nano {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .webinar-tag-nano {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.4rem;
+  }
+
+  .webinar-tag-nano.frontend {
+    background: rgba(var(--cyan-400-rgb), 0.12);
+    color: var(--cyan-400);
+  }
+
+  .webinar-tag-nano.backend {
+    background: rgba(var(--indigo-400-rgb), 0.12);
+    color: var(--indigo-400);
+  }
+
+  .webinar-tag-nano.career {
+    background: rgba(var(--green-500-rgb), 0.12);
+    color: var(--green-500);
+  }
+
+  .webinar-content-nano h3 {
+    margin: 0 0 0.35rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  .webinar-content-nano p {
+    margin: 0 0 0.6rem;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--text-secondary);
+  }
+
+  .webinar-meta-nano {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+  }
+
+  .webinar-meta-nano span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .webinar-meta-nano :global(svg) {
+    width: 12px;
+    height: 12px;
+  }
+
+  .webinar-cta-nano {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+    background: rgba(var(--accent-rgb), 0.12);
+    border: 1px solid rgba(var(--accent-rgb), 0.25);
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .webinar-cta-nano :global(svg) {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .webinar-cta-nano:hover {
+    background: rgba(var(--accent-rgb), 0.2);
+    border-color: rgba(var(--accent-rgb), 0.4);
+    transform: translateX(4px);
+  }
+
+  .webinar-cta-nano:hover :global(svg) {
+    transform: translateX(3px);
+  }
+
+  /* ===== VIEW ALL CTA - NANO ===== */
+  .view-all-nano {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(var(--surface-875-rgb), 0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--cyan-400-rgb), 0.15);
+    border-radius: 12px;
+  }
+
+  .view-all-nano p {
+    margin: 0 0 0.9rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .btn-nano {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  .btn-nano :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .btn-primary {
+    background: var(--gradient);
+    color: var(--white);
+    box-shadow: 0 8px 20px rgba(var(--accent-rgb), 0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(var(--accent-rgb), 0.4);
+  }
+
+  .btn-shine {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent,
+      rgba(255, 255, 255, 0.25),
+      transparent
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .btn-primary:hover .btn-shine {
+    opacity: 1;
+  }
+
+  /* ===== REVEAL ANIMATION ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease var(--delay, 0s), transform 0.6s ease var(--delay, 0s);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 980px) {
+    .benefits-nano-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .benefits-nano-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .webinar-nano-card {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .webinar-cta-nano {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .webinar-meta-nano {
+      justify-content: center;
+    }
+  }
+</style>

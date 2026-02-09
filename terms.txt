@@ -1,0 +1,1561 @@
+---
+import LegalLayout from '../../layouts/LegalLayout.astro';
+import { siteConfig } from '../../content/global/site.config';
+import { Icon } from 'astro-icon/components';
+
+const lastUpdated = "Feb 9, 2026";
+const effectiveDate = "Feb 9, 2026";
+---
+
+<LegalLayout
+  title="Terms of Service"
+  description="Clear, fair terms for developers"
+  lastUpdated={lastUpdated}
+  effectiveDate={effectiveDate}
+  version="2.1"
+  category="terms"
+  relatedDocs={[
+    { title: "Privacy Policy", href: "/legal/privacy", icon: "lucide:shield" },
+    { title: "Code of Conduct", href: "/legal/conduct", icon: "lucide:users" },
+    { title: "Contact Support", href: "/support/contact", icon: "lucide:mail" }
+  ]}
+>
+  <!-- Summary Terminal -->
+  <div class="terminal-block animate-in">
+    <div class="terminal-header">
+      <div class="terminal-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <span class="terminal-tab active"><Icon name="lucide:terminal" /> terms.summary</span>
+      <span class="terminal-tab"><Icon name="lucide:file-code" /> changelog</span>
+    </div>
+    <div class="terminal-body">
+      <div class="terminal-line"><span class="prompt">❯</span> <span class="cmd">cat</span> <span class="arg">key_points.md</span></div>
+      <div class="terminal-output">
+        <div class="output-item" style="--delay: 0">
+          <Icon name="lucide:check" /> <span>30-day money-back guarantee</span>
+        </div>
+        <div class="output-item" style="--delay: 1">
+          <Icon name="lucide:check" /> <span>Cancel anytime, no questions asked</span>
+        </div>
+        <div class="output-item" style="--delay: 2">
+          <Icon name="lucide:check" /> <span>Your content stays yours</span>
+        </div>
+        <div class="output-item" style="--delay: 3">
+          <Icon name="lucide:check" /> <span>Fair, transparent pricing</span>
+        </div>
+      </div>
+      <div class="terminal-line cursor"><span class="prompt">❯</span> <span class="blink">_</span></div>
+    </div>
+  </div>
+
+  <h2>1. Agreement</h2>
+  <p>
+    By using IAWD services, you agree to these terms. Simple as that. We're committed to transparency and fairness.
+  </p>
+
+  <!-- Data Grid -->
+  <div class="data-grid">
+    <div class="grid-item" style="--i:0">
+      <div class="grid-icon-wrap">
+        <Icon name="lucide:users" />
+        <div class="grid-icon-ring"></div>
+      </div>
+      <strong>Who</strong>
+      <span>Developers worldwide</span>
+    </div>
+    <div class="grid-item" style="--i:1">
+      <div class="grid-icon-wrap">
+        <Icon name="lucide:globe" />
+        <div class="grid-icon-ring"></div>
+      </div>
+      <strong>Where</strong>
+      <span>Any location</span>
+    </div>
+    <div class="grid-item" style="--i:2">
+      <div class="grid-icon-wrap">
+        <Icon name="lucide:calendar" />
+        <div class="grid-icon-ring"></div>
+      </div>
+      <strong>When</strong>
+      <span>Effective immediately</span>
+    </div>
+    <div class="grid-item" style="--i:3">
+      <div class="grid-icon-wrap">
+        <Icon name="lucide:shield-check" />
+        <div class="grid-icon-ring"></div>
+      </div>
+      <strong>Binding</strong>
+      <span>On acceptance</span>
+    </div>
+  </div>
+
+  <h2>2. Account & Membership</h2>
+  
+  <h3>2.1 Registration</h3>
+  <p>Create an account with accurate info. Keep it current. Pretty standard stuff.</p>
+  
+  <div class="compact-list">
+    <div class="list-item" style="--i:0">
+      <div class="list-step">01</div>
+      <Icon name="lucide:check-circle" />
+      <div>
+        <strong>Accurate Info</strong>
+        <span>Provide truthful details during signup</span>
+      </div>
+    </div>
+    <div class="list-item" style="--i:1">
+      <div class="list-step">02</div>
+      <Icon name="lucide:lock" />
+      <div>
+        <strong>Secure Password</strong>
+        <span>Use a strong, unique password</span>
+      </div>
+    </div>
+    <div class="list-item" style="--i:2">
+      <div class="list-step">03</div>
+      <Icon name="lucide:user-check" />
+      <div>
+        <strong>Age Requirement</strong>
+        <span>Must be 18+ or have parental consent</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>2.2 Membership Tiers</h3>
+  
+  <!-- Pricing Matrix -->
+  <div class="pricing-matrix">
+    <div class="matrix-tier">
+      <div class="tier-header-bar"></div>
+      <div class="tier-badge free">Free</div>
+      <div class="tier-price">$0<span>/mo</span></div>
+      <div class="tier-desc">Get started at zero cost</div>
+      <ul class="tier-features">
+        <li><Icon name="lucide:check" /> Community access</li>
+        <li><Icon name="lucide:check" /> Basic resources</li>
+        <li><Icon name="lucide:check" /> Forum participation</li>
+      </ul>
+    </div>
+    <div class="matrix-tier popular">
+      <div class="tier-header-bar"></div>
+      <div class="popular-tag"><Icon name="lucide:star" /> Most Popular</div>
+      <div class="tier-badge pro">Professional</div>
+      <div class="tier-price">$29<span>/mo</span></div>
+      <div class="tier-desc">Everything you need to grow</div>
+      <ul class="tier-features">
+        <li><Icon name="lucide:check" /> Everything in Free</li>
+        <li><Icon name="lucide:check" /> Premium courses</li>
+        <li><Icon name="lucide:check" /> Certifications</li>
+        <li><Icon name="lucide:check" /> Priority support</li>
+      </ul>
+    </div>
+    <div class="matrix-tier">
+      <div class="tier-header-bar"></div>
+      <div class="tier-badge enterprise">Enterprise</div>
+      <div class="tier-price">Custom</div>
+      <div class="tier-desc">Tailored for your team</div>
+      <ul class="tier-features">
+        <li><Icon name="lucide:check" /> Everything in Pro</li>
+        <li><Icon name="lucide:check" /> Team accounts</li>
+        <li><Icon name="lucide:check" /> Custom training</li>
+        <li><Icon name="lucide:check" /> Dedicated support</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>3. Payment & Billing</h2>
+  
+  <h3>3.1 Subscription Fees</h3>
+  <p>Charged in advance. Monthly or annual billing. All prices in USD.</p>
+
+  <h3>3.2 Refund Policy</h3>
+  
+  <!-- Highlight Box -->
+  <div class="highlight-box success">
+    <div class="highlight-icon">
+      <Icon name="lucide:gift" />
+      <div class="highlight-icon-pulse"></div>
+    </div>
+    <div>
+      <strong>30-Day Money-Back Guarantee</strong>
+      <p>Try any paid plan risk-free. Not satisfied? Full refund, no questions asked. After 30 days, fees are non-refundable except as required by law.</p>
+    </div>
+  </div>
+
+  <h3>3.3 Cancellation</h3>
+  <p>Cancel anytime from settings. Access continues until end of billing period. No partial refunds for mid-cycle cancellations.</p>
+
+  <h2>4. User Conduct</h2>
+  
+  <p>Be professional. Be respectful. Don't be a jerk. Here's what's not allowed:</p>
+
+  <!-- Dual Column List -->
+  <div class="dual-column-list">
+    <div class="column prohibited">
+      <div class="column-header">
+        <div class="column-icon-wrap danger">
+          <Icon name="lucide:x-circle" />
+        </div>
+        <span>Prohibited</span>
+      </div>
+      <ul>
+        <li><span class="li-marker"></span>Harassment or abuse</li>
+        <li><span class="li-marker"></span>Spam or unauthorized ads</li>
+        <li><span class="li-marker"></span>False information</li>
+        <li><span class="li-marker"></span>Malware or harmful code</li>
+        <li><span class="li-marker"></span>Unauthorized access attempts</li>
+      </ul>
+    </div>
+    <div class="column consequences">
+      <div class="column-header">
+        <div class="column-icon-wrap warn">
+          <Icon name="lucide:alert-triangle" />
+        </div>
+        <span>Consequences</span>
+      </div>
+      <ul>
+        <li><span class="li-marker"></span>First offense: Warning</li>
+        <li><span class="li-marker"></span>Repeated: Suspension</li>
+        <li><span class="li-marker"></span>Severe: Permanent ban</li>
+        <li><span class="li-marker"></span>Illegal: Legal action</li>
+        <li><span class="li-marker"></span>No refunds for violations</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>5. Content & IP</h2>
+  
+  <h3>5.1 Our Content</h3>
+  <p>All courses, materials, and content are protected by copyright. You get a license to use, not to redistribute.</p>
+
+  <h3>5.2 Your Content</h3>
+  
+  <!-- Info Cards Row -->
+  <div class="info-cards">
+    <div class="info-card">
+      <div class="info-card-glow"></div>
+      <Icon name="lucide:user" />
+      <strong>You Own It</strong>
+      <p>You retain full ownership of content you create</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-glow"></div>
+      <Icon name="lucide:share-2" />
+      <strong>We Can Use It</strong>
+      <p>You grant us license to display/distribute on platform</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-glow"></div>
+      <Icon name="lucide:award" />
+      <strong>Give Credit</strong>
+      <p>Always attribute work to original creators</p>
+    </div>
+  </div>
+
+  <h2>6. Disclaimers</h2>
+  
+  <!-- Warning Terminal -->
+  <div class="terminal-block warning">
+    <div class="terminal-header">
+      <div class="terminal-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <span class="terminal-tab active"><Icon name="lucide:alert-triangle" /> disclaimers.log</span>
+    </div>
+    <div class="terminal-body">
+      <div class="terminal-output">
+        <div class="output-warn" style="--delay: 0">
+          <Icon name="lucide:alert-triangle" /> <span>Services provided "AS IS" without warranties</span>
+        </div>
+        <div class="output-warn" style="--delay: 1">
+          <Icon name="lucide:info" /> <span>We don't guarantee specific outcomes or results</span>
+        </div>
+        <div class="output-warn" style="--delay: 2">
+          <Icon name="lucide:shield" /> <span>Educational purposes only — no employment guarantees</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>7. Limitation of Liability</h2>
+  <p>
+    We're not liable for indirect damages, lost profits, or consequential losses. Our total liability is limited to what you paid us in the last 12 months, or $100, whichever is greater.
+  </p>
+
+  <h2>8. Termination</h2>
+  
+  <div class="stats-row">
+    <div class="stat-box" style="--i:0">
+      <div class="stat-ring">
+        <div class="stat-ring-inner"></div>
+      </div>
+      <div class="stat-value">24h</div>
+      <div class="stat-label">Account deletion</div>
+    </div>
+    <div class="stat-box" style="--i:1">
+      <div class="stat-ring">
+        <div class="stat-ring-inner"></div>
+      </div>
+      <div class="stat-value">30d</div>
+      <div class="stat-label">Data retention</div>
+    </div>
+    <div class="stat-box" style="--i:2">
+      <div class="stat-ring">
+        <div class="stat-ring-inner"></div>
+      </div>
+      <div class="stat-value">∞</div>
+      <div class="stat-label">Rejoin anytime</div>
+    </div>
+  </div>
+
+  <h2>9. Changes to Terms</h2>
+  <p>
+    We may update these terms. We'll notify you via email and give you time to review changes before they take effect.
+  </p>
+
+  <h2>10. Governing Law</h2>
+  <p>
+    These terms are governed by California law, USA. Disputes resolved through arbitration.
+  </p>
+
+  <h2>11. Contact</h2>
+  
+  <!-- Contact Matrix -->
+  <div class="contact-matrix">
+    <a href={`mailto:${siteConfig.email}`} class="contact-card">
+      <div class="contact-icon-wrap">
+        <Icon name="lucide:mail" />
+      </div>
+      <span>Email Us</span>
+      <div class="contact-arrow"><Icon name="lucide:arrow-right" /></div>
+    </a>
+    <a href="/support/contact" class="contact-card">
+      <div class="contact-icon-wrap">
+        <Icon name="lucide:message-circle" />
+      </div>
+      <span>Support Form</span>
+      <div class="contact-arrow"><Icon name="lucide:arrow-right" /></div>
+    </a>
+    <a href="/legal" class="contact-card">
+      <div class="contact-icon-wrap">
+        <Icon name="lucide:file-text" />
+      </div>
+      <span>Legal Hub</span>
+      <div class="contact-arrow"><Icon name="lucide:arrow-right" /></div>
+    </a>
+  </div>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <div class="final-cta-glow"></div>
+    <div class="final-cta-icon">
+      <Icon name="lucide:check-circle-2" />
+    </div>
+    <div>
+      <strong>By using IAWD, you agree to these terms.</strong>
+      <p>Last updated: {lastUpdated} · Effective: {effectiveDate}</p>
+    </div>
+    <div class="final-cta-badge">
+      <Icon name="lucide:shield-check" />
+      <span>v2.1</span>
+    </div>
+  </div>
+</LegalLayout>
+
+<style>
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px currentColor; }
+    50% { box-shadow: 0 0 30px currentColor, 0 0 40px currentColor; }
+  }
+
+  @keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @keyframes typewriter-reveal {
+    from { opacity: 0; transform: translateX(-6px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes ring-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes pulse-ring {
+    0% { transform: scale(1); opacity: 0.4; }
+    100% { transform: scale(1.8); opacity: 0; }
+  }
+
+  @keyframes float-subtle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  .animate-in {
+    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+
+  /* ===== TERMINAL BLOCK ===== */
+  .terminal-block {
+    margin: 24px 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    font-family: var(--font-mono);
+    position: relative;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .terminal-block::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--gradient);
+    opacity: 0.6;
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0;
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .terminal-dots {
+    display: flex;
+    gap: var(--space-xs);
+    padding: 10px 14px;
+  }
+
+  .terminal-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: all 0.3s;
+  }
+
+  .terminal-block:hover .terminal-dots span:nth-child(1) { background: #ef4444; box-shadow: 0 0 6px #ef444480; }
+  .terminal-block:hover .terminal-dots span:nth-child(2) { background: #eab308; box-shadow: 0 0 6px #eab30880; }
+  .terminal-block:hover .terminal-dots span:nth-child(3) { background: #22c55e; box-shadow: 0 0 6px #22c55e80; }
+
+  .terminal-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    border-right: 1px solid var(--border);
+    cursor: default;
+    transition: all 0.3s;
+  }
+
+  .terminal-tab :global(svg) {
+    width: 12px;
+    height: 12px;
+  }
+
+  .terminal-tab.active {
+    background: var(--bg-secondary);
+    color: var(--text);
+    position: relative;
+  }
+
+  .terminal-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--bg-secondary);
+  }
+
+  .terminal-body {
+    padding: 16px 20px;
+  }
+
+  .terminal-line {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .terminal-line.cursor {
+    margin-bottom: 0;
+    margin-top: 12px;
+    opacity: 0.5;
+  }
+
+  .prompt {
+    color: var(--accent);
+    font-weight: var(--font-bold);
+  }
+
+  .cmd {
+    color: var(--accent-2);
+    font-weight: var(--font-semibold);
+  }
+
+  .arg {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .blink {
+    color: var(--accent);
+    animation: blink 1s step-end infinite;
+    font-weight: var(--font-bold);
+  }
+
+  .terminal-output {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding-left: 20px;
+    border-left: 2px solid var(--border);
+    margin-left: 4px;
+  }
+
+  .output-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 13px;
+    color: var(--text-secondary);
+    animation: typewriter-reveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-delay: calc(var(--delay, 0) * 0.12s + 0.3s);
+  }
+
+  .output-item :global(svg) {
+    width: 16px;
+    height: 16px;
+    padding: 3px;
+    background: var(--success-muted);
+    border-radius: var(--radius-sm);
+    color: var(--success);
+    flex-shrink: 0;
+  }
+
+  .output-warn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 13px;
+    color: var(--warning);
+    animation: typewriter-reveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-delay: calc(var(--delay, 0) * 0.15s + 0.2s);
+  }
+
+  .output-warn :global(svg) {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  .terminal-block.warning {
+    border-color: color-mix(in srgb, var(--warning) 30%, var(--border));
+  }
+
+  .terminal-block.warning::before {
+    background: linear-gradient(90deg, var(--warning), transparent);
+  }
+
+  /* ===== DATA GRID ===== */
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 24px 0;
+  }
+
+  .grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 20px 12px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .grid-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gradient);
+    transform: scaleX(0);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: left;
+  }
+
+  .grid-item:hover::before {
+    transform: scaleX(1);
+  }
+
+  .grid-item:hover {
+    border-color: var(--accent);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px var(--accent-glow);
+  }
+
+  .grid-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .grid-icon-wrap :global(svg) {
+    width: 28px;
+    height: 28px;
+    padding: 6px;
+    background: var(--accent-muted);
+    border-radius: var(--radius-md);
+    color: var(--accent);
+    position: relative;
+    z-index: 1;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .grid-icon-ring {
+    position: absolute;
+    inset: -4px;
+    border: 1.5px dashed var(--accent);
+    border-radius: var(--radius-lg);
+    opacity: 0;
+    transition: opacity 0.4s;
+    animation: ring-spin 12s linear infinite;
+  }
+
+  .grid-item:hover .grid-icon-ring {
+    opacity: 0.4;
+  }
+
+  .grid-item:hover .grid-icon-wrap :global(svg) {
+    background: var(--accent);
+    color: var(--white);
+    box-shadow: 0 4px 16px var(--accent-glow);
+    transform: scale(1.1);
+  }
+
+  .grid-item strong {
+    font-size: 11px;
+    font-weight: var(--font-bold);
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .grid-item span {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* ===== COMPACT LIST ===== */
+  .compact-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin: 20px 0;
+  }
+
+  .list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .list-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--gradient);
+    transform: scaleY(0);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: top;
+  }
+
+  .list-item:hover::before {
+    transform: scaleY(1);
+  }
+
+  .list-item:hover {
+    border-color: var(--accent);
+    transform: translateX(4px);
+    box-shadow: 0 4px 16px var(--accent-glow);
+  }
+
+  .list-step {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: var(--font-bold);
+    color: var(--accent);
+    background: var(--accent-muted);
+    border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .list-item:hover .list-step {
+    background: var(--accent);
+    color: var(--white);
+    border-color: var(--accent);
+    box-shadow: 0 2px 12px var(--accent-glow);
+  }
+
+  .list-item :global(svg) {
+    width: 20px;
+    height: 20px;
+    padding: 4px;
+    background: var(--accent-muted);
+    border-radius: var(--radius-sm);
+    color: var(--accent);
+    margin-top: 2px;
+    flex-shrink: 0;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .list-item:hover :global(svg) {
+    transform: scale(1.1);
+  }
+
+  .list-item div {
+    flex: 1;
+  }
+
+  .list-item strong {
+    display: block;
+    font-size: 13px;
+    font-weight: var(--font-bold);
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .list-item span {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+  }
+
+  /* ===== PRICING MATRIX ===== */
+  .pricing-matrix {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 24px 0;
+  }
+
+  .matrix-tier {
+    padding: 24px 20px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tier-header-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--border);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .matrix-tier:hover .tier-header-bar {
+    background: var(--gradient);
+    box-shadow: 0 2px 12px var(--accent-glow);
+  }
+
+  .matrix-tier.popular {
+    border-color: var(--accent);
+    box-shadow: 0 0 24px var(--accent-glow), inset 0 0 60px var(--accent-glow);
+  }
+
+  .matrix-tier.popular .tier-header-bar {
+    background: var(--gradient);
+    box-shadow: 0 2px 12px var(--accent-glow);
+  }
+
+  .matrix-tier:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .matrix-tier.popular:hover {
+    box-shadow: 0 16px 48px var(--accent-glow), inset 0 0 60px var(--accent-glow);
+  }
+
+  .popular-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    font-size: 9px;
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    background: var(--accent-muted);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    border-radius: var(--radius-full);
+    margin-bottom: 10px;
+    animation: float-subtle 3s ease-in-out infinite;
+  }
+
+  .popular-tag :global(svg) {
+    width: 10px;
+    height: 10px;
+  }
+
+  .tier-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    font-size: 10px;
+    font-weight: var(--font-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+  }
+
+  .tier-badge.free {
+    background: var(--bg-tertiary);
+    color: var(--text-muted);
+  }
+
+  .tier-badge.pro {
+    background: var(--accent);
+    color: var(--bg);
+    box-shadow: 0 2px 8px var(--accent-glow);
+  }
+
+  .tier-badge.enterprise {
+    background: var(--accent-2);
+    color: var(--white);
+    box-shadow: 0 2px 8px var(--accent-2-glow);
+  }
+
+  .tier-price {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    color: var(--text);
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+  }
+
+  .tier-price span {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--text-muted);
+  }
+
+  .tier-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tier-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .tier-features li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 0;
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+  }
+
+  .tier-features li:last-child {
+    border-bottom: none;
+  }
+
+  .tier-features :global(svg) {
+    width: 14px;
+    height: 14px;
+    color: var(--success);
+    flex-shrink: 0;
+  }
+
+  /* ===== HIGHLIGHT BOX ===== */
+  .highlight-box {
+    display: flex;
+    gap: var(--space-md);
+    padding: 20px 24px;
+    margin: 20px 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .highlight-box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, var(--success-muted));
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .highlight-box:hover::after {
+    opacity: 1;
+  }
+
+  .highlight-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .highlight-box.success {
+    background: color-mix(in srgb, var(--success-muted) 60%, var(--bg-secondary));
+    border-left-color: var(--success);
+  }
+
+  .highlight-icon {
+    position: relative;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .highlight-icon :global(svg) {
+    width: 32px;
+    height: 32px;
+    padding: 7px;
+    background: var(--success);
+    border-radius: var(--radius-md);
+    color: var(--white);
+    box-shadow: 0 4px 16px var(--success-glow);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .highlight-box:hover .highlight-icon :global(svg) {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 6px 24px var(--success-glow);
+  }
+
+  .highlight-icon-pulse {
+    position: absolute;
+    inset: -4px;
+    border-radius: var(--radius-lg);
+    background: var(--success);
+    opacity: 0;
+    animation: pulse-ring 2.5s ease-out infinite;
+  }
+
+  .highlight-box div {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  .highlight-box strong {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--text);
+    margin-bottom: var(--space-xs);
+  }
+
+  .highlight-box p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* ===== DUAL COLUMN LIST ===== */
+  .dual-column-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-md);
+    margin: 20px 0;
+  }
+
+  .column {
+    padding: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .column:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  .column.prohibited {
+    border-top: 3px solid #ef4444;
+  }
+
+  .column.consequences {
+    border-top: 3px solid var(--warning);
+  }
+
+  .column-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 14px 16px;
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border);
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .column-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-sm);
+  }
+
+  .column-icon-wrap.danger {
+    background: #ef444420;
+    color: #ef4444;
+  }
+
+  .column-icon-wrap.warn {
+    background: color-mix(in srgb, var(--warning) 15%, transparent);
+    color: var(--warning);
+  }
+
+  .column-icon-wrap :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+
+  .column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .column li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .column li:last-child {
+    border-bottom: none;
+  }
+
+  .column li:hover {
+    background: var(--bg-tertiary);
+    padding-left: 20px;
+  }
+
+  .li-marker {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .column.prohibited .li-marker {
+    background: #ef4444;
+    box-shadow: 0 0 6px #ef444460;
+  }
+
+  .column.consequences .li-marker {
+    background: var(--warning);
+    box-shadow: 0 0 6px color-mix(in srgb, var(--warning) 40%, transparent);
+  }
+
+  /* ===== INFO CARDS ===== */
+  .info-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin: 20px 0;
+  }
+
+  .info-card {
+    padding: 20px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .info-card-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
+
+  .info-card:hover .info-card-glow {
+    opacity: 0.3;
+  }
+
+  .info-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 16px 40px var(--accent-glow);
+  }
+
+  .info-card :global(svg) {
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+    background: var(--accent-muted);
+    border-radius: var(--radius-lg);
+    color: var(--accent);
+    margin-bottom: var(--space-sm);
+    box-shadow: 0 2px 8px var(--accent-glow);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 1;
+  }
+
+  .info-card:hover :global(svg) {
+    background: var(--accent);
+    color: var(--white);
+    transform: scale(1.15) rotate(-5deg);
+    box-shadow: 0 6px 24px var(--accent-glow);
+  }
+
+  .info-card strong {
+    display: block;
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 6px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .info-card p {
+    font-size: var(--text-xs);
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== STATS ROW ===== */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 14px;
+    margin: 24px 0;
+  }
+
+  .stat-box {
+    padding: 24px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .stat-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gradient);
+    transform: scaleX(0);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .stat-box:hover::before {
+    transform: scaleX(1);
+  }
+
+  .stat-box:hover {
+    border-color: var(--accent);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px var(--accent-glow);
+  }
+
+  .stat-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    border: 1px dashed color-mix(in srgb, var(--accent) 15%, transparent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    animation: ring-spin 20s linear infinite;
+    pointer-events: none;
+  }
+
+  .stat-ring-inner {
+    position: absolute;
+    inset: 12px;
+    border: 1px dashed color-mix(in srgb, var(--accent) 10%, transparent);
+    border-radius: 50%;
+    animation: ring-spin 15s linear infinite reverse;
+  }
+
+  .stat-box:hover .stat-ring {
+    opacity: 1;
+  }
+
+  .stat-value {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    color: var(--accent);
+    margin-bottom: 6px;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 0 20px var(--accent-glow);
+    letter-spacing: -0.02em;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: var(--font-semibold);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== CONTACT MATRIX ===== */
+  .contact-matrix {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
+    margin: 24px 0;
+  }
+
+  .contact-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 24px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .contact-card:hover::before {
+    opacity: 0.06;
+  }
+
+  .contact-icon-wrap {
+    position: relative;
+    z-index: 1;
+  }
+
+  .contact-icon-wrap :global(svg) {
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+    background: var(--accent-muted);
+    border-radius: var(--radius-lg);
+    color: var(--accent);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 8px var(--accent-glow);
+  }
+
+  .contact-card:hover .contact-icon-wrap :global(svg) {
+    background: var(--accent);
+    color: var(--white);
+    transform: scale(1.15);
+    box-shadow: 0 8px 32px var(--accent-glow);
+  }
+
+  .contact-card span {
+    font-size: 13px;
+    font-weight: var(--font-semibold);
+    color: var(--text);
+    position: relative;
+    z-index: 1;
+  }
+
+  .contact-arrow {
+    position: relative;
+    z-index: 1;
+  }
+
+  .contact-arrow :global(svg) {
+    width: 14px;
+    height: 14px;
+    color: var(--text-muted);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .contact-card:hover .contact-arrow :global(svg) {
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .contact-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px var(--accent-glow);
+  }
+
+  /* ===== FINAL CTA ===== */
+  .final-cta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 28px;
+    margin-top: var(--space-2xl);
+    background: linear-gradient(135deg, var(--success-muted), var(--bg-secondary));
+    border: 2px solid var(--success);
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .final-cta-glow {
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, var(--success-glow), transparent 70%);
+    opacity: 0.2;
+    pointer-events: none;
+  }
+
+  .final-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px var(--success-glow);
+  }
+
+  .final-cta-icon {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .final-cta-icon :global(svg) {
+    width: 36px;
+    height: 36px;
+    color: var(--success);
+    filter: drop-shadow(0 0 8px var(--success-glow));
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .final-cta:hover .final-cta-icon :global(svg) {
+    transform: scale(1.15) rotate(5deg);
+  }
+
+  .final-cta div {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  .final-cta strong {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .final-cta p {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .final-cta-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    background: var(--success-muted);
+    border: 1px solid var(--success);
+    border-radius: var(--radius-sm);
+    font-size: 10px;
+    font-weight: var(--font-bold);
+    color: var(--success);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .final-cta-badge :global(svg) {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .pricing-matrix,
+    .info-cards,
+    .dual-column-list,
+    .data-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stats-row {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .final-cta {
+      flex-wrap: wrap;
+      padding: 20px;
+    }
+
+    .terminal-tab:not(.active) {
+      display: none;
+    }
+  }
+
+  /* Hover enhancements */
+  .promise-banner:hover,
+  .trust-seal:hover,
+  .commitment-seal:hover,
+  .final-cta:hover {
+    animation: gradient-shift 4s ease infinite;
+  }
+  
+  .quick-stat:hover :global(svg),
+  .stat-icon:hover :global(svg),
+  .security-layer:hover :global(svg),
+  .provider-card:hover :global(svg) {
+    transform: scale(1.15) rotate(5deg);
+  }
+
+  .right-card:hover :global(svg) {
+    transform: scale(1.1) rotate(-5deg);
+  }
+  
+  /* Mobile improvements */
+  @media (max-width: 768px) {
+    .quick-stat,
+    .provider-card,
+    .right-card,
+    .info-card,
+    .contact-method {
+      min-height: 48px;
+      padding: 18px;
+    }
+  }
+
+  /* Touch device improvements */
+  @media (hover: none) {
+    .quick-stat,
+    .provider-card,
+    .right-card {
+      transform: none !important;
+    }
+    
+    .quick-stat:active,
+    .provider-card:active,
+    .right-card:active {
+      transform: scale(0.98) !important;
+    }
+  }
+</style>
