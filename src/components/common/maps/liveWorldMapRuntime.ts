@@ -96,6 +96,7 @@ export function initLiveWorldMapPanel(
   const tooltip = mapStateEl.querySelector<HTMLElement>('.map-tooltip');
   const tooltipCity = mapStateEl.querySelector<HTMLElement>('.tooltip-city');
   const tooltipInfo = mapStateEl.querySelector<HTMLElement>('.tooltip-info');
+  const tooltipFlag = mapStateEl.querySelector<HTMLImageElement>('.tooltip-flag');
   const hotspotsContainer = mapStateEl.querySelector<HTMLElement>('.map-hotspots');
   const pingsContainer = mapStateEl.querySelector<HTMLElement>('.map-pings');
   const onlineCount = mapStateEl.querySelector<HTMLElement>('.online-count');
@@ -132,11 +133,35 @@ export function initLiveWorldMapPanel(
     tooltip.style.top = `${y - 10}px`;
   }
 
-  function showTooltip(city: string | null, info: string | null, event: MouseEvent) {
+  function setTooltipFlag(countryCode: string | null | undefined) {
+    if (!tooltipFlag) {
+      return;
+    }
+
+    const normalized = (countryCode || '').trim().toLowerCase();
+    if (/^[a-z]{2}$/.test(normalized)) {
+      tooltipFlag.src = `https://flagcdn.com/${normalized}.svg`;
+      tooltipFlag.alt = `${normalized.toUpperCase()} Flag`;
+      tooltipFlag.classList.add('visible');
+      return;
+    }
+
+    tooltipFlag.removeAttribute('src');
+    tooltipFlag.alt = '';
+    tooltipFlag.classList.remove('visible');
+  }
+
+  function showTooltip(
+    city: string | null,
+    info: string | null,
+    event: MouseEvent,
+    countryCode: string | null = null,
+  ) {
     if (!tooltip || !tooltipCity) {
       return;
     }
     tooltipCity.textContent = city ?? '';
+    setTooltipFlag(countryCode);
     if (tooltipInfo) {
       tooltipInfo.textContent = info ?? '';
     }
@@ -256,7 +281,8 @@ export function initLiveWorldMapPanel(
         hotspot.classList.add('active');
         const city = hotspot.getAttribute('data-city');
         const info = hotspot.getAttribute('data-info');
-        showTooltip(city, info, event as MouseEvent);
+        const countryCode = hotspot.getAttribute('data-country-code');
+        showTooltip(city, info, event as MouseEvent, countryCode);
         drawConnectionArcs(x, y);
       });
 
@@ -308,7 +334,7 @@ export function initLiveWorldMapPanel(
           path.classList.add('hovered');
           const countryName = getCountryName(path);
           if (countryName) {
-            showTooltip(countryName, null, event as MouseEvent);
+            showTooltip(countryName, null, event as MouseEvent, null);
           }
         });
 

@@ -1,6 +1,7 @@
 ﻿---
 
 import { Icon } from 'astro-icon/components';
+import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
 import { benefitsConfig } from '../../content/pages/membership/benefits.config';
 
 const {
@@ -20,12 +21,14 @@ const xpProgressPercent = totalXp > 0 ? Math.round((unlockedXp / totalXp) * 100)
 const totalMapMembers = memberMap.hotspots.reduce((sum, hotspot) => sum + hotspot.members, 0);
 const uniqueMapCountries = new Set(memberMap.hotspots.map((hotspot) => hotspot.country)).size;
 
-const mapHotspots = memberMap.hotspots.map((hotspot) => {
+const liveMapHotspots = memberMap.hotspots.map((hotspot) => {
   const left = Math.min(92, Math.max(8, ((hotspot.lng + 180) / 360) * 100));
   const top = Math.min(88, Math.max(10, ((90 - hotspot.lat) / 180) * 100));
 
   return {
-    ...hotspot,
+    city: hotspot.city,
+    info: `${hotspot.members.toLocaleString()} members`,
+    countryCode: hotspot.flag,
     left: `${left}%`,
     top: `${top}%`,
   };
@@ -40,10 +43,7 @@ const estimatedOnlineNow = memberMap.hotspots.reduce(
   0,
 );
 
-const countryCodeToFlag = (countryCode: string) =>
-  countryCode
-    .toUpperCase()
-    .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
+const countryCodeToFlagSrc = (countryCode: string) => `https://flagcdn.com/${countryCode.toLowerCase()}.svg`;
 
 const activityTypeIcons: Record<string, string> = {
   join: 'lucide:user-plus',
@@ -397,33 +397,20 @@ const formatEventDate = (isoDate: string) => {
 
       <div class="mb-map-container">
         <div class="mb-map-visual">
-          <svg class="mb-world-svg" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path class="mb-world-outline" d="M84 190c40-24 92-32 134-24l52 30 32-8 28 12 18 30-8 26-30 20-56 8-42 22-40-6-48-34-32-8-18-22 10-26z" />
-            <path class="mb-world-outline" d="M394 174l48-18 86 10 38 28 72 10 34 34-14 30-52 18-58-4-42 20-74-8-48-28-10-44 20-48z" />
-            <path class="mb-world-outline" d="M706 214l42-30 72-8 62 18 34 34-6 36-28 26-56 10-48-14-42 8-32-22 2-58z" />
-            <path class="mb-world-outline" d="M804 332l54 10 38 24-8 30-46 14-34-20-18-26 14-32z" />
-          </svg>
-
-          {mapHotspots.map((hotspot) => (
-            <div class="mb-hotspot" style={`left: ${hotspot.left}; top: ${hotspot.top};`}>
-              <span class="mb-hotspot-dot"></span>
-              <span class="mb-hotspot-ring"></span>
-              <span class="mb-hotspot-ring ring-2"></span>
-              <div class="mb-hotspot-tooltip">
-                <span class="mb-tooltip-flag">{countryCodeToFlag(hotspot.flag)}</span>
-                <div>
-                  <div class="mb-tooltip-city">{hotspot.city}, {hotspot.country}</div>
-                  <div class="mb-tooltip-count">{hotspot.members} members</div>
-                </div>
-              </div>
-            </div>
-          ))}
+          <div class="mb-live-map-shell" data-map-interaction-container>
+            <LiveWorldMapPanel mapHotspots={liveMapHotspots} />
+          </div>
         </div>
 
         <div class="mb-map-legend">
           {mapLegend.map((hotspot) => (
             <div class="mb-legend-item">
-              <span class="mb-legend-flag">{countryCodeToFlag(hotspot.flag)}</span>
+              <img
+                class="mb-legend-flag"
+                src={countryCodeToFlagSrc(hotspot.flag)}
+                alt={`${hotspot.country} Flag`}
+                loading="lazy"
+              />
               <span class="mb-legend-city">{hotspot.city}</span>
               <span class="mb-legend-count">{hotspot.members}</span>
             </div>
@@ -478,7 +465,12 @@ const formatEventDate = (isoDate: string) => {
             <div class="mb-testi-author">
               <span class="mb-author-avatar">
                 {testimonial.avatar}
-                <span class="mb-author-flag">{countryCodeToFlag(testimonial.country)}</span>
+                <img
+                  class="mb-author-flag"
+                  src={countryCodeToFlagSrc(testimonial.country)}
+                  alt={`${testimonial.country.toUpperCase()} Flag`}
+                  loading="lazy"
+                />
               </span>
               <div>
                 <div class="mb-author-name">{testimonial.author}</div>
@@ -530,7 +522,12 @@ const formatEventDate = (isoDate: string) => {
             <div class="mb-activity-content">
               <span class="mb-activity-user">
                 {item.user}
-                <span class="mb-activity-flag">{countryCodeToFlag(item.country)}</span>
+                <img
+                  class="mb-activity-flag"
+                  src={countryCodeToFlagSrc(item.country)}
+                  alt={`${item.country.toUpperCase()} Flag`}
+                  loading="lazy"
+                />
               </span>{' '}
               <span class="mb-activity-text">{getActivityMessage(item)}</span>
             </div>
@@ -1154,15 +1151,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.mb-roi-card, .mb-explorer-card, .mb-comparison-card, .mb-achievements-card, .mb-map-card, .mb-testimonials-card, .mb-activity-card, .mb-events-card, .mb-journey-card').forEach(el => {
     animObserver.observe(el);
-  });
-
-  document.querySelectorAll('.mb-hotspot').forEach(spot => {
-    spot.addEventListener('mouseenter', () => {
-      spot.classList.add('active');
-    });
-    spot.addEventListener('mouseleave', () => {
-      spot.classList.remove('active');
-    });
   });
 
   benefitCards.forEach(card => {
@@ -2380,10 +2368,42 @@ document.addEventListener('DOMContentLoaded', () => {
   .mb-map-visual {
     flex: 1;
     position: relative;
-    height: 200px;
+    height: 240px;
     background: var(--bg-secondary);
     border-radius: 12px;
     overflow: hidden;
+  }
+
+  .mb-live-map-shell {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .mb-live-map-shell :global(.map-state) {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .mb-live-map-shell :global(.map-stats-panel) {
+    top: 10px;
+    right: 10px;
+    gap: 10px;
+    padding: 6px 10px;
+  }
+
+  .mb-live-map-shell :global(.stat-item) {
+    font-size: 10px;
+  }
+
+  .mb-live-map-shell :global(.stat-icon svg) {
+    width: 11px;
+    height: 11px;
+  }
+
+  .mb-live-map-shell :global(.world-map),
+  .mb-live-map-shell :global(.map-hotspots) {
+    inset: 14px;
   }
 
   .mb-world-svg {
@@ -2502,11 +2522,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   .mb-legend-flag {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    line-height: 1;
+    display: inline-block;
+    width: 16px;
+    height: 12px;
+    border-radius: 2px;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px rgba(var(--white-rgb), 0.12);
   }
 
   .mb-legend-city {
@@ -2649,17 +2670,13 @@ document.addEventListener('DOMContentLoaded', () => {
     position: absolute;
     bottom: -4px;
     right: -4px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 18px;
-    height: 18px;
-    padding: 0 3px;
+    display: inline-block;
+    width: 18px;
+    height: 13px;
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 999px;
-    font-size: 10px;
-    line-height: 1;
+    border-radius: 6px;
+    object-fit: cover;
     box-shadow: 0 1px 3px rgba(var(--black-rgb), 0.3);
   }
 
@@ -2798,9 +2815,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   .mb-activity-flag {
+    display: inline-block;
     width: 14px;
     height: 10px;
     border-radius: 2px;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px rgba(var(--white-rgb), 0.12);
   }
 
   .mb-activity-text {

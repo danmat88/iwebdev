@@ -2,7 +2,20 @@
 import { Icon } from 'astro-icon/components';
 import { heroConfig } from '../../../content/pages/home/hero.config';
 
-const { mapHotspots } = heroConfig;
+interface LiveMapHotspot {
+  city: string;
+  info: string;
+  left: string;
+  top: string;
+  countryCode?: string;
+}
+
+interface Props {
+  mapHotspots?: LiveMapHotspot[];
+}
+
+const defaultHotspots = heroConfig.mapHotspots as LiveMapHotspot[];
+const { mapHotspots = defaultHotspots } = Astro.props as Props;
 ---
 
 <div class="map-state visible" data-live-world-map>
@@ -83,6 +96,7 @@ const { mapHotspots } = heroConfig;
             class="hotspot"
             data-city={hotspot.city}
             data-info={hotspot.info}
+            data-country-code={hotspot.countryCode?.toLowerCase() ?? ''}
             style={`left:${hotspot.left};top:${hotspot.top};--delay:${i * 0.1}s`}
           >
             <span class="hotspot-ring"></span>
@@ -96,6 +110,7 @@ const { mapHotspots } = heroConfig;
 
       <div class="map-tooltip">
         <div class="tooltip-header">
+          <img class="tooltip-flag" alt="" loading="lazy" />
           <span class="tooltip-icon"><Icon name="lucide:map-pin" /></span>
           <span class="tooltip-city"></span>
         </div>
@@ -622,6 +637,19 @@ const { mapHotspots } = heroConfig;
     display: flex;
     align-items: center;
     gap: 6px;
+  }
+
+  .tooltip-flag {
+    display: none;
+    width: 14px;
+    height: 10px;
+    border-radius: 2px;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px rgba(var(--white-rgb), 0.12);
+  }
+
+  .tooltip-flag.visible {
+    display: inline-block;
   }
 
   .tooltip-icon {
