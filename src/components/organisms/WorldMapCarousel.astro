@@ -1,6 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components';
 import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
+import { liveSessionCards } from '../../content/global/community.config';
 ---
 
 <div class="unified-container" data-world-map-carousel data-map-interaction-container>
@@ -36,342 +37,68 @@ import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
     </div>
 
     <div class="terminal-stack" id="terminal-stack">
+      {liveSessionCards.map((card, index) => (
+        <article
+          class="terminal-card"
+          data-index={card.index}
+          style={`--enter-delay: ${0.05 + index * 0.05}s;`}
+        >
+          <div class="card-hologram"></div>
+          <div class="card-glitch-layer"></div>
+          <div class="card-energy-field"></div>
 
-      <article class="terminal-card" data-index="0">
-        <div class="card-hologram"></div>
-        <div class="card-glitch-layer"></div>
-        <div class="card-energy-field"></div>
-
-        <div class="terminal-header">
-          <div class="terminal-controls">
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
-          </div>
-          <div class="terminal-title">REMOTE_SESSION://live</div>
-          <div class="terminal-status">
-            <span class="status-indicator pulse"></span>
-            <span class="status-text">CONNECTED</span>
-          </div>
-        </div>
-
-        <div class="terminal-body">
-          <div class="terminal-viewport">
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop&q=90" alt="Pair Programming" />
-            <div class="viewport-overlay">
-              <div class="scan-line-anim"></div>
-              <div class="corner-brackets"></div>
+          <div class="terminal-header">
+            <div class="terminal-controls">
+              <span class="control-dot"></span>
+              <span class="control-dot"></span>
+              <span class="control-dot"></span>
+            </div>
+            <div class="terminal-title">{card.title}</div>
+            <div class="terminal-status">
+              <span class={`status-indicator pulse${card.statusTone && card.statusTone !== 'default' ? ` ${card.statusTone}` : ''}`}></span>
+              <span class="status-text">{card.status}</span>
             </div>
           </div>
 
-          <div class="terminal-console">
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">session.location</span>
-              <span class="output">→ San Francisco, CA</span>
+          <div class="terminal-body">
+            <div class="terminal-viewport">
+              <img src={card.image} alt={card.imageAlt} />
+              <div class="viewport-overlay">
+                <div class="scan-line-anim"></div>
+                <div class="corner-brackets"></div>
+              </div>
             </div>
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">session.type</span>
-              <span class="output">→ Pair Programming</span>
-            </div>
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">active.users</span>
-              <span class="output blink">→ 12 watching</span>
-            </div>
-          </div>
-        </div>
 
-        <div class="terminal-footer">
-          <div class="footer-stats">
-            <span class="stat"><span class="stat-icon"><Icon name="lucide:zap" /></span>2hr</span>
-            <span class="stat"><span class="stat-icon"><Icon name="lucide:radio" /></span>94ms</span>
-            <span class="stat stat-hot"><span class="stat-icon"><Icon name="lucide:flame" /></span>HOT</span>
-          </div>
-          <div class="footer-id">#SESSION_4F7A9B</div>
-        </div>
-      </article>
-
-      <article class="terminal-card" data-index="1">
-        <div class="card-hologram"></div>
-        <div class="card-glitch-layer"></div>
-        <div class="card-energy-field"></div>
-
-        <div class="terminal-header">
-          <div class="terminal-controls">
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
-          </div>
-          <div class="terminal-title">SYNC_PROTOCOL://daily</div>
-          <div class="terminal-status">
-            <span class="status-indicator pulse"></span>
-            <span class="status-text">SYNCING</span>
-          </div>
-        </div>
-
-        <div class="terminal-body">
-          <div class="terminal-viewport">
-            <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&h=600&fit=crop&q=90" alt="Team Standup" />
-            <div class="viewport-overlay">
-              <div class="scan-line-anim"></div>
-              <div class="corner-brackets"></div>
+            <div class="terminal-console">
+              {card.console.map((line) => (
+                <div class="console-line">
+                  <span class="prompt">$</span>
+                  <span class="command">{line.command}</span>
+                  <span class={`output${line.blink ? ' blink' : ''}`}>
+                    {'-> '}{line.output}
+                    {line.icon && (
+                      <span class={`inline-icon ${line.icon.className}`}>
+                        <Icon name={line.icon.name} />
+                      </span>
+                    )}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div class="terminal-console">
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">geo.locate</span>
-              <span class="output">→ Berlin, Germany</span>
+          <div class="terminal-footer">
+            <div class="footer-stats">
+              {card.footerStats.map((stat) => (
+                <span class={`stat${stat.tone ? ` stat-${stat.tone}` : ''}`}>
+                  <span class="stat-icon"><Icon name={stat.icon} /></span>{stat.value}
+                </span>
+              ))}
             </div>
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">sync.type</span>
-              <span class="output">→ Team Standup</span>
-            </div>
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">team.size</span>
-              <span class="output blink">→ 8 members</span>
-            </div>
+            <div class="footer-id">{card.sessionId}</div>
           </div>
-        </div>
-
-        <div class="terminal-footer">
-          <div class="footer-stats">
-            <span class="stat"><span class="stat-icon"><Icon name="lucide:timer" /></span>15m</span>
-            <span class="stat"><span class="stat-icon"><Icon name="lucide:radio" /></span>52ms</span>
-            <span class="stat stat-live"><span class="stat-icon"><Icon name="lucide:activity" /></span>LIVE</span>
-          </div>
-          <div class="footer-id">#SYNC_8E2C4D</div>
-        </div>
-      </article>
-
-      <article class="terminal-card" data-index="2">
-        <div class="card-hologram"></div>
-        <div class="card-glitch-layer"></div>
-        <div class="card-energy-field"></div>
-
-        <div class="terminal-header">
-          <div class="terminal-controls">
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
-          </div>
-          <div class="terminal-title">FOCUS_MODE://engaged</div>
-          <div class="terminal-status">
-            <span class="status-indicator pulse focus"></span>
-            <span class="status-text">FOCUSED</span>
-          </div>
-        </div>
-
-        <div class="terminal-body">
-          <div class="terminal-viewport">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop&q=90" alt="Deep Work" />
-            <div class="viewport-overlay">
-              <div class="scan-line-anim"></div>
-              <div class="corner-brackets"></div>
-            </div>
-          </div>
-
-          <div class="terminal-console">
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">current.location</span>
-              <span class="output">→ Tokyo, Japan</span>
-            </div>
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">mode.status</span>
-              <span class="output">→ Deep Work</span>
-            </div>
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">streak.time</span>
-              <span class="output blink">→ 4hr <span class="inline-icon flame"><Icon name="lucide:flame" /></span></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="terminal-footer">
-          <div class="footer-stats">
-            <span class="stat"><span class="stat-icon"><Icon name="lucide:target" /></span>4hr</span>
-            <span class="stat"><span class="stat-icon"><Icon name="lucide:radio" /></span>28ms</span>
-            <span class="stat stat-fire"><span class="stat-icon"><Icon name="lucide:flame" /></span>FIRE</span>
-          </div>
-          <div class="footer-id">#FOCUS_A3D8F1</div>
-        </div>
-      </article>
-
-      <article class="terminal-card" data-index="3">
-        <div class="card-hologram"></div>
-        <div class="card-glitch-layer"></div>
-        <div class="card-energy-field"></div>
-
-        <div class="terminal-header">
-          <div class="terminal-controls">
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
-          </div>
-          <div class="terminal-title">HACK_EVENT://48h-challenge</div>
-          <div class="terminal-status">
-            <span class="status-indicator pulse warn"></span>
-            <span class="status-text">BUILDING</span>
-          </div>
-        </div>
-
-        <div class="terminal-body">
-          <div class="terminal-viewport">
-            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&h=600&fit=crop&q=90" alt="Hackathon" />
-            <div class="viewport-overlay">
-              <div class="scan-line-anim"></div>
-              <div class="corner-brackets"></div>
-            </div>
-          </div>
-
-          <div class="terminal-console">
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">event.location</span>
-              <span class="output">→ London, UK</span>
-            </div>
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">event.type</span>
-              <span class="output">→ Hackathon</span>
-            </div>
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">hackers.count</span>
-              <span class="output blink">→ 156 active</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="terminal-footer">
-          <div class="footer-stats">
-            <span class="stat"><span class="stat-icon"><Icon name="lucide:clock" /></span>23h</span>
-            <span class="stat"><span class="stat-icon"><Icon name="lucide:radio" /></span>71ms</span>
-            <span class="stat stat-fast"><span class="stat-icon"><Icon name="lucide:zap" /></span>FAST</span>
-          </div>
-          <div class="footer-id">#HACK_9B4E7C</div>
-        </div>
-      </article>
-
-      <article class="terminal-card" data-index="4">
-        <div class="card-hologram"></div>
-        <div class="card-glitch-layer"></div>
-        <div class="card-energy-field"></div>
-
-        <div class="terminal-header">
-          <div class="terminal-controls">
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
-          </div>
-          <div class="terminal-title">IDEATE_SESSION://creative</div>
-          <div class="terminal-status">
-            <span class="status-indicator pulse"></span>
-            <span class="status-text">ACTIVE</span>
-          </div>
-        </div>
-
-        <div class="terminal-body">
-          <div class="terminal-viewport">
-            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&q=90" alt="Brainstorming" />
-            <div class="viewport-overlay">
-              <div class="scan-line-anim"></div>
-              <div class="corner-brackets"></div>
-            </div>
-          </div>
-
-          <div class="terminal-console">
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">session.location</span>
-              <span class="output">→ Toronto, Canada</span>
-            </div>
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">session.mode</span>
-              <span class="output">→ Brainstorming</span>
-            </div>
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">ideas.generated</span>
-              <span class="output blink">→ 24 ideas</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="terminal-footer">
-          <div class="footer-stats">
-            <span class="stat"><span class="stat-icon"><Icon name="lucide:lightbulb" /></span>24</span>
-            <span class="stat"><span class="stat-icon"><Icon name="lucide:radio" /></span>38ms</span>
-            <span class="stat stat-new"><span class="stat-icon"><Icon name="lucide:sparkles" /></span>NEW</span>
-          </div>
-          <div class="footer-id">#IDEA_C7F2A9</div>
-        </div>
-      </article>
-
-      <article class="terminal-card" data-index="5">
-        <div class="card-hologram"></div>
-        <div class="card-glitch-layer"></div>
-        <div class="card-energy-field"></div>
-
-        <div class="terminal-header">
-          <div class="terminal-controls">
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
-            <span class="control-dot"></span>
-          </div>
-          <div class="terminal-title">REVIEW_PROCESS://pr-check</div>
-          <div class="terminal-status">
-            <span class="status-indicator pulse success"></span>
-            <span class="status-text">APPROVED</span>
-          </div>
-        </div>
-
-        <div class="terminal-body">
-          <div class="terminal-viewport">
-            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=600&fit=crop&q=90" alt="Code Review" />
-            <div class="viewport-overlay">
-              <div class="scan-line-anim"></div>
-              <div class="corner-brackets"></div>
-            </div>
-          </div>
-
-          <div class="terminal-console">
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">reviewer.location</span>
-              <span class="output">→ Sydney, Australia</span>
-            </div>
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">review.type</span>
-              <span class="output">→ Code Review</span>
-            </div>
-            <div class="console-line">
-              <span class="prompt">$</span>
-              <span class="command">pr.status</span>
-              <span class="output blink">→ 3 PRs <span class="inline-icon check"><Icon name="lucide:check" /></span></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="terminal-footer">
-          <div class="footer-stats">
-            <span class="stat"><span class="stat-icon"><Icon name="lucide:git-pull-request" /></span>3PR</span>
-            <span class="stat"><span class="stat-icon"><Icon name="lucide:radio" /></span>124ms</span>
-            <span class="stat stat-ok"><span class="stat-icon"><Icon name="lucide:check-circle" /></span>OK</span>
-          </div>
-          <div class="footer-id">#REVIEW_5D9E2B</div>
-        </div>
-      </article>
+        </article>
+      ))}
     </div>
 
     <div class="hud-stats">
@@ -771,14 +498,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   .carousel-state.entering .terminal-card {
     animation: cardBurstIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+    animation-delay: var(--enter-delay, 0s);
   }
-
-  .carousel-state.entering .terminal-card[data-index="0"] { animation-delay: 0.05s; }
-  .carousel-state.entering .terminal-card[data-index="1"] { animation-delay: 0.1s; }
-  .carousel-state.entering .terminal-card[data-index="2"] { animation-delay: 0.15s; }
-  .carousel-state.entering .terminal-card[data-index="3"] { animation-delay: 0.2s; }
-  .carousel-state.entering .terminal-card[data-index="4"] { animation-delay: 0.25s; }
-  .carousel-state.entering .terminal-card[data-index="5"] { animation-delay: 0.3s; }
 
   .carousel-state.exiting {
     animation: carouselCollapse 0.7s cubic-bezier(0.55, 0, 1, 0.45) forwards;
@@ -1370,4 +1091,3 @@ document.addEventListener('DOMContentLoaded', () => {
     opacity: 0.05;
   }
 </style>
-

@@ -1,6 +1,7 @@
 import { globalStats } from '../../global/stats.config';
 import { getMemberMapHotspots } from '../../global/locations.config';
 import { getBenefitsTestimonials } from '../../global/testimonials.config';
+import { membershipActivityFeed, membershipEvents } from '../../global/community.config';
 import { pricingConfig } from './pricing.config';
 
 const professionalTier = pricingConfig.tiers.find((tier) => tier.id === 'professional');
@@ -13,111 +14,7 @@ const annualDiscountPercent =
     ? Math.round((annualSavingsAmount / annualOriginalPrice) * 100)
     : 0;
 
-export const benefitsConfig = {
-  header: {
-    badge: 'Member Benefits',
-    tagline: `Join ${globalStats.members.display} developers in ${globalStats.countries.display} countries`,
-    title: {
-      line1: 'More Than',
-      line2: 'Just Code',
-    },
-    subtitle: 'Education, mentorship, and professional growth for web developers at every level.',
-  },
-
-  homePreview: {
-    title: {
-      line1: 'Everything you need to',
-      line2: 'succeed',
-    },
-    subtitle: `Join ${globalStats.members.display} developers accelerating their careers in ${globalStats.countries.display} countries.`,
-    ctaText: 'Explore All Benefits',
-    ctaUrl: '/membership/benefits',
-    benefitIds: ['webinars', 'mentorship', 'certificates', 'forums', 'jobs', 'resume'],
-  },
-
-  heroStats: [
-    {
-      value: globalStats.members.total,
-      suffix: '+',
-      label: 'Members',
-      icon: 'lucide:users',
-      trend: globalStats.members.trend,
-    },
-    {
-      value: globalStats.countries.total,
-      suffix: '',
-      label: 'Countries',
-      icon: 'lucide:globe',
-      trend: 'Truly global',
-    },
-    {
-      value: globalStats.webinars.yearly,
-      suffix: '+',
-      label: 'Webinars/yr',
-      icon: 'lucide:video',
-      trend: 'Every week',
-    },
-    {
-      value: globalStats.satisfaction,
-      suffix: '%',
-      label: 'Satisfaction',
-      icon: 'lucide:heart',
-      trend: 'Would recommend',
-    },
-  ],
-
-  roiCalculator: {
-    title: 'Calculate Your ROI',
-    subtitle: "See what you'd save as a member",
-    items: [
-      {
-        id: 'webinars',
-        label: 'Webinars (50+/yr)',
-        value: 2500,
-        icon: 'lucide:video',
-        desc: '$50 each elsewhere',
-      },
-      {
-        id: 'courses',
-        label: 'Platform discounts',
-        value: 800,
-        icon: 'lucide:percent',
-        desc: '40% off partners',
-      },
-      {
-        id: 'resume',
-        label: 'Resume reviews',
-        value: 300,
-        icon: 'lucide:file-check',
-        desc: '3 reviews/yr',
-      },
-      {
-        id: 'mentorship',
-        label: 'Mentorship hours',
-        value: 1200,
-        icon: 'lucide:handshake',
-        desc: '12 hrs @ $100/hr',
-      },
-      {
-        id: 'conference',
-        label: 'Summit ticket',
-        value: 500,
-        icon: 'lucide:calendar',
-        desc: 'Included free',
-      },
-      {
-        id: 'job',
-        label: 'Job board access',
-        value: 400,
-        icon: 'lucide:briefcase',
-        desc: '$400/yr value',
-      },
-    ],
-    membershipCost: annualPrice,
-    ctaText: "That's {x}x your investment",
-  },
-
-  benefits: [
+const benefits = [
     {
       id: 'webinars',
       category: 'learning',
@@ -300,13 +197,123 @@ export const benefitsConfig = {
       popular: false,
       new: true,
     },
+  ];
+
+const getBenefitsCountByCategory = (category: string) =>
+  benefits.filter((benefit) => benefit.category === category).length;
+
+
+export const benefitsConfig = {
+  header: {
+    badge: 'Member Benefits',
+    tagline: `Join ${globalStats.members.display} developers in ${globalStats.countries.display} countries`,
+    title: {
+      line1: 'More Than',
+      line2: 'Just Code',
+    },
+    subtitle: 'Education, mentorship, and professional growth for web developers at every level.',
+  },
+
+  homePreview: {
+    title: {
+      line1: 'Everything you need to',
+      line2: 'succeed',
+    },
+    subtitle: `Join ${globalStats.members.display} developers accelerating their careers in ${globalStats.countries.display} countries.`,
+    ctaText: 'Explore All Benefits',
+    ctaUrl: '/membership/benefits',
+    benefitIds: ['webinars', 'mentorship', 'certificates', 'forums', 'jobs', 'resume'],
+  },
+
+  heroStats: [
+    {
+      value: globalStats.members.total,
+      suffix: '+',
+      label: 'Members',
+      icon: 'lucide:users',
+      trend: globalStats.members.trend,
+    },
+    {
+      value: globalStats.countries.total,
+      suffix: '',
+      label: 'Countries',
+      icon: 'lucide:globe',
+      trend: 'Truly global',
+    },
+    {
+      value: globalStats.webinars.yearly,
+      suffix: '+',
+      label: 'Webinars/yr',
+      icon: 'lucide:video',
+      trend: 'Every week',
+    },
+    {
+      value: globalStats.satisfaction,
+      suffix: '%',
+      label: 'Satisfaction',
+      icon: 'lucide:heart',
+      trend: 'Would recommend',
+    },
   ],
 
+  roiCalculator: {
+    title: 'Calculate Your ROI',
+    subtitle: "See what you'd save as a member",
+    items: [
+      {
+        id: 'webinars',
+        label: 'Webinars (50+/yr)',
+        value: 2500,
+        icon: 'lucide:video',
+        desc: '$50 each elsewhere',
+      },
+      {
+        id: 'courses',
+        label: 'Platform discounts',
+        value: 800,
+        icon: 'lucide:percent',
+        desc: '40% off partners',
+      },
+      {
+        id: 'resume',
+        label: 'Resume reviews',
+        value: 300,
+        icon: 'lucide:file-check',
+        desc: '3 reviews/yr',
+      },
+      {
+        id: 'mentorship',
+        label: 'Mentorship hours',
+        value: 1200,
+        icon: 'lucide:handshake',
+        desc: '12 hrs @ $100/hr',
+      },
+      {
+        id: 'conference',
+        label: 'Summit ticket',
+        value: 500,
+        icon: 'lucide:calendar',
+        desc: 'Included free',
+      },
+      {
+        id: 'job',
+        label: 'Job board access',
+        value: 400,
+        icon: 'lucide:briefcase',
+        desc: '$400/yr value',
+      },
+    ],
+    membershipCost: annualPrice,
+    ctaText: "That's {x}x your investment",
+  },
+
+  benefits,
+
   categories: [
-    { id: 'all', label: 'All Benefits', icon: 'lucide:grid-3x3', count: 18 },
-    { id: 'learning', label: 'Learning', icon: 'lucide:graduation-cap', count: 6, color: 'var(--cyan-400)' },
-    { id: 'community', label: 'Community', icon: 'lucide:users', count: 6, color: 'var(--indigo-400)' },
-    { id: 'career', label: 'Career', icon: 'lucide:rocket', count: 6, color: 'var(--pink-400)' },
+    { id: 'all', label: 'All Benefits', icon: 'lucide:grid-3x3', count: benefits.length },
+    { id: 'learning', label: 'Learning', icon: 'lucide:graduation-cap', count: getBenefitsCountByCategory('learning'), color: 'var(--cyan-400)' },
+    { id: 'community', label: 'Community', icon: 'lucide:users', count: getBenefitsCountByCategory('community'), color: 'var(--indigo-400)' },
+    { id: 'career', label: 'Career', icon: 'lucide:rocket', count: getBenefitsCountByCategory('career'), color: 'var(--pink-400)' },
   ],
 
   comparison: {
@@ -364,46 +371,9 @@ export const benefitsConfig = {
 
   testimonials: getBenefitsTestimonials(),
 
-  activityFeed: [
-    { type: 'join', user: 'Alex M.', location: 'San Francisco', country: 'us', time: 'Just now' },
-    { type: 'certificate', user: 'Yuki T.', achievement: 'React Fundamentals', country: 'jp', time: '2m ago' },
-    { type: 'webinar', user: 'Carlos R.', event: 'CSS Grid Mastery', country: 'mx', time: '5m ago' },
-    { type: 'mentor', user: 'Emma W.', action: 'matched with mentor', country: 'gb', time: '8m ago' },
-    { type: 'job', user: 'Raj P.', achievement: 'Got hired at Microsoft!', country: 'in', time: '12m ago' },
-    { type: 'badge', user: 'Sofia L.', achievement: 'Certified Pro badge', country: 'de', time: '15m ago' },
-    { type: 'forum', user: 'Chen W.', action: 'answered 10 questions', country: 'cn', time: '18m ago' },
-    { type: 'join', user: 'Olga K.', location: 'Warsaw', country: 'pl', time: '22m ago' },
-  ],
+  activityFeed: membershipActivityFeed,
 
-  events: [
-    {
-      title: 'Modern CSS Techniques',
-      type: 'Webinar',
-      date: '2026-02-15T14:00:00',
-      speaker: { name: 'Sarah Chen', avatar: 'SC', role: 'CSS Wizard' },
-      attendees: 234,
-      maxAttendees: 300,
-      tags: ['CSS', 'Frontend'],
-    },
-    {
-      title: 'TypeScript Deep Dive',
-      type: 'Workshop',
-      date: '2026-02-18T11:00:00',
-      speaker: { name: 'Mike Johnson', avatar: 'MJ', role: 'TS Expert' },
-      attendees: 156,
-      maxAttendees: 200,
-      tags: ['TypeScript', 'Advanced'],
-    },
-    {
-      title: 'Career AMA',
-      type: 'Live Q&A',
-      date: '2026-02-20T18:00:00',
-      speaker: { name: 'Panel', avatar: 'PA', role: 'Industry Leaders' },
-      attendees: 89,
-      maxAttendees: 500,
-      tags: ['Career', 'Networking'],
-    },
-  ],
+  events: membershipEvents,
 
   journey: [
     {
