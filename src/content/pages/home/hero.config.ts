@@ -48,7 +48,7 @@ export const heroConfig: HeroConfig = {
   // HERO TITLE
   // ============================================
   title: {
-    line1: 'The developer',
+    line1: 'The x',
     line2: 'community you',
     line3: '', // This line uses typed words
     typedWords: [
