@@ -392,6 +392,12 @@ import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.querySelector('[data-world-map-carousel]');
+  if (container?.dataset.carouselInitialized === 'true') {
+    return;
+  }
+  if (container) {
+    container.dataset.carouselInitialized = 'true';
+  }
   const mapState = container?.querySelector('.map-state');
   const mapShrinkWrapper = container?.querySelector('.map-shrink-wrapper');
   const carouselState = container?.querySelector('#carousel-state');
@@ -748,63 +754,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   .carousel-transition-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 80px;
-    height: 80px;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle,
-      rgba(var(--white-rgb), 0.9) 0%,
-      rgba(var(--cyan-400-rgb), 0.7) 25%,
-      rgba(var(--indigo-400-rgb), 0.5) 50%,
-      transparent 70%
-    );
-    border-radius: 50%;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 5;
+    display: none;
   }
 
   .carousel-state.entering .carousel-transition-glow {
-    animation: ringExpand 0.8s ease-out forwards;
+    animation: none;
   }
 
   .carousel-state.exiting .carousel-transition-glow {
-    animation: ringContract 0.7s ease-in forwards;
-  }
-
-  @keyframes ringExpand {
-    0% {
-      transform: translate(-50%, -50%) scale(0);
-      opacity: 1;
-      filter: brightness(2);
-    }
-    40% {
-      opacity: 0.9;
-      filter: brightness(1.5);
-    }
-    100% {
-      transform: translate(-50%, -50%) scale(12);
-      opacity: 0;
-      filter: brightness(1);
-    }
-  }
-
-  @keyframes ringContract {
-    0% {
-      transform: translate(-50%, -50%) scale(12);
-      opacity: 0;
-    }
-    50% {
-      opacity: 0.8;
-      filter: brightness(1.5);
-    }
-    100% {
-      transform: translate(-50%, -50%) scale(0);
-      opacity: 1;
-      filter: brightness(2);
-    }
+    animation: none;
   }
 
   .carousel-state.entering {
