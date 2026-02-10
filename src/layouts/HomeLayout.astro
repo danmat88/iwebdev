@@ -38,5 +38,34 @@ const { title, description = "The International Association of Web Developers" }
     <Header />
     <slot />
     <Footer />
+
+    <style is:global>
+      [data-world-map-carousel] {
+        isolation: isolate;
+        contain: layout paint;
+      }
+
+      [data-world-map-carousel] .map-state,
+      [data-world-map-carousel] .carousel-state {
+        contain: paint;
+      }
+
+      [data-world-map-carousel] .transition-glow,
+      [data-world-map-carousel] .carousel-transition-glow {
+        display: none !important;
+        animation: none !important;
+      }
+
+      [data-world-map-carousel] .map-state.exiting .edge-flare,
+      [data-world-map-carousel] .map-state.exiting .entrance-scan-line,
+      [data-world-map-carousel] .map-shrink-wrapper.shrinking,
+      [data-world-map-carousel] .map-shrink-wrapper.expanding,
+      [data-world-map-carousel] .carousel-state.entering,
+      [data-world-map-carousel] .carousel-state.exiting,
+      [data-world-map-carousel] .carousel-state.entering .terminal-card,
+      [data-world-map-carousel] .carousel-state.exiting .terminal-card {
+        animation: none !important;
+      }
+    </style>
   </body>
 </html>
