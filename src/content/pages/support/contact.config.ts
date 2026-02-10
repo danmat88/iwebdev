@@ -1,12 +1,3 @@
-/**
- * CONTACT CONFIGURATION
- * ======================
- * Contact section configuration
- *
- * DATA SOURCES:
- * - Team: Imported from ../../global/team.config (single source of truth)
- */
-
 import type { ContactConfig } from '../../../config/contact.types';
 import { getContactTeam } from '../../global/team.config';
 
@@ -57,7 +48,6 @@ export const contactConfig: ContactConfig = {
     }
   ],
 
-  // Team members (FROM GLOBAL TEAM CONFIG)
   team: getContactTeam(), // Imported from global team config
 
   topics: [

@@ -1,18 +1,3 @@
-/**
- * FAQ CONFIGURATION
- * =================
- * All FAQ data in one place - easy to maintain!
- * 
- * FEATURES:
- * ✨ Live search with highlighting
- * 🏷️ Category filtering
- * 🔗 Shareable question links (anchor URLs)
- * 👍 "Was this helpful?" feedback
- * 📱 Mobile-optimized
- * ⌨️ Keyboard navigation
- * ♿ Fully accessible
- */
-
 import type { FAQConfig } from './faq.types';
 import { pricingConfig } from '../membership/pricing.config';
 import { benefitsConfig } from '../membership/benefits.config';
@@ -36,16 +21,10 @@ const learningDiscountValue =
   'partner discounts';
 
 export const faqConfig: FAQConfig = {
-  // ============================================
-  // HEADER
-  // ============================================
   title: "Frequently Asked Questions",
   subtitle: "Find answers to common questions about our platform, features, and pricing",
   searchPlaceholder: "Search for answers...",
 
-  // ============================================
-  // CATEGORIES
-  // ============================================
   categories: [
     {
       id: "getting-started",
@@ -73,11 +52,7 @@ export const faqConfig: FAQConfig = {
     }
   ],
 
-  // ============================================
-  // FAQ ITEMS
-  // ============================================
   faqs: [
-    // GETTING STARTED
     {
       id: "what-is-platform",
       question: "What is iWebDev?",
@@ -107,7 +82,6 @@ export const faqConfig: FAQConfig = {
       related: ["cancel-anytime", "refund-policy"]
     },
 
-    // ACCOUNT & BILLING
     {
       id: "free-vs-paid",
       question: "What's the difference between Free and Professional?",
@@ -159,7 +133,6 @@ export const faqConfig: FAQConfig = {
       related: ["payment-methods", "enterprise"]
     },
 
-    // FEATURES
     {
       id: "what-included",
       question: "What's included in Professional membership?",
@@ -202,7 +175,6 @@ export const faqConfig: FAQConfig = {
       related: ["what-included", "professional-value"]
     },
 
-    // TECHNICAL
     {
       id: "devices",
       question: "How many devices can I use?",
@@ -245,9 +217,6 @@ export const faqConfig: FAQConfig = {
     }
   ],
 
-  // ============================================
-  // CONTACT CTA
-  // ============================================
   contactCTA: {
     show: true,
     title: "Still have questions?",
@@ -262,9 +231,6 @@ export const faqConfig: FAQConfig = {
     }
   },
 
-  // ============================================
-  // FEEDBACK SYSTEM
-  // ============================================
   feedback: {
     enabled: true,
     positiveText: "Yes, this was helpful",
@@ -272,64 +238,42 @@ export const faqConfig: FAQConfig = {
     thankYouText: "Thanks for your feedback!"
   },
 
-  // ============================================
-  // EMPTY STATE
-  // ============================================
   emptyState: {
     title: "No results found",
     description: "Try adjusting your search or browse by category"
   }
 };
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
-/**
- * Get FAQ by ID
- */
 export function getFAQById(id: string) {
   return faqConfig.faqs.find(faq => faq.id === id);
 }
 
-/**
- * Get FAQs by category
- */
 export function getFAQsByCategory(categoryId: string) {
   return faqConfig.faqs.filter(faq => faq.category === categoryId);
 }
 
-/**
- * Get popular FAQs
- */
 export function getPopularFAQs() {
   return faqConfig.faqs.filter(faq => faq.popular);
 }
 
-/**
- * Get related FAQs
- */
 export function getRelatedFAQs(faqId: string) {
   const faq = getFAQById(faqId);
   if (!faq?.related) return [];
-  
+
   return faq.related
     .map(id => getFAQById(id))
     .filter(Boolean);
 }
 
-/**
- * Search FAQs
- */
 export function searchFAQs(query: string) {
   const searchTerm = query.toLowerCase().trim();
   if (!searchTerm) return faqConfig.faqs;
-  
+
   return faqConfig.faqs.filter(faq => {
     const questionMatch = faq.question.toLowerCase().includes(searchTerm);
     const answerMatch = faq.answer.toLowerCase().includes(searchTerm);
     const tagMatch = faq.tags?.some(tag => tag.toLowerCase().includes(searchTerm));
-    
+
     return questionMatch || answerMatch || tagMatch;
   });
 }

@@ -1,21 +1,4 @@
-/**
- * GLOBAL LOCATIONS CONFIGURATION
- * ===============================
- * THE SINGLE SOURCE OF TRUTH for all geographic/location data
- *
- * This file consolidates all location references across the site:
- * - Map hotspots (hero section)
- * - Member distribution (benefits page)
- * - Office locations
- *
- * All components should import from this file rather than maintaining separate location lists.
- */
-
 import { z } from 'zod';
-
-// ============================================
-// VALIDATION SCHEMA
-// ============================================
 
 export const LocationSchema = z.object({
   city: z.string(),
@@ -36,10 +19,6 @@ export const LocationSchema = z.object({
 });
 
 export type Location = z.infer<typeof LocationSchema>;
-
-// ============================================
-// GLOBAL LOCATIONS (Merged from all sources)
-// ============================================
 
 export const globalLocations: Location[] = [
   {
@@ -176,11 +155,6 @@ export const globalLocations: Location[] = [
   },
 ];
 
-// ============================================
-// VALIDATION
-// ============================================
-
-// Validate on load (dev only)
 if (import.meta.env.DEV) {
   try {
     globalLocations.forEach((location, index) => {
@@ -193,36 +167,20 @@ if (import.meta.env.DEV) {
   }
 }
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
-/**
- * Get location by city name
- */
 export function getLocationByCity(city: string): Location | undefined {
   return globalLocations.find(l => l.city.toLowerCase() === city.toLowerCase());
 }
 
-/**
- * Get locations by country code
- */
 export function getLocationsByCountry(countryCode: string): Location[] {
   return globalLocations.filter(l => l.countryCode.toLowerCase() === countryCode.toLowerCase());
 }
 
-/**
- * Get top N locations by member count
- */
 export function getTopLocationsByMembers(limit: number = 10): Location[] {
   return [...globalLocations]
     .sort((a, b) => b.members - a.members)
     .slice(0, limit);
 }
 
-/**
- * Get top N locations by online count
- */
 export function getTopLocationsByOnline(limit: number = 10): Location[] {
   return [...globalLocations]
     .filter(l => l.onlineNow !== undefined)
@@ -230,23 +188,14 @@ export function getTopLocationsByOnline(limit: number = 10): Location[] {
     .slice(0, limit);
 }
 
-/**
- * Get total member count across all locations
- */
 export function getTotalMembers(): number {
   return globalLocations.reduce((sum, location) => sum + location.members, 0);
 }
 
-/**
- * Get total online count across all locations
- */
 export function getTotalOnline(): number {
   return globalLocations.reduce((sum, location) => sum + (location.onlineNow || 0), 0);
 }
 
-/**
- * Format location data for map hotspots (hero section)
- */
 export function getMapHotspots() {
   return globalLocations.map(loc => ({
     city: loc.city,
@@ -256,9 +205,6 @@ export function getMapHotspots() {
   }));
 }
 
-/**
- * Format location data for member map (benefits section)
- */
 export function getMemberMapHotspots() {
   return globalLocations.map(loc => ({
     city: loc.city,

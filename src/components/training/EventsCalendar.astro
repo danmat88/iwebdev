@@ -1,12 +1,6 @@
 ---
-/**
- * EventsCalendar.astro
- * Full events calendar for /training/events page
- * Can be extended with filtering, search, and pagination
- */
 import EventCard from '../cards/EventCard.astro';
 
-// Full event list - can be loaded from data source in future
 const allEvents = [
   {
     isLive: true,
@@ -80,13 +74,6 @@ const allEvents = [
           </div>
         </div>
 
-        <!-- Future: Add filters/search here -->
-        <!-- <div class="events-filters">
-          <button>All Events</button>
-          <button>Workshops</button>
-          <button>Hackathons</button>
-          <button>Tech Talks</button>
-        </div> -->
       </div>
 
       <div class="events-right">
@@ -94,10 +81,6 @@ const allEvents = [
           {allEvents.map((event) => <EventCard event={event} />)}
         </div>
 
-        <!-- Future: Add pagination or "Load More" -->
-        <!-- <div class="events-pagination">
-          <button>Load More Events</button>
-        </div> -->
       </div>
     </div>
   </div>
@@ -162,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
     padding: 0 48px;
   }
 
-  /* Layout */
   .events-layout {
     display: grid;
     grid-template-columns: 1fr 1.3fr;
@@ -172,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
     margin: 0 auto;
   }
 
-  /* Left */
   .events-left {
     position: sticky;
     top: 120px;
@@ -262,14 +243,12 @@ document.addEventListener('DOMContentLoaded', () => {
     flex-shrink: 0;
   }
 
-  /* Events List */
   .events-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
 
-  /* Responsive */
   @media (max-width: 1024px) {
     .events-layout {
       grid-template-columns: 1fr;

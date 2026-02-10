@@ -17,10 +17,8 @@ import EventsCalendar from '../../components/training/EventsCalendar.astro';
     subtitle="Join us for workshops, hackathons, and our flagship annual summit. Network with developers and learn from industry leaders."
   />
 
-  <!-- Events Component -->
   <EventsCalendar />
 
-  <!-- Event Types - Compact Grid -->
   <section class="event-types-nano">
     <div class="container">
       <h2 class="section-title-nano">Types of Events</h2>
@@ -64,7 +62,6 @@ import EventsCalendar from '../../components/training/EventsCalendar.astro';
     </div>
   </section>
 
-  <!-- Next Summit - Compact Hero -->
   <section class="next-summit-nano">
     <div class="container">
       <div class="summit-card-nano reveal">
@@ -73,7 +70,7 @@ import EventsCalendar from '../../components/training/EventsCalendar.astro';
         <h2>2026 Global Dev Summit</h2>
         <p class="summit-date-nano">June 15-17, 2026 • San Francisco, CA</p>
         <p class="summit-desc-nano">
-          Three days of learning, networking, and celebrating web development. 
+          Three days of learning, networking, and celebrating web development.
           Featuring 50+ speakers from Google, Meta, Netflix, and more.
         </p>
 
@@ -129,7 +126,6 @@ import EventsCalendar from '../../components/training/EventsCalendar.astro';
 </script>
 
 <style>
-  /* ===== EVENT TYPES - NANO ===== */
   .event-types-nano {
     padding: 3rem 0;
     background: linear-gradient(180deg, transparent, rgba(var(--surface-900-rgb), 0.4), transparent);
@@ -223,7 +219,6 @@ import EventsCalendar from '../../components/training/EventsCalendar.astro';
     color: var(--text-secondary);
   }
 
-  /* ===== NEXT SUMMIT - NANO ===== */
   .next-summit-nano {
     padding: 3rem 0;
   }
@@ -415,7 +410,6 @@ import EventsCalendar from '../../components/training/EventsCalendar.astro';
     background: rgba(var(--surface-875-rgb), 0.7);
   }
 
-  /* ===== REVEAL ANIMATION ===== */
   .reveal {
     opacity: 0;
     transform: translateY(20px);
@@ -427,7 +421,6 @@ import EventsCalendar from '../../components/training/EventsCalendar.astro';
     transform: translateY(0);
   }
 
-  /* ===== RESPONSIVE ===== */
   @media (max-width: 980px) {
     .types-nano-grid {
       grid-template-columns: 1fr 1fr;

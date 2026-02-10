@@ -1,8 +1,4 @@
 ---
-/**
- * ValueCalculator.astro - Ultra Compact
- * ROI calculator showing membership value breakdown
- */
 import { Icon } from 'astro-icon/components';
 import type { ValueCalculator } from './pricing.types';
 
@@ -12,7 +8,6 @@ interface Props {
 
 const { calculator } = Astro.props;
 
-// Calculate totals
 const totalValue = calculator.items.reduce((sum, item) => sum + item.value, 0);
 const roiPercentage = Math.round(
   ((totalValue - calculator.yourInvestment) / calculator.yourInvestment) * 100
@@ -30,7 +25,7 @@ const roiPercentage = Math.round(
         </div>
         <div class="calc-badge-nano">{calculator.badge}</div>
       </div>
-      
+
       <div class="calc-body-nano">
         {calculator.items.map((item) => (
           <div class="calc-row-nano">
@@ -38,20 +33,20 @@ const roiPercentage = Math.round(
             <span class="calc-value-nano">${item.value.toLocaleString()}</span>
           </div>
         ))}
-        
+
         <div class="calc-divider-nano"></div>
-        
+
         <div class="calc-row-nano calc-total-nano">
           <span class="calc-label-nano"><strong>Total annual value</strong></span>
           <span class="calc-value-nano total-value-nano">${totalValue.toLocaleString()}</span>
         </div>
-        
+
         <div class="calc-row-nano calc-savings-nano">
           <span class="calc-label-nano">Your investment</span>
           <span class="calc-value-nano">${calculator.yourInvestment}</span>
         </div>
       </div>
-      
+
       <div class="calc-footer-nano">
         <div class="calc-roi-nano">
           <span class="roi-label-nano">ROI</span>

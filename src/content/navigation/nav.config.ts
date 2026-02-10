@@ -1,19 +1,3 @@
-/**
- * NAVIGATION CONFIGURATION
- * =========================
- * Main navigation menu configuration
- *
- * This file defines the structure of the main navigation menu including:
- * - Top-level navigation items
- * - Dropdown submenus
- * - Icons and featured items
- * - Theme configuration
- */
-
-// ============================================
-// TYPE DEFINITIONS
-// ============================================
-
 export interface SubMenuItem {
   label: string;
   href: string;
@@ -36,10 +20,6 @@ export interface Theme {
   color: string;
   icon: string;
 }
-
-// ============================================
-// NAVIGATION ITEMS
-// ============================================
 
 export const navItems: NavItem[] = [
   {
@@ -138,10 +118,6 @@ export const navItems: NavItem[] = [
   },
 ];
 
-// ============================================
-// THEME CONFIGURATION
-// ============================================
-
 export const themes: Theme[] = [
   {
     id: 'iawd',
@@ -151,43 +127,24 @@ export const themes: Theme[] = [
   },
 ];
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
-/**
- * Get navigation item by href
- */
 export function getNavItemByHref(href: string): NavItem | undefined {
   return navItems.find(item => item.href === href);
 }
 
-/**
- * Get all navigation items with submenus
- */
 export function getNavItemsWithSubmenus(): NavItem[] {
   return navItems.filter(item => item.submenu && item.submenu.length > 0);
 }
 
-/**
- * Get featured navigation items
- */
 export function getFeaturedNavItems(): NavItem[] {
   return navItems.filter(item => item.featured);
 }
 
-/**
- * Get all submenu items (flattened)
- */
 export function getAllSubmenuItems(): SubMenuItem[] {
   return navItems
     .filter(item => item.submenu)
     .flatMap(item => item.submenu || []);
 }
 
-/**
- * Get highlighted submenu items
- */
 export function getHighlightedSubmenuItems(): SubMenuItem[] {
   return getAllSubmenuItems().filter(item => item.highlight);
 }

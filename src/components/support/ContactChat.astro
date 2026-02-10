@@ -1,8 +1,4 @@
 ---
-/**
- * ContactChat.astro - Ultra Compact Edition
- * ==========================================
- */
 
 import { Icon } from 'astro-icon/components';
 import { contactConfig } from '../../content/pages/support/contact.config';
@@ -12,9 +8,9 @@ const { topics, team } = contactConfig;
 
 <div class="content-panel active" data-panel="chat" id="panel-chat">
   <div class="chat-wrapper">
-    <!-- Chat Window -->
+
     <div class="chat-window">
-      <!-- Header -->
+
       <div class="chat-header">
         <div class="header-left">
           <div class="avatar-stack">
@@ -33,7 +29,6 @@ const { topics, team } = contactConfig;
         </div>
       </div>
 
-      <!-- Messages -->
       <div class="messages" id="chat-messages">
         <div class="date-pill">Today</div>
         <div class="msg them">
@@ -45,7 +40,6 @@ const { topics, team } = contactConfig;
         </div>
       </div>
 
-      <!-- Quick Topics -->
       <div class="quick-bar">
         {topics.slice(0, 4).map((t) => (
           <button class="chip" data-topic={t.id}>
@@ -54,7 +48,6 @@ const { topics, team } = contactConfig;
         ))}
       </div>
 
-      <!-- Input -->
       <div class="input-bar">
         <div class="input-box">
           <button class="input-btn"><Icon name="lucide:paperclip" /></button>
@@ -65,7 +58,6 @@ const { topics, team } = contactConfig;
       </div>
     </div>
 
-    <!-- Compact Sidebar -->
     <div class="chat-side">
       <div class="side-card">
         <div class="side-icon zap"><Icon name="lucide:zap" /></div>
@@ -101,11 +93,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const msg = document.createElement('div');
     msg.className = `msg ${isUser ? 'me' : 'them'}`;
     const time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-    
-    msg.innerHTML = isUser 
+
+    msg.innerHTML = isUser
       ? `<div class="msg-body"><div class="msg-head"><span class="time">${time}</span><span class="name">You</span></div><div class="bubble">${text}</div></div>`
       : `<div class="msg-avatar" style="--c: var(--cyan-400)">SC</div><div class="msg-body"><div class="msg-head"><span class="name">Sarah Chen</span><span class="time">${time}</span></div><div class="bubble">${text}</div></div>`;
-    
+
     messages?.appendChild(msg);
     messages?.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
   }
@@ -115,14 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!text) return;
     addMsg(text, true);
     input.value = '';
-    
+
     setTimeout(() => {
       const typing = document.createElement('div');
       typing.className = 'msg them typing';
       typing.innerHTML = `<div class="msg-avatar" style="--c: var(--cyan-400)">SC</div><div class="msg-body"><div class="dots"><span></span><span></span><span></span></div></div>`;
       messages?.appendChild(typing);
       messages?.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
-      
+
       setTimeout(() => {
         typing.remove();
         addMsg("Thanks for reaching out! Let me help you with that.", false);
@@ -131,19 +123,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   sendBtn?.addEventListener('click', send);
-  input?.addEventListener('keydown', (e) => { 
-    if (e.key === 'Enter') { 
-      e.preventDefault(); 
-      send(); 
-    } 
+  input?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      send();
+    }
   });
 
   document.querySelectorAll('.chip').forEach(c => {
     c.addEventListener('click', () => {
       const t = c.textContent?.trim();
-      if (input && t) { 
-        input.value = `Question about ${t}`; 
-        input.focus(); 
+      if (input && t) {
+        input.value = `Question about ${t}`;
+        input.focus();
       }
     });
   });
@@ -151,9 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <style>
-  /* ============================================
-     PANEL BASE
-     ============================================ */
   .content-panel[data-panel="chat"] {
     display: none;
   }
@@ -174,18 +163,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ============================================
-     LAYOUT
-     ============================================ */
   .chat-wrapper {
     display: grid;
     grid-template-columns: 1fr 200px;
     gap: 16px;
   }
 
-  /* ============================================
-     CHAT WINDOW
-     ============================================ */
   .chat-window {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -196,9 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
     overflow: hidden;
   }
 
-  /* ============================================
-     HEADER
-     ============================================ */
   .chat-header {
     display: flex;
     align-items: center;
@@ -296,9 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
     height: 12px;
   }
 
-  /* ============================================
-     MESSAGES
-     ============================================ */
   .messages {
     flex: 1;
     overflow-y: auto;
@@ -400,9 +377,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--black);
   }
 
-  /* ============================================
-     TYPING INDICATOR
-     ============================================ */
   .dots {
     display: flex;
     gap: 4px;
@@ -437,9 +411,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ============================================
-     QUICK BAR
-     ============================================ */
   .quick-bar {
     display: flex;
     gap: 6px;
@@ -475,9 +446,6 @@ document.addEventListener('DOMContentLoaded', () => {
     height: 10px;
   }
 
-  /* ============================================
-     INPUT BAR
-     ============================================ */
   .input-bar {
     display: flex;
     gap: 8px;
@@ -560,9 +528,6 @@ document.addEventListener('DOMContentLoaded', () => {
     height: 16px;
   }
 
-  /* ============================================
-     SIDEBAR
-     ============================================ */
   .chat-side {
     display: flex;
     flex-direction: column;
@@ -615,9 +580,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--text-muted);
   }
 
-  /* ============================================
-     ONLINE STRIP
-     ============================================ */
   .online-strip {
     padding: 12px;
     background: var(--bg-card);
@@ -659,9 +621,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--black);
   }
 
-  /* ============================================
-     ALT BUTTON
-     ============================================ */
   .alt-btn {
     display: flex;
     align-items: center;
@@ -692,9 +651,6 @@ document.addEventListener('DOMContentLoaded', () => {
     margin-left: auto;
   }
 
-  /* ============================================
-     RESPONSIVE
-     ============================================ */
   @media (max-width: 900px) {
     .chat-wrapper {
       grid-template-columns: 1fr;

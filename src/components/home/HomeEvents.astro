@@ -1,8 +1,4 @@
 ---
-/**
- * HomeEvents.astro
- * Homepage events preview — shows 4 upcoming events with CTA to view all
- */
 import EventCard from '../cards/EventCard.astro';
 
 const events = [
@@ -154,7 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
     padding: 0 48px;
   }
 
-  /* Layout */
   .events-layout {
     display: grid;
     grid-template-columns: 1fr 1.3fr;
@@ -164,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
     margin: 0 auto;
   }
 
-  /* Left */
   .events-left {
     position: sticky;
     top: 120px;
@@ -283,14 +277,12 @@ document.addEventListener('DOMContentLoaded', () => {
     transform: translateX(4px);
   }
 
-  /* Events List */
   .events-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
 
-  /* Responsive */
   @media (max-width: 1024px) {
     .events-layout {
       grid-template-columns: 1fr;

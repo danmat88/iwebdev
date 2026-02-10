@@ -1,25 +1,4 @@
-/**
- * GLOBAL TESTIMONIALS CONFIGURATION
- * ==================================
- * THE SINGLE SOURCE OF TRUTH for all testimonials
- *
- * This file consolidates all testimonial references across the site.
- * Uses a tagging system to control where each testimonial appears.
- *
- * Tags:
- * - 'hero' - Appears in hero section rotating carousel
- * - 'benefits' - Appears on benefits page
- * - 'pricing' - Appears on pricing page
- * - 'career' - Career-focused testimonials
- * - 'learning' - Learning/education testimonials
- * - 'community' - Community-focused testimonials
- */
-
 import { z } from 'zod';
-
-// ============================================
-// VALIDATION SCHEMA
-// ============================================
 
 export const TestimonialSchema = z.object({
   id: z.string(),
@@ -37,10 +16,6 @@ export const TestimonialSchema = z.object({
 });
 
 export type Testimonial = z.infer<typeof TestimonialSchema>;
-
-// ============================================
-// GLOBAL TESTIMONIALS (Merged from all sources)
-// ============================================
 
 export const testimonials: Testimonial[] = [
   {
@@ -149,11 +124,6 @@ export const testimonials: Testimonial[] = [
   },
 ];
 
-// ============================================
-// VALIDATION
-// ============================================
-
-// Validate on load (dev only)
 if (import.meta.env.DEV) {
   try {
     testimonials.forEach((testimonial) => {
@@ -166,67 +136,39 @@ if (import.meta.env.DEV) {
   }
 }
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
-/**
- * Get testimonials by tag
- */
 export function getTestimonialsByTag(tag: string): Testimonial[] {
   return testimonials.filter(t => t.tags.includes(tag as any));
 }
 
-/**
- * Get featured testimonials
- */
 export function getFeaturedTestimonials(): Testimonial[] {
   return testimonials.filter(t => t.featured);
 }
 
-/**
- * Get random testimonial(s)
- */
 export function getRandomTestimonial(tag?: string): Testimonial {
   const pool = tag ? getTestimonialsByTag(tag) : testimonials;
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-/**
- * Get testimonials by multiple tags (OR logic)
- */
 export function getTestimonialsByTags(tags: string[]): Testimonial[] {
   return testimonials.filter(t =>
     t.tags.some(tag => tags.includes(tag))
   );
 }
 
-/**
- * Get testimonial by ID
- */
 export function getTestimonialById(id: string): Testimonial | undefined {
   return testimonials.find(t => t.id === id);
 }
 
-/**
- * Get testimonials by IDs
- */
 export function getTestimonialsByIds(ids: string[]): Testimonial[] {
   return ids
     .map(id => testimonials.find(t => t.id === id))
     .filter((t): t is Testimonial => t !== undefined);
 }
 
-/**
- * Get testimonials for hero section (rotating carousel)
- */
 export function getHeroTestimonials(): Testimonial[] {
   return getTestimonialsByTag('hero');
 }
 
-/**
- * Get testimonials for benefits page
- */
 export function getBenefitsTestimonials(): Testimonial[] {
   return getTestimonialsByTag('benefits');
 }

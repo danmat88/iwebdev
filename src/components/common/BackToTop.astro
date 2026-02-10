@@ -1,20 +1,17 @@
 ---
-// BackToTop.astro - Programmer themed floating button
 ---
 
 <div class="back-to-top" id="back-to-top">
   <div class="btt-glow"></div>
-  
-  <!-- Progress Ring -->
+
   <svg class="progress-ring" viewBox="0 0 60 60">
     <circle class="progress-bg" cx="30" cy="30" r="26" />
     <circle class="progress-bar" cx="30" cy="30" r="26" />
   </svg>
 
-  <!-- Button Content -->
   <button class="btt-button" aria-label="Back to top">
     <div class="btt-content">
-      <!-- Code bracket icon -->
+
       <div class="btt-icon">
         <span class="bracket left">&lt;</span>
         <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -22,8 +19,7 @@
         </svg>
         <span class="bracket right">/&gt;</span>
       </div>
-      
-      <!-- Hover state with text -->
+
       <div class="btt-hover">
         <span class="hover-text">return</span>
         <span class="hover-cursor">_</span>
@@ -31,12 +27,10 @@
     </div>
   </button>
 
-  <!-- Tooltip -->
   <div class="btt-tooltip">
     <code>scrollTo(0)</code>
   </div>
 
-  <!-- Click effect particles -->
   <div class="click-particles">
     <span class="particle">{'{'}</span>
     <span class="particle">{'}'}</span>
@@ -51,57 +45,47 @@
   const backToTop = document.getElementById('back-to-top');
   const progressBar = backToTop?.querySelector('.progress-bar') as SVGCircleElement;
   const button = backToTop?.querySelector('.btt-button');
-  
-  // Calculate circumference for progress ring
+
   const circumference = 2 * Math.PI * 26;
-  
+
   if (progressBar) {
     progressBar.style.strokeDasharray = `${circumference}`;
     progressBar.style.strokeDashoffset = `${circumference}`;
   }
 
-  // Show/hide button and update progress based on scroll
   const updateScrollProgress = () => {
     const scrollTop = window.scrollY;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const scrollPercent = scrollTop / docHeight;
-    
-    // Show button after 300px scroll
+
     if (scrollTop > 300) {
       backToTop?.classList.add('visible');
     } else {
       backToTop?.classList.remove('visible');
     }
 
-    // Update progress ring
     if (progressBar) {
       const offset = circumference - (scrollPercent * circumference);
       progressBar.style.strokeDashoffset = `${offset}`;
     }
   };
 
-  // Scroll to top with smooth animation
   const scrollToTop = () => {
-    // Add click animation
     backToTop?.classList.add('clicked');
-    
-    // Smooth scroll
+
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
 
-    // Remove click animation
     setTimeout(() => {
       backToTop?.classList.remove('clicked');
     }, 600);
   };
 
-  // Event listeners
   window.addEventListener('scroll', updateScrollProgress, { passive: true });
   button?.addEventListener('click', scrollToTop);
 
-  // Initial check
   updateScrollProgress();
 </script>
 
@@ -123,7 +107,6 @@
     transform: translateY(0) scale(1);
   }
 
-  /* Glow effect */
   .btt-glow {
     position: absolute;
     inset: -10px;
@@ -138,7 +121,6 @@
     opacity: 1;
   }
 
-  /* Progress Ring */
   .progress-ring {
     position: absolute;
     inset: 0;
@@ -162,7 +144,6 @@
     transition: stroke-dashoffset 0.1s ease;
   }
 
-  /* Define gradient in SVG */
   .progress-ring {
     --gradient-start: var(--cyan-400);
     --gradient-end: var(--purple-500);
@@ -172,7 +153,6 @@
     stroke: var(--cyan-400);
   }
 
-  /* Button */
   .btt-button {
     position: relative;
     width: 60px;
@@ -185,7 +165,7 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     transition: all 0.3s ease;
-    box-shadow: 
+    box-shadow:
       0 10px 40px rgba(var(--black-rgb), 0.3),
       0 0 0 1px rgba(var(--white-rgb), 0.05) inset;
   }
@@ -193,7 +173,7 @@
   .btt-button:hover {
     background: rgba(var(--surface-850-rgb), 0.95);
     border-color: rgba(var(--cyan-400-rgb), 0.3);
-    box-shadow: 
+    box-shadow:
       0 15px 50px rgba(var(--black-rgb), 0.4),
       0 0 30px rgba(var(--cyan-400-rgb), 0.2),
       0 0 0 1px rgba(var(--cyan-400-rgb), 0.2) inset;
@@ -204,7 +184,6 @@
     transform: scale(0.95);
   }
 
-  /* Button Content */
   .btt-content {
     position: relative;
     width: 100%;
@@ -214,7 +193,6 @@
     justify-content: center;
   }
 
-  /* Icon State */
   .btt-icon {
     display: flex;
     align-items: center;
@@ -264,7 +242,6 @@
     color: var(--cyan-400);
   }
 
-  /* Hover State */
   .btt-hover {
     position: absolute;
     display: flex;
@@ -304,7 +281,6 @@
     transform: translateY(0);
   }
 
-  /* Tooltip */
   .btt-tooltip {
     position: absolute;
     right: calc(100% + 16px);
@@ -346,7 +322,6 @@
     transform: translateY(-50%) translateX(0);
   }
 
-  /* Click Particles */
   .click-particles {
     position: absolute;
     inset: 0;
@@ -364,7 +339,6 @@
     transform: translate(-50%, -50%);
   }
 
-  /* Particle positions on click */
   .back-to-top.clicked .click-particles .particle {
     animation: particle-explode 0.6s ease-out forwards;
   }
@@ -387,7 +361,6 @@
     }
   }
 
-  /* Click ripple effect */
   .back-to-top.clicked .btt-button::before {
     content: '';
     position: absolute;
@@ -408,7 +381,6 @@
     }
   }
 
-  /* Mobile adjustments */
   @media (max-width: 768px) {
     .back-to-top {
       bottom: 24px;
@@ -439,7 +411,6 @@
     }
   }
 
-  /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .back-to-top,
     .btt-button,

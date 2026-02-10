@@ -1,8 +1,4 @@
 ---
-/**
- * HomePricing.astro - Ultra Compact with Spectacular Entrance Animations
- * Simplified pricing preview with particle system and cascading reveals
- */
 import { pricingConfig } from '../../content/pages/membership/pricing.config';
 import PricingCard from '../cards/PricingCard.astro';
 
@@ -56,7 +52,6 @@ const { header, billingToggle, tiers } = pricingConfig;
 
 <script define:vars={{ tiers }}>
 document.addEventListener('DOMContentLoaded', () => {
-  // ===== PARTICLE SYSTEM =====
   const rootStyles = getComputedStyle(document.documentElement);
   const cyan400Rgb = rootStyles.getPropertyValue('--cyan-400-rgb').trim() || '34, 211, 238';
 
@@ -102,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
     animate();
   }
 
-  // ===== TOGGLE LOGIC =====
   const annualBtn = document.getElementById('toggle-annual');
   const monthlyBtn = document.getElementById('toggle-monthly');
   const slider = document.getElementById('toggle-slider');
@@ -124,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <style>
-  /* ===== SECTION BASE ===== */
   .pricing-nano {
     position: relative;
     padding: 4.5rem 0;
@@ -191,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
     padding: 0 1.5rem;
   }
 
-  /* ===== HEADER - NANO ===== */
   .pricing-header-nano {
     text-align: center;
     max-width: 700px;
@@ -236,7 +228,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--text-secondary);
   }
 
-  /* ===== BILLING TOGGLE - NANO ===== */
   .billing-toggle-nano {
     position: relative;
     display: flex;
@@ -305,7 +296,6 @@ document.addEventListener('DOMContentLoaded', () => {
     transform: translateX(calc(100% + 2px));
   }
 
-  /* ===== PRICING GRID - NANO ===== */
   .pricing-grid-nano {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -313,7 +303,6 @@ document.addEventListener('DOMContentLoaded', () => {
     margin-bottom: 2rem;
   }
 
-  /* ===== FOOTER - NANO ===== */
   .pricing-footer-nano {
     text-align: center;
   }
@@ -358,7 +347,6 @@ document.addEventListener('DOMContentLoaded', () => {
     opacity: 1;
   }
 
-  /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
     .pricing-nano {
       padding: 3rem 0;
@@ -384,7 +372,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ===== REDUCED MOTION ===== */
   @media (prefers-reduced-motion: reduce) {
     .atmosphere-orb-nano {
       animation: none;

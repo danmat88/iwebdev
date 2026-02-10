@@ -1,8 +1,4 @@
 ---
-/**
- * ContactForm.astro - Ultra Compact Edition
- * ==========================================
- */
 
 import { Icon } from 'astro-icon/components';
 import { contactConfig } from '../../content/pages/support/contact.config';
@@ -12,9 +8,9 @@ const { topics } = contactConfig;
 
 <div class="content-panel" data-panel="message" id="panel-message">
   <div class="form-wrapper">
-    <!-- Form Card -->
+
     <div class="form-card">
-      <!-- Progress -->
+
       <div class="progress">
         <div class="progress-bar">
           <div class="progress-fill" id="progress-fill"></div>
@@ -36,7 +32,7 @@ const { topics } = contactConfig;
       </div>
 
       <form id="message-form">
-        <!-- Step 1 -->
+
         <div class="form-step active" data-step="1">
           <div class="step-head">
             <div class="step-icon"><Icon name="lucide:help-circle" /></div>
@@ -64,7 +60,6 @@ const { topics } = contactConfig;
           </div>
         </div>
 
-        <!-- Step 2 -->
         <div class="form-step" data-step="2">
           <div class="step-head">
             <div class="step-icon"><Icon name="lucide:edit-3" /></div>
@@ -94,7 +89,7 @@ const { topics } = contactConfig;
             </div>
             <div class="field">
               <label>
-                <Icon name="lucide:paperclip" />Attachments 
+                <Icon name="lucide:paperclip" />Attachments
                 <span class="opt">(optional)</span>
               </label>
               <div class="dropzone" id="dropzone">
@@ -114,7 +109,6 @@ const { topics } = contactConfig;
           </div>
         </div>
 
-        <!-- Step 3 -->
         <div class="form-step" data-step="3">
           <div class="step-head">
             <div class="step-icon"><Icon name="lucide:check-circle" /></div>
@@ -157,7 +151,6 @@ const { topics } = contactConfig;
           </div>
         </div>
 
-        <!-- Success -->
         <div class="form-step success-step" data-step="success">
           <div class="success-anim">
             <div class="rings">
@@ -179,7 +172,6 @@ const { topics } = contactConfig;
       </form>
     </div>
 
-    <!-- Sidebar -->
     <div class="form-side">
       <div class="side-block">
         <h4><Icon name="lucide:sparkles" />What to expect</h4>
@@ -236,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (progressFill && n > 0) {
       progressFill.style.width = `${((n - 1) / 2) * 100}%`;
     }
-    
+
     progressSteps.forEach((ps, i) => {
       ps.classList.remove('active', 'done');
       if (i + 1 < n) ps.classList.add('done');
@@ -291,9 +283,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <style>
-  /* ============================================
-     PANEL BASE
-     ============================================ */
   .content-panel[data-panel="message"] {
     display: none;
   }
@@ -314,18 +303,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ============================================
-     LAYOUT
-     ============================================ */
   .form-wrapper {
     display: grid;
     grid-template-columns: 1fr 220px;
     gap: 16px;
   }
 
-  /* ============================================
-     FORM CARD
-     ============================================ */
   .form-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -333,9 +316,6 @@ document.addEventListener('DOMContentLoaded', () => {
     padding: 24px;
   }
 
-  /* ============================================
-     PROGRESS
-     ============================================ */
   .progress {
     margin-bottom: 24px;
   }
@@ -408,9 +388,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--text);
   }
 
-  /* ============================================
-     FORM STEPS
-     ============================================ */
   .form-step {
     display: none;
   }
@@ -466,9 +443,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--text-secondary);
   }
 
-  /* ============================================
-     TOPICS
-     ============================================ */
   .topics {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -552,9 +526,6 @@ document.addEventListener('DOMContentLoaded', () => {
     background: var(--accent);
   }
 
-  /* ============================================
-     FIELDS
-     ============================================ */
   .fields {
     display: flex;
     flex-direction: column;
@@ -618,9 +589,6 @@ document.addEventListener('DOMContentLoaded', () => {
     min-height: 80px;
   }
 
-  /* ============================================
-     DROPZONE
-     ============================================ */
   .dropzone {
     display: flex;
     flex-direction: column;
@@ -652,9 +620,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--text-secondary);
   }
 
-  /* ============================================
-     REVIEW
-     ============================================ */
   .review {
     background: var(--bg-secondary);
     border-radius: 10px;
@@ -699,9 +664,6 @@ document.addEventListener('DOMContentLoaded', () => {
     width: 100%;
   }
 
-  /* ============================================
-     CHECKBOX
-     ============================================ */
   .checkbox {
     display: flex;
     align-items: center;
@@ -748,9 +710,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--text-secondary);
   }
 
-  /* ============================================
-     ACTIONS
-     ============================================ */
   .step-actions {
     display: flex;
     gap: 10px;
@@ -802,9 +761,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--text);
   }
 
-  /* ============================================
-     SUBMIT BUTTON LOADING
-     ============================================ */
   .submit-btn .btn-loading {
     display: none;
   }
@@ -829,9 +785,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ============================================
-     SUCCESS
-     ============================================ */
   .success-step {
     text-align: center;
     padding: 30px 0;
@@ -923,9 +876,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--green-500);
   }
 
-  /* ============================================
-     SIDEBAR
-     ============================================ */
   .form-side {
     display: flex;
     flex-direction: column;
@@ -995,9 +945,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--text-muted);
   }
 
-  /* ============================================
-     ALT BLOCK
-     ============================================ */
   .side-block.alt {
     background: linear-gradient(135deg, var(--accent-glow), transparent);
     border-color: rgba(var(--cyan-400-rgb), 0.2);
@@ -1049,9 +996,6 @@ document.addEventListener('DOMContentLoaded', () => {
     margin-left: auto;
   }
 
-  /* ============================================
-     SECURE NOTE
-     ============================================ */
   .secure-note {
     display: flex;
     align-items: center;
@@ -1068,9 +1012,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--green-500);
   }
 
-  /* ============================================
-     RESPONSIVE
-     ============================================ */
   @media (max-width: 900px) {
     .form-wrapper {
       grid-template-columns: 1fr;

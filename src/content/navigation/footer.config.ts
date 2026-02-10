@@ -1,21 +1,7 @@
-/**
- * FOOTER NAVIGATION CONFIGURATION
- * ================================
- * Footer links organized by category
- */
-
-// ============================================
-// TYPE DEFINITIONS
-// ============================================
-
 export interface FooterLink {
   label: string;
   href: string;
 }
-
-// ============================================
-// FOOTER LINKS
-// ============================================
 
 export const footerLinks: Record<string, FooterLink[]> = {
   About: [
@@ -43,27 +29,14 @@ export const footerLinks: Record<string, FooterLink[]> = {
   ]
 };
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
-/**
- * Get footer links by category
- */
 export function getFooterLinksByCategory(category: string): FooterLink[] {
   return footerLinks[category] || [];
 }
 
-/**
- * Get all footer categories
- */
 export function getFooterCategories(): string[] {
   return Object.keys(footerLinks);
 }
 
-/**
- * Get all footer links (flattened)
- */
 export function getAllFooterLinks(): FooterLink[] {
   return Object.values(footerLinks).flat();
 }

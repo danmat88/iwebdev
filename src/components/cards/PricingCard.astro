@@ -1,8 +1,4 @@
 ---
-/**
- * PricingCard.astro
- * Individual pricing tier card with features and CTA
- */
 import { Icon } from 'astro-icon/components';
 import type { PricingTier } from './pricing.types';
 
@@ -13,13 +9,13 @@ interface Props {
 const { tier } = Astro.props;
 ---
 
-<div 
+<div
   class={`pricing-card card-${tier.id} ${tier.featured ? 'card-featured' : ''} visible`}
   data-tier={tier.id}
 >
   <div class={`card-glow ${tier.featured ? 'glow-featured' : ''}`}></div>
   <div class={`card-border-light ${tier.featured ? 'border-featured' : ''}`}></div>
-  
+
   {tier.featured && (
     <>
       <div class="featured-burst" id={`featured-burst-${tier.id}`}></div>
@@ -36,7 +32,7 @@ const { tier } = Astro.props;
       <span>{tier.name}</span>
     </div>
 
-    {/* FREE TIER */}
+    
     {tier.pricing.type === 'free' && (
       <div class="tier-price">
         <span class="price-amount">{tier.pricing.amount}</span>
@@ -44,7 +40,7 @@ const { tier } = Astro.props;
       </div>
     )}
 
-    {/* PAID TIER */}
+    
     {tier.pricing.type === 'paid' && (
       <div class="tier-price">
         {tier.pricing.annual?.originalPrice && (
@@ -67,7 +63,7 @@ const { tier } = Astro.props;
       </div>
     )}
 
-    {/* CUSTOM TIER */}
+    
     {tier.pricing.type === 'custom' && (
       <div class="tier-price">
         <span class="price-amount">{tier.pricing.amount}</span>
@@ -156,7 +152,6 @@ const { tier } = Astro.props;
     transform: scaleX(1);
   }
 
-  /* FEATURED CARD */
   .card-featured {
     border-color: var(--accent);
     box-shadow: 0 0 40px var(--accent-glow);
@@ -176,7 +171,7 @@ const { tier } = Astro.props;
     left: 50%;
     transform: translateX(-50%);
     padding: 4px 16px;
-    background: var(--gradient);  
+    background: var(--gradient);
     border-radius: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
@@ -208,7 +203,6 @@ const { tier } = Astro.props;
     z-index: 0;
   }
 
-  /* CARD CONTENT */
   .card-header {
     margin-bottom: 24px;
     position: relative;

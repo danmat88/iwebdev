@@ -17,7 +17,7 @@ import { Icon } from 'astro-icon/components';
     { title: "Code of Conduct", href: "/legal/conduct", icon: "lucide:users" }
   ]}
 >
-  <!-- Privacy Promise -->
+
   <div class="privacy-promise">
     <div class="promise-glow"></div>
     <div class="promise-badge">
@@ -33,7 +33,6 @@ import { Icon } from 'astro-icon/components';
     </div>
   </div>
 
-  <!-- Security Stats -->
   <div class="data-grid">
     <div class="grid-item" style="--i:0">
       <div class="grid-icon-wrap">
@@ -70,8 +69,7 @@ import { Icon } from 'astro-icon/components';
   </div>
 
   <h2>1. Data We Collect</h2>
-  
-  <!-- Data Collection Matrix -->
+
   <div class="collection-matrix">
     <div class="matrix-section">
       <div class="section-header">
@@ -112,7 +110,7 @@ import { Icon } from 'astro-icon/components';
   </div>
 
   <h2>2. How We Use Data</h2>
-  
+
   <div class="usage-flow">
     <div class="flow-step">
       <div class="step-num">1</div>
@@ -140,8 +138,7 @@ import { Icon } from 'astro-icon/components';
   </div>
 
   <h2>3. Data Sharing</h2>
-  
-  <!-- Sharing Terminal -->
+
   <div class="terminal-block animate-in">
     <div class="terminal-header">
       <div class="terminal-dots">
@@ -172,7 +169,7 @@ import { Icon } from 'astro-icon/components';
   </div>
 
   <h3>3.1 Service Providers</h3>
-  
+
   <div class="provider-grid">
     <div class="provider-card">
       <Icon name="lucide:credit-card" />
@@ -197,8 +194,7 @@ import { Icon } from 'astro-icon/components';
   </div>
 
   <h2>4. Security</h2>
-  
-  <!-- Security Layers -->
+
   <div class="security-layers">
     <div class="security-layer">
       <div class="layer-icon"><Icon name="lucide:shield" /></div>
@@ -235,8 +231,7 @@ import { Icon } from 'astro-icon/components';
   </div>
 
   <h2>5. Your Rights</h2>
-  
-  <!-- Rights Cards -->
+
   <div class="rights-grid">
     <div class="right-card">
       <Icon name="lucide:download" />
@@ -265,8 +260,7 @@ import { Icon } from 'astro-icon/components';
   </div>
 
   <h2>6. Cookies</h2>
-  
-  <!-- Cookie Types -->
+
   <div class="cookie-types">
     <div class="cookie-type essential">
       <div class="type-header">
@@ -295,7 +289,7 @@ import { Icon } from 'astro-icon/components';
   </div>
 
   <h2>7. Data Retention</h2>
-  
+
   <div class="retention-timeline">
     <div class="timeline-item">
       <div class="timeline-dot"></div>
@@ -326,7 +320,7 @@ import { Icon } from 'astro-icon/components';
   </p>
 
   <h2>9. GDPR & CCPA</h2>
-  
+
   <div class="compliance-badges">
     <div class="compliance-badge">
       <Icon name="lucide:shield-check" />
@@ -351,7 +345,7 @@ import { Icon } from 'astro-icon/components';
   </p>
 
   <h2>12. Contact</h2>
-  
+
   <div class="contact-grid">
     <a href={`mailto:privacy@${siteConfig.url.replace('https://', '').replace('http://', '')}`} class="contact-method">
       <Icon name="lucide:shield" />
@@ -369,7 +363,6 @@ import { Icon } from 'astro-icon/components';
     </a>
   </div>
 
-  <!-- Final CTA -->
   <div class="final-cta">
     <div class="final-cta-glow"></div>
     <div class="cta-main">
@@ -389,7 +382,6 @@ import { Icon } from 'astro-icon/components';
 </LegalLayout>
 
 <style>
-  /* ===== ANIMATIONS ===== */
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -435,7 +427,6 @@ import { Icon } from 'astro-icon/components';
     animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
   }
 
-  /* ===== PRIVACY PROMISE ===== */
   .privacy-promise {
     display: flex;
     align-items: center;
@@ -535,7 +526,6 @@ import { Icon } from 'astro-icon/components';
     margin: 0;
   }
 
-  /* ===== DATA GRID ===== */
   .data-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -627,7 +617,6 @@ import { Icon } from 'astro-icon/components';
     z-index: 1;
   }
 
-  /* Collection Matrix */
   .collection-matrix {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -675,7 +664,6 @@ import { Icon } from 'astro-icon/components';
     color: var(--text-secondary);
   }
 
-  /* Usage Flow */
   .usage-flow {
     display: flex;
     align-items: center;
@@ -734,7 +722,6 @@ import { Icon } from 'astro-icon/components';
     flex-shrink: 0;
   }
 
-  /* Terminal Block (imported from terms) */
   .terminal-block {
     margin: 24px 0;
     background: var(--bg-secondary);
@@ -816,7 +803,6 @@ import { Icon } from 'astro-icon/components';
     height: 14px;
   }
 
-  /* Provider Grid */
   .provider-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -858,7 +844,6 @@ import { Icon } from 'astro-icon/components';
     color: var(--text-muted);
   }
 
-  /* Security Layers */
   .security-layers {
     display: flex;
     flex-direction: column;
@@ -930,7 +915,6 @@ import { Icon } from 'astro-icon/components';
     color: var(--success);
   }
 
-  /* Rights Grid */
   .rights-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -996,7 +980,6 @@ import { Icon } from 'astro-icon/components';
     transform: translateX(2px);
   }
 
-  /* Cookie Types */
   .cookie-types {
     display: flex;
     flex-direction: column;
@@ -1064,7 +1047,6 @@ import { Icon } from 'astro-icon/components';
     margin: 0;
   }
 
-  /* Retention Timeline */
   .retention-timeline {
     position: relative;
     padding: 20px 0 20px 40px;
@@ -1115,7 +1097,6 @@ import { Icon } from 'astro-icon/components';
     margin: 0;
   }
 
-  /* Compliance Badges */
   .compliance-badges {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -1154,7 +1135,6 @@ import { Icon } from 'astro-icon/components';
     color: var(--text-secondary);
   }
 
-  /* Contact Grid */
   .contact-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -1203,7 +1183,6 @@ import { Icon } from 'astro-icon/components';
     color: var(--text-muted);
   }
 
-  /* ===== FINAL CTA ===== */
   .final-cta {
     display: flex;
     align-items: center;
@@ -1355,8 +1334,7 @@ import { Icon } from 'astro-icon/components';
     animation: gradient-shift 4s ease infinite;
     box-shadow: 0 16px 48px var(--success-glow);
   }
-  
-  /* Icon hover enhancements */
+
   .grid-item:hover :global(svg),
   .security-layer:hover :global(svg),
   .provider-card:hover :global(svg) {
@@ -1367,8 +1345,7 @@ import { Icon } from 'astro-icon/components';
   .info-card:hover :global(svg) {
     transform: scale(1.1) rotate(-5deg);
   }
-  
-  /* Mobile improvements */
+
   @media (max-width: 768px) {
     .grid-item,
     .provider-card,
@@ -1380,14 +1357,13 @@ import { Icon } from 'astro-icon/components';
     }
   }
 
-  /* Touch device improvements */
   @media (hover: none) {
     .grid-item,
     .provider-card,
     .right-card {
       transform: none !important;
     }
-    
+
     .grid-item:active,
     .provider-card:active,
     .right-card:active {

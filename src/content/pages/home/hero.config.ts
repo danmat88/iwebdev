@@ -1,36 +1,8 @@
-/**
- * HERO CONFIGURATION
- * ==================
- * Homepage hero section configuration
- *
- * FEATURES:
- * ✨ Animated typing effect
- * 🎯 Interactive stat pills
- * 💬 Rotating testimonials
- * 🌍 Live global map with hotspots
- * 🖥️ Terminal animation
- * 🎠 Carousel of developer activities
- * 📱 Fully responsive
- * ♿ Accessible
- *
- * ICONS:
- * We use Lucide icons via astro-icon
- * Format: "lucide:icon-name" (e.g., "lucide:rocket", "lucide:heart")
- *
- * DATA SOURCES:
- * - Stats: Imported from ../../global/stats.config (single source of truth)
- * - Locations: Imported from ../../global/locations.config (consolidated map data)
- * - Testimonials: Referenced by ID from ../../global/testimonials.config
- */
-
 import type { HeroConfig } from '../../../config/hero_types';
 import { globalStats } from '../../global/stats.config';
 import { getMapHotspots } from '../../global/locations.config';
 
 export const heroConfig: HeroConfig = {
-  // ============================================
-  // ANNOUNCEMENT BANNER
-  // ============================================
   announcement: {
     show: true,
     liveIndicator: {
@@ -44,9 +16,6 @@ export const heroConfig: HeroConfig = {
     icon: 'lucide:arrow-right'
   },
 
-  // ============================================
-  // HERO TITLE
-  // ============================================
   title: {
     line1: 'The developer',
     line2: 'community you',
@@ -60,18 +29,12 @@ export const heroConfig: HeroConfig = {
     ]
   },
 
-  // ============================================
-  // SUBTITLE
-  // ============================================
   subtitle: {
     main: 'Join',
     memberCount: globalStats.members.total, // FROM GLOBAL STATS
     highlight: `${globalStats.countries.display} countries` // FROM GLOBAL STATS
   },
 
-  // ============================================
-  // STAT PILLS
-  // ============================================
   statPills: [
     {
       id: 'webinars',
@@ -105,9 +68,6 @@ export const heroConfig: HeroConfig = {
     }
   ],
 
-  // ============================================
-  // CTA SECTION
-  // ============================================
   cta: {
     buttons: [
       {
@@ -128,11 +88,6 @@ export const heroConfig: HeroConfig = {
     ]
   },
 
-  // ============================================
-  // TESTIMONIALS (Referenced by ID from global)
-  // ============================================
-  // NOTE: Actual testimonial data is in src/content/global/testimonials.config.ts
-  // Components should use getTestimonialsByIds() to fetch these
   testimonials: [
     {
       text: 'IAWD changed my career trajectory completely. The mentorship alone is worth 10x.',
@@ -164,12 +119,8 @@ export const heroConfig: HeroConfig = {
     }
   ],
 
-  // Testimonial IDs for future migration (reference global testimonials)
   testimonialIds: ['sarah-kim-1', 'marcus-chen-1', 'priya-sharma-1', 'james-miller-1'],
 
-  // ============================================
-  // TRUST MARQUEE
-  // ============================================
   trustMarquee: [
     {
       icon: 'lucide:heart-handshake',
@@ -197,18 +148,12 @@ export const heroConfig: HeroConfig = {
     }
   ],
 
-  // ============================================
-  // SCROLL INDICATOR
-  // ============================================
   scrollIndicator: {
     show: true,
     text: 'Discover more',
     icon: 'lucide:chevron-down'
   },
 
-  // ============================================
-  // TERMINAL SCRIPT
-  // ============================================
   terminal: {
     lines: [
       {
@@ -282,14 +227,8 @@ export const heroConfig: HeroConfig = {
     ]
   },
 
-  // ============================================
-  // MAP HOTSPOTS (FROM GLOBAL LOCATIONS)
-  // ============================================
   mapHotspots: getMapHotspots(), // Imported from global locations config
 
-  // ============================================
-  // CAROUSEL CARDS
-  // ============================================
   carouselCards: [
     {
       index: 0,
@@ -379,56 +318,31 @@ export const heroConfig: HeroConfig = {
   ]
 };
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
-/**
- * Get stat pill by ID
- */
 export function getStatPillById(id: string) {
   return heroConfig.statPills.find(pill => pill.id === id);
 }
 
-/**
- * Get all live stat pills
- */
 export function getLiveStatPills() {
   return heroConfig.statPills.filter(pill => pill.badge?.type === 'live');
 }
 
-/**
- * Get carousel card by index
- */
 export function getCarouselCardByIndex(index: number) {
   return heroConfig.carouselCards.find(card => card.index === index);
 }
 
-/**
- * Get random testimonial
- */
 export function getRandomTestimonial() {
   const randomIndex = Math.floor(Math.random() * heroConfig.testimonials.length);
   return heroConfig.testimonials[randomIndex];
 }
 
-/**
- * Get map hotspot by city
- */
 export function getHotspotByCity(city: string) {
   return heroConfig.mapHotspots.find(hotspot => hotspot.city === city);
 }
 
-/**
- * Get primary CTA button
- */
 export function getPrimaryCTA() {
   return heroConfig.cta.buttons.find(btn => btn.type === 'primary');
 }
 
-/**
- * Get secondary CTA buttons
- */
 export function getSecondaryCTAs() {
   return heroConfig.cta.buttons.filter(btn => btn.type === 'secondary');
 }

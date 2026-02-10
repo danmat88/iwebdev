@@ -17,14 +17,14 @@ const { hero, methods, team, stats, cta, socials } = contactConfig;
 ---
 
 <section class={`contact-section ${showHero ? '' : 'no-hero'}`.trim()}>
-  
+
   <div class="contact-atmosphere">
     <div class="gradient-orb orb-1"></div>
     <div class="gradient-orb orb-2"></div>
     <div class="gradient-orb orb-3"></div>
     <div class="grid-overlay"></div>
   </div>
- 
+
   {showHero && (
     <header class="contact-hero">
       <div class="hero-inner">
@@ -43,7 +43,7 @@ const { hero, methods, team, stats, cta, socials } = contactConfig;
         </h1>
 
         <p class="hero-subtitle">{hero.subtitle}</p>
-  
+
         <div class="stats-bar">
           {stats.map((stat) => (
             <>
@@ -61,13 +61,13 @@ const { hero, methods, team, stats, cta, socials } = contactConfig;
       </div>
     </header>
   )}
- 
+
   <div class="bento-section" id="bento-section">
     <div class="bento-container">
-      
+
       <div class="bento-grid">
         {methods.map((method, i) => (
-          <ContactMethodCard 
+          <ContactMethodCard
             method={method}
             active={i === 0}
             index={i}
@@ -76,15 +76,14 @@ const { hero, methods, team, stats, cta, socials } = contactConfig;
       </div>
     </div>
   </div>
- 
+
   <div class="contact-main" id="contact-main">
     <div class="contact-container">
-     
-      
+
       <aside class="contact-sidebar">
         <ContactSidebar team={team} socials={socials} />
       </aside>
- 
+
       <div class="contact-content">
         <ContactChat />
         <ContactForm />
@@ -92,7 +91,7 @@ const { hero, methods, team, stats, cta, socials } = contactConfig;
       </div>
     </div>
   </div>
- 
+
 </section>
 
 <script>
@@ -113,13 +112,13 @@ class ContactController {
       card.addEventListener('click', () => {
         const method = card.dataset.method;
         if (method === this.activeMethod) return;
-        this.setActiveMethod(method); 
+        this.setActiveMethod(method);
 
         setTimeout(() => {
           document.getElementById('contact-main')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
       });
- 
+
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         card.style.setProperty('--mx', `${e.clientX - rect.left}px`);
@@ -127,7 +126,7 @@ class ContactController {
       });
     });
   }
- 
+
   bindSidebarNav() {
     document.querySelectorAll('.method-btn[data-method]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -148,16 +147,16 @@ class ContactController {
   }
 
   setActiveMethod(method) {
-    this.activeMethod = method; 
+    this.activeMethod = method;
 
     document.querySelectorAll('.method-card').forEach(card => {
       card.classList.toggle('active', card.dataset.method === method);
     });
- 
+
     document.querySelectorAll('.content-panel').forEach(panel => {
       panel.classList.toggle('active', panel.dataset.panel === method);
     });
- 
+
     document.querySelectorAll('.method-btn[data-method]').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.method === method);
     });
@@ -167,7 +166,7 @@ class ContactController {
 document.addEventListener('DOMContentLoaded', () => new ContactController());
 </script>
 
-<style> 
+<style>
 
   .contact-section {
     position: relative;
@@ -175,7 +174,6 @@ document.addEventListener('DOMContentLoaded', () => new ContactController());
     min-height: 100vh;
   }
 
-  /* ===== ATMOSPHERE ===== */
   .contact-atmosphere {
     position: fixed;
     inset: 0;
@@ -227,14 +225,13 @@ document.addEventListener('DOMContentLoaded', () => new ContactController());
   .grid-overlay {
     position: absolute;
     inset: 0;
-    background-image: 
+    background-image:
       linear-gradient(var(--border) 1px, transparent 1px),
       linear-gradient(90deg, var(--border) 1px, transparent 1px);
     background-size: 60px 60px;
     opacity: 0.025;
   }
 
-  /* ===== HERO ===== */
   .contact-hero {
     position: relative;
     padding: 140px 24px 80px;
@@ -317,7 +314,6 @@ document.addEventListener('DOMContentLoaded', () => new ContactController());
     margin: 0 auto 36px;
   }
 
-  /* Stats Bar */
   .stats-bar {
     display: inline-flex;
     align-items: center;
@@ -379,7 +375,6 @@ document.addEventListener('DOMContentLoaded', () => new ContactController());
     display: none;
   }
 
-  /* ===== BENTO ===== */
   .bento-section {
     position: relative;
     padding: 0 24px 72px;
@@ -419,7 +414,6 @@ document.addEventListener('DOMContentLoaded', () => new ContactController());
     gap: 16px;
   }
 
-  /* ===== MAIN LAYOUT ===== */
   .contact-main {
     position: relative;
     padding: 0 24px 80px;
@@ -433,17 +427,14 @@ document.addEventListener('DOMContentLoaded', () => new ContactController());
     margin: 0 auto;
   }
 
-  /* Sidebar */
   .contact-sidebar {
     position: relative;
   }
 
-  /* Content */
   .contact-content {
     min-width: 0;
   }
 
-  /* ===== RESPONSIVE ===== */
   @media (max-width: 1000px) {
     .bento-grid {
       grid-template-columns: 1fr;

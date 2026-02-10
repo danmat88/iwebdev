@@ -42,7 +42,7 @@ const meta = categoryMeta[category];
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title} | IAWD</title>
-    <!-- Variable Fonts -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet">
@@ -54,7 +54,7 @@ const meta = categoryMeta[category];
     </script>
   </head>
   <body class="legal-doc">
-    <!-- Tech Atmosphere -->
+
     <div class="tech-atmosphere">
       <div class="tech-grid"></div>
       <div class="tech-gradient g1"></div>
@@ -66,7 +66,7 @@ const meta = categoryMeta[category];
     <Header />
 
     <div class="legal-wrapper">
-      <!-- Compact Header -->
+
       <header class="doc-header">
         <div class="header-inner">
           <div class="header-top">
@@ -101,10 +101,10 @@ const meta = categoryMeta[category];
       </header>
 
       <div class="legal-container">
-        <!-- Compact Sidebar -->
+
         <aside class="sidebar">
           <div class="sidebar-sticky">
-            <!-- Actions Strip -->
+
             <div class="actions-strip">
               <button class="action-btn" id="print-btn" title="Print">
                 <Icon name="lucide:printer" />
@@ -117,7 +117,6 @@ const meta = categoryMeta[category];
               </button>
             </div>
 
-            <!-- Compact TOC -->
             <nav class="toc">
               <div class="toc-header">
                 <Icon name="lucide:list-tree" />
@@ -133,7 +132,6 @@ const meta = categoryMeta[category];
               <div id="toc-list" class="toc-list"></div>
             </nav>
 
-            <!-- Related Links -->
             {relatedDocs.length > 0 && (
               <div class="related">
                 <div class="related-header">
@@ -150,7 +148,6 @@ const meta = categoryMeta[category];
               </div>
             )}
 
-            <!-- Help Chip -->
             <a href="/support/contact" class="help-chip">
               <Icon name="lucide:help-circle" />
               <div class="chip-content">
@@ -162,7 +159,6 @@ const meta = categoryMeta[category];
           </div>
         </aside>
 
-        <!-- Main Content -->
         <main class="content" id="content">
           <slot />
         </main>
@@ -172,7 +168,6 @@ const meta = categoryMeta[category];
     <Footer />
 
     <script>
-      // Generate Compact TOC
       function generateTOC() {
         const content = document.getElementById('content');
         const tocList = document.getElementById('toc-list');
@@ -180,56 +175,54 @@ const meta = categoryMeta[category];
 
         const headings = content.querySelectorAll('h2, h3');
         const fragment = document.createDocumentFragment();
-        
+
         let h2Count = 0;
-        
+
         headings.forEach((heading, idx) => {
           const id = heading.id || `s${idx}`;
           heading.id = id;
-          
+
           const link = document.createElement('a');
           link.href = `#${id}`;
           link.className = heading.tagName === 'H2' ? 'toc-item h2' : 'toc-item h3';
           link.dataset.target = id;
-          
+
           const num = document.createElement('span');
           num.className = 'toc-num';
-          
-          // Clean heading text - remove numbers at start like "1. ", "2.1 ", etc.
+
           let headingText = heading.textContent.replace(/^\d+\.?\d*\.?\s*/, '').trim();
-          
+
           if (heading.tagName === 'H2') {
             h2Count++;
             num.textContent = String(h2Count).padStart(2, '0');
           } else {
             num.textContent = '•';
           }
-          
+
           const text = document.createElement('span');
           text.className = 'toc-text';
           text.textContent = headingText;
           text.title = headingText; // Tooltip for long titles
-          
+
           link.appendChild(num);
           link.appendChild(text);
-          
+
           link.addEventListener('click', (e) => {
             e.preventDefault();
             heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
             history.pushState(null, '', `#${id}`);
           });
-          
+
           fragment.appendChild(link);
         });
-        
+
         tocList.appendChild(fragment);
       }
 
-      // Scroll Spy
       function initScrollSpy() {
         const items = document.querySelectorAll('.toc-item');
         const headings = document.querySelectorAll('#content h2, #content h3');
-        
+
         const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -242,40 +235,38 @@ const meta = categoryMeta[category];
           rootMargin: '-80px 0px -80% 0px',
           threshold: 0
         });
-        
+
         headings.forEach(h => observer.observe(h));
       }
 
-      // Reading Progress (Circular)
       function initProgress() {
         const circle = document.getElementById('progress-circle');
         const text = document.getElementById('progress-text');
         if (!circle || !text) return;
-        
+
         const radius = 16;
         const circumference = 2 * Math.PI * radius;
         circle.style.strokeDasharray = circumference;
-        
+
         window.addEventListener('scroll', () => {
           const height = document.documentElement.scrollHeight - window.innerHeight;
           const scrolled = window.scrollY;
           const progress = Math.min((scrolled / height) * 100, 100);
-          
+
           const offset = circumference - (progress / 100) * circumference;
           circle.style.strokeDashoffset = offset;
           text.textContent = Math.round(progress);
         });
       }
 
-      // Copy Links
       function initCopyLinks() {
         document.querySelectorAll('h2, h3').forEach(heading => {
           if (!heading.id) return;
-          
+
           const btn = document.createElement('button');
           btn.className = 'copy-link';
           btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
-          
+
           btn.addEventListener('click', async (e) => {
             e.stopPropagation();
             const url = `${window.location.origin}${window.location.pathname}#${heading.id}`;
@@ -285,12 +276,11 @@ const meta = categoryMeta[category];
               setTimeout(() => btn.classList.remove('copied'), 1500);
             } catch {}
           });
-          
+
           heading.appendChild(btn);
         });
       }
 
-      // Actions
       document.getElementById('print-btn')?.addEventListener('click', () => window.print());
       document.getElementById('download-btn')?.addEventListener('click', () => window.print());
       document.getElementById('share-btn')?.addEventListener('click', async () => {
@@ -302,22 +292,21 @@ const meta = categoryMeta[category];
         }
       });
 
-      // Mobile TOC
       function initMobileTOC() {
         if (window.innerWidth >= 1024) return;
-        
+
         const sidebar = document.querySelector('.sidebar');
         const toggle = document.createElement('button');
         toggle.className = 'mobile-toc-toggle';
         toggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg><span>Contents</span>';
-        
+
         document.querySelector('.legal-container')?.prepend(toggle);
-        
+
         toggle.addEventListener('click', () => {
           sidebar?.classList.toggle('open');
           toggle.classList.toggle('active');
         });
-        
+
         document.querySelectorAll('.toc-item').forEach(item => {
           item.addEventListener('click', () => {
             if (window.innerWidth < 1024) {
@@ -328,7 +317,6 @@ const meta = categoryMeta[category];
         });
       }
 
-      // Entrance/Exit Transitions
       function initScrollAnimations() {
         const headerEls = document.querySelectorAll('.doc-badge, .doc-meta, .doc-title, .doc-desc, .header-divider');
         headerEls.forEach((el, i) => {
@@ -364,7 +352,7 @@ const meta = categoryMeta[category];
         }
 
         const revealTargets = document.querySelectorAll('#content h2, #content h3, #content p, #content ul, #content ol, #content .info-card, #content .right-card, #content .quick-stat, #content .provider-card, #content .promise-banner, #content .trust-seal, #content .commitment-seal, #content .contact-method, #content .security-layer, #content .final-cta');
-        
+
         const revealObserver = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -383,7 +371,6 @@ const meta = categoryMeta[category];
         });
       }
 
-      // Init
       document.addEventListener('DOMContentLoaded', () => {
         generateTOC();
         initScrollSpy();
@@ -391,7 +378,7 @@ const meta = categoryMeta[category];
         initCopyLinks();
         initMobileTOC();
         initScrollAnimations();
-        
+
         if (window.location.hash) {
           setTimeout(() => {
             const target = document.querySelector(window.location.hash);
@@ -402,7 +389,6 @@ const meta = categoryMeta[category];
     </script>
 
     <style>
-  /* ===== ANIMATIONS ===== */
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -433,7 +419,6 @@ const meta = categoryMeta[category];
     animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
   }
 
-  /* Scroll Reveal System */
   :global(.reveal-on-scroll) {
     opacity: 0;
     transform: translateY(20px);
@@ -445,7 +430,6 @@ const meta = categoryMeta[category];
     transform: translateY(0);
   }
 
-  /* H2 gets a slide-in from left */
   :global(h2.reveal-on-scroll) {
     opacity: 0;
     transform: translateX(-30px);
@@ -456,7 +440,6 @@ const meta = categoryMeta[category];
     transform: translateX(0);
   }
 
-  /* H3 gets a subtle scale */
   :global(h3.reveal-on-scroll) {
     opacity: 0;
     transform: translateY(12px) scale(0.97);
@@ -467,7 +450,6 @@ const meta = categoryMeta[category];
     transform: translateY(0) scale(1);
   }
 
-  /* Cards/banners get a pop-in */
   :global(.info-card.reveal-on-scroll),
   :global(.right-card.reveal-on-scroll),
   :global(.quick-stat.reveal-on-scroll),
@@ -496,7 +478,6 @@ const meta = categoryMeta[category];
     transform: translateY(0) scale(1);
   }
 
-  /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     :global(.reveal-on-scroll) {
       opacity: 1 !important;
@@ -505,7 +486,6 @@ const meta = categoryMeta[category];
     }
   }
 
-        /* ===== TECH ATMOSPHERE ===== */
       .tech-atmosphere {
         position: fixed;
         inset: 0;
@@ -517,7 +497,7 @@ const meta = categoryMeta[category];
       .tech-grid {
         position: absolute;
         inset: 0;
-        background-image: 
+        background-image:
           linear-gradient(var(--border) 0.5px, transparent 0.5px),
           linear-gradient(90deg, var(--border) 0.5px, transparent 0.5px);
         background-size: 40px 40px;
@@ -553,9 +533,9 @@ const meta = categoryMeta[category];
       .tech-scanline {
         position: absolute;
         inset: 0;
-        background: linear-gradient(180deg, 
-          transparent 0%, 
-          var(--accent-glow) 50%, 
+        background: linear-gradient(180deg,
+          transparent 0%,
+          var(--accent-glow) 50%,
           transparent 100%
         );
         height: 2px;
@@ -582,7 +562,6 @@ const meta = categoryMeta[category];
         100% { transform: translate(50px, 50px); }
       }
 
-      /* ===== WRAPPER ===== */
       .legal-wrapper {
         position: relative;
         min-height: 100vh;
@@ -590,7 +569,6 @@ const meta = categoryMeta[category];
         z-index: 1;
       }
 
-      /* ===== COMPACT HEADER ===== */
       .doc-header {
         max-width: 1400px;
         margin: 0 auto;
@@ -788,7 +766,7 @@ const meta = categoryMeta[category];
         height: 8px;
         background: var(--accent);
         border-radius: 50%;
-        box-shadow: 
+        box-shadow:
           0 0 10px var(--accent-glow),
           0 0 20px var(--accent-glow),
           0 0 30px var(--accent-glow);
@@ -818,7 +796,6 @@ const meta = categoryMeta[category];
         }
       }
 
-      /* ===== CONTAINER ===== */
       .legal-container {
         max-width: 1400px;
         margin: 0 auto;
@@ -828,7 +805,6 @@ const meta = categoryMeta[category];
         gap: var(--space-2xl);
       }
 
-      /* ===== COMPACT SIDEBAR ===== */
       .sidebar {
         position: relative;
       }
@@ -917,7 +893,6 @@ const meta = categoryMeta[category];
         transform: translateY(0);
       }
 
-      /* TOC */
       .toc {
         background: var(--bg-card);
         border: 1px solid var(--border);
@@ -1142,7 +1117,6 @@ const meta = categoryMeta[category];
         font-variation-settings: 'wght' 600;
       }
 
-      /* Related */
       .related {
         padding: 0;
         background: var(--bg-card);
@@ -1290,7 +1264,6 @@ const meta = categoryMeta[category];
         transform: translateX(3px);
       }
 
-      /* Help Chip */
       .help-chip {
         display: flex;
         align-items: center;
@@ -1389,7 +1362,6 @@ const meta = categoryMeta[category];
         transform: translateX(3px);
       }
 
-      /* ===== CONTENT ===== */
       .content {
         min-width: 0;
         background: var(--bg-card);
@@ -1410,7 +1382,6 @@ const meta = categoryMeta[category];
         background: var(--gradient);
       }
 
-      /* Typography */
       .content :global(h2) {
         font-size: clamp(1.5rem, 3vw, 1.875rem);
         font-weight: var(--font-bold);
@@ -1424,7 +1395,6 @@ const meta = categoryMeta[category];
         scroll-margin-top: 100px;
       }
 
-      /* Vibrant left accent bar */
       .content :global(h2::before) {
         content: '';
         position: absolute;
@@ -1437,7 +1407,6 @@ const meta = categoryMeta[category];
         box-shadow: 0 0 12px var(--accent-glow), 0 0 24px var(--accent-glow);
       }
 
-      /* Animated gradient underline */
       .content :global(h2::after) {
         content: '';
         position: absolute;
@@ -1544,7 +1513,6 @@ const meta = categoryMeta[category];
         color: var(--accent);
       }
 
-      /* Copy Link */
       :global(.copy-link) {
         display: inline-flex;
         align-items: center;
@@ -1578,12 +1546,10 @@ const meta = categoryMeta[category];
         color: var(--success);
       }
 
-      /* Mobile TOC Toggle */
       .mobile-toc-toggle {
         display: none;
       }
 
-      /* ===== RESPONSIVE ===== */
       @media (max-width: 1024px) {
         .legal-container {
           grid-template-columns: 1fr;
@@ -1668,7 +1634,6 @@ const meta = categoryMeta[category];
         }
       }
 
-      /* ===== PRINT ===== */
       @media print {
         .tech-atmosphere,
         .doc-header,
@@ -1690,7 +1655,7 @@ const meta = categoryMeta[category];
           padding: 0;
         }
       }
-    
+
   .promise-banner:hover,
   .trust-seal:hover,
   .commitment-seal:hover,
@@ -1698,8 +1663,7 @@ const meta = categoryMeta[category];
     animation: gradient-shift 4s ease infinite;
     box-shadow: 0 16px 48px var(--success-glow);
   }
-  
-  /* Icon hover enhancements */
+
   .quick-stat:hover :global(svg),
   .stat-icon:hover :global(svg),
   .security-layer:hover :global(svg),
@@ -1711,8 +1675,7 @@ const meta = categoryMeta[category];
   .info-card:hover :global(svg) {
     transform: scale(1.1) rotate(-5deg);
   }
-  
-  /* Mobile improvements */
+
   @media (max-width: 768px) {
     .quick-stat,
     .provider-card,
@@ -1724,14 +1687,13 @@ const meta = categoryMeta[category];
     }
   }
 
-  /* Touch device improvements */
   @media (hover: none) {
     .quick-stat,
     .provider-card,
     .right-card {
       transform: none !important;
     }
-    
+
     .quick-stat:active,
     .provider-card:active,
     .right-card:active {

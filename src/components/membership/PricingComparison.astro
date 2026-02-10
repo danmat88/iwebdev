@@ -1,9 +1,4 @@
 ---
-/**
- * PricingComparison.astro
- * Full-featured pricing comparison for membership pages
- * Includes header, toggle, cards, value calculator, and trust indicators
- */
 import { pricingConfig } from '../../content/pages/membership/pricing.config';
 import PricingHeader from './PricingHeader.astro';
 import PricingToggle from './PricingToggle.astro';
@@ -15,7 +10,7 @@ const { header, billingToggle, tiers, valueCalculator, trustIndicators } = prici
 ---
 
 <section class="pricing-section">
-  <!-- Atmosphere -->
+
   <div class="pricing-atmosphere">
     <div class="atmosphere-orb orb-1"></div>
     <div class="atmosphere-orb orb-2"></div>
@@ -24,30 +19,25 @@ const { header, billingToggle, tiers, valueCalculator, trustIndicators } = prici
   </div>
 
   <div class="pricing-container">
-    <!-- Header Component -->
+
     <PricingHeader header={header} />
 
-    <!-- Toggle Component -->
     <PricingToggle toggle={billingToggle} />
 
-    <!-- Cards Grid -->
     <div class="pricing-grid">
       {tiers.map((tier) => (
         <PricingCard tier={tier} />
       ))}
     </div>
 
-    <!-- Value Calculator Component -->
     <ValueCalculator calculator={valueCalculator} />
 
-    <!-- Trust Indicators Component -->
     <TrustIndicators indicators={trustIndicators} />
   </div>
 </section>
 
 <script define:vars={{ tiers }}>
 document.addEventListener('DOMContentLoaded', () => {
-  // ===== PARTICLE SYSTEM =====
   const rootStyles = getComputedStyle(document.documentElement);
   const cyan400Rgb = rootStyles.getPropertyValue('--cyan-400-rgb').trim() || '34, 211, 238';
 
@@ -93,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
     animate();
   }
 
-  // ===== FEATURED CARD BURST =====
   tiers.forEach(tier => {
     if (tier.featured) {
       const burst = document.getElementById(`featured-burst-${tier.id}`);
@@ -109,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ===== CTA PARTICLES =====
   tiers.forEach(tier => {
     if (tier.featured) {
       const ctaParticles = document.getElementById(`cta-particles-${tier.id}`);
@@ -126,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ===== PRICING TOGGLE =====
   const toggleAnnual = document.getElementById('toggle-annual');
   const toggleMonthly = document.getElementById('toggle-monthly');
   const toggleSlider = document.getElementById('toggle-slider');
@@ -168,7 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <style>
-  /* ===== SECTION BASE ===== */
   .pricing-section {
     position: relative;
     padding: 100px 0;
@@ -238,7 +224,6 @@ document.addEventListener('DOMContentLoaded', () => {
     padding: 0 24px;
   }
 
-  /* ===== PRICING GRID ===== */
   .pricing-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -246,7 +231,6 @@ document.addEventListener('DOMContentLoaded', () => {
     margin-bottom: 48px;
   }
 
-  /* ===== PARTICLE ANIMATIONS ===== */
   :global(.burst-particle) {
     position: absolute;
     top: 50%;
@@ -301,7 +285,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ===== RESPONSIVE ===== */
   @media (max-width: 968px) {
     .pricing-section {
       padding: 80px 0;

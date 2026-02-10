@@ -19,13 +19,12 @@ import { teamMembers } from '../../content/global/team.config';
 
   <section class="team-section">
     <div class="container">
-      <!-- Team Grid - Ultra Compact -->
+
       <div class="team-grid-nano">
         {teamMembers.map((member, index) => (
           <article class="team-card-nano reveal" style={`--delay: ${index * 0.05}s`}>
             <div class="card-glow-border"></div>
-            
-            <!-- Avatar with status -->
+
             <div class="member-avatar-wrap">
               <div class="avatar-ring"></div>
               <div class="member-avatar" style={`background: ${member.color}`}>
@@ -38,7 +37,6 @@ import { teamMembers } from '../../content/global/team.config';
               )}
             </div>
 
-            <!-- Member Info -->
             <div class="member-info-compact">
               <h3 class="member-name">{member.name}</h3>
               <p class="member-role">{member.role}</p>
@@ -50,12 +48,10 @@ import { teamMembers } from '../../content/global/team.config';
               )}
             </div>
 
-            <!-- Bio (compact) -->
             {member.bio && (
               <p class="member-bio-nano">{member.bio}</p>
             )}
 
-            <!-- Contact -->
             {member.email && (
               <a href={`mailto:${member.email}`} class="member-email-btn">
                 <Icon name="lucide:mail" />
@@ -66,7 +62,6 @@ import { teamMembers } from '../../content/global/team.config';
         ))}
       </div>
 
-      <!-- Join Team CTA - Nano -->
       <div class="join-team-nano reveal" style="--delay: 0.4s">
         <div class="join-glow"></div>
         <div class="join-icon-wrap">
@@ -104,12 +99,10 @@ import { teamMembers } from '../../content/global/team.config';
 </script>
 
 <style>
-  /* ===== TEAM SECTION ===== */
   .team-section {
     padding: 2rem 0 4rem;
   }
 
-  /* ===== TEAM GRID - ULTRA COMPACT ===== */
   .team-grid-nano {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -156,12 +149,11 @@ import { teamMembers } from '../../content/global/team.config';
     border-color: rgba(var(--cyan-400-rgb), 0.3);
     background: rgba(var(--surface-875-rgb), 0.6);
     transform: translateY(-6px) scale(1.02);
-    box-shadow: 
+    box-shadow:
       0 20px 40px rgba(var(--black-rgb), 0.3),
       0 0 60px rgba(var(--accent-rgb), 0.1);
   }
 
-  /* Avatar */
   .member-avatar-wrap {
     position: relative;
     width: 70px;
@@ -213,7 +205,6 @@ import { teamMembers } from '../../content/global/team.config';
     transform: scale(1.08);
   }
 
-  /* Status Indicator */
   .status-indicator {
     position: absolute;
     bottom: 2px;
@@ -260,7 +251,6 @@ import { teamMembers } from '../../content/global/team.config';
     }
   }
 
-  /* Member Info */
   .member-info-compact {
     margin-bottom: 0.7rem;
   }
@@ -301,7 +291,6 @@ import { teamMembers } from '../../content/global/team.config';
     height: 10px;
   }
 
-  /* Bio */
   .member-bio-nano {
     margin: 0 0 0.8rem;
     font-size: 0.75rem;
@@ -314,7 +303,6 @@ import { teamMembers } from '../../content/global/team.config';
     overflow: hidden;
   }
 
-  /* Email Button */
   .member-email-btn {
     display: inline-flex;
     align-items: center;
@@ -343,7 +331,6 @@ import { teamMembers } from '../../content/global/team.config';
     transform: translateY(-2px);
   }
 
-  /* ===== JOIN TEAM CTA - NANO ===== */
   .join-team-nano {
     position: relative;
     text-align: center;
@@ -481,7 +468,6 @@ import { teamMembers } from '../../content/global/team.config';
     opacity: 1;
   }
 
-  /* ===== REVEAL ANIMATION ===== */
   .reveal {
     opacity: 0;
     transform: translateY(20px);
@@ -493,7 +479,6 @@ import { teamMembers } from '../../content/global/team.config';
     transform: translateY(0);
   }
 
-  /* ===== RESPONSIVE ===== */
   @media (max-width: 980px) {
     .team-grid-nano {
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -546,7 +531,6 @@ import { teamMembers } from '../../content/global/team.config';
     }
   }
 
-  /* ===== REDUCED MOTION ===== */
   @media (prefers-reduced-motion: reduce) {
     .avatar-ring,
     .icon-pulse-ring,

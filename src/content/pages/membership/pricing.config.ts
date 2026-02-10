@@ -1,26 +1,4 @@
-/**
- * PRICING CONFIGURATION
- * =====================
- * This file contains all pricing data for easy maintenance.
- * Non-technical staff can edit this file to update pricing, features, and content.
- * 
- * ICONS:
- * We use Lucide icons via astro-icon. Browse all icons at: https://lucide.dev/icons
- * Format: "lucide:icon-name" (e.g., "lucide:star", "lucide:heart", "lucide:zap")
- * 
- * HOW TO UPDATE:
- * 1. Find the section you want to change
- * 2. Edit the text, numbers, or features
- * 3. Save the file
- * 4. Rebuild the site
- * 
- * IMPORTANT: Keep the structure intact (don't remove commas, brackets, or quotes)
- */
-
 export const pricingConfig = {
-  // ============================================
-  // HEADER SECTION
-  // ============================================
   header: {
     launchBadge: {
       show: true,
@@ -35,9 +13,6 @@ export const pricingConfig = {
     subtitle: "Flexible pricing that scales with your ambition"
   },
 
-  // ============================================
-  // BILLING TOGGLE
-  // ============================================
   billingToggle: {
     annual: {
       label: "Annual",
@@ -48,20 +23,14 @@ export const pricingConfig = {
     }
   },
 
-  // ============================================
-  // PRICING TIERS
-  // ============================================
   tiers: [
-    // ------------------------------------------
-    // TIER 1: COMMUNITY (FREE)
-    // ------------------------------------------
     {
       id: "community",
       name: "Community",
       tagline: "Start learning with the community",
       icon: "lucide:users", // Any Lucide icon: lucide:heart, lucide:star, etc.
       featured: false,
-      
+
       pricing: {
         type: "free", // Options: free, paid, custom
         amount: "Free",
@@ -87,9 +56,6 @@ export const pricingConfig = {
       }
     },
 
-    // ------------------------------------------
-    // TIER 2: PROFESSIONAL (FEATURED)
-    // ------------------------------------------
     {
       id: "professional",
       name: "Professional",
@@ -97,7 +63,7 @@ export const pricingConfig = {
       icon: "lucide:star",
       featured: true,
       featuredLabel: "Most Popular",
-      
+
       pricing: {
         type: "paid",
         annual: {
@@ -134,16 +100,13 @@ export const pricingConfig = {
       }
     },
 
-    // ------------------------------------------
-    // TIER 3: ENTERPRISE
-    // ------------------------------------------
     {
       id: "enterprise",
       name: "Enterprise",
       tagline: "Solutions for teams & organizations",
       icon: "lucide:building",
       featured: false,
-      
+
       pricing: {
         type: "custom",
         amount: "Custom",
@@ -168,9 +131,6 @@ export const pricingConfig = {
     }
   ],
 
-  // ============================================
-  // VALUE CALCULATOR (for Professional tier)
-  // ============================================
   valueCalculator: {
     show: true,
     title: "Your Professional Membership Value",
@@ -193,14 +153,10 @@ export const pricingConfig = {
         value: 600
       }
     ],
-    // Calculated automatically from items above
     yourInvestment: 99, // Should match Professional annual price
     footnote: "Calculated based on market rates"
   },
 
-  // ============================================
-  // TRUST INDICATORS (Footer badges)
-  // ============================================
   trustIndicators: [
     {
       icon: "lucide:shield",
@@ -217,29 +173,16 @@ export const pricingConfig = {
   ]
 };
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
-/**
- * Calculate total value from calculator items
- */
 export function calculateTotalValue() {
   return pricingConfig.valueCalculator.items.reduce((sum, item) => sum + item.value, 0);
 }
 
-/**
- * Calculate ROI percentage
- */
 export function calculateROI() {
   const totalValue = calculateTotalValue();
   const investment = pricingConfig.valueCalculator.yourInvestment;
   return Math.round(((totalValue - investment) / investment) * 100);
 }
 
-/**
- * Get tier by ID
- */
 export function getTierById(id: string) {
   return pricingConfig.tiers.find(tier => tier.id === id);
 }

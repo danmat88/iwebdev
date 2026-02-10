@@ -1,9 +1,4 @@
 ---
-/**
- * ContactSidebar.astro
- * =====================
- * Sticky sidebar with team, method nav, and quick info
- */
 
 import { Icon } from 'astro-icon/components';
 import type { TeamMember, SocialLink } from '../contact.types';
@@ -17,7 +12,7 @@ const { team, socials } = Astro.props;
 ---
 
 <div class="sidebar-inner">
-  <!-- Method Navigation -->
+
   <div class="sidebar-section">
     <div class="section-header">
       <Icon name="lucide:layout-grid" />
@@ -54,12 +49,10 @@ const { team, socials } = Astro.props;
     </nav>
   </div>
 
-  <!-- Team -->
   <div class="sidebar-section">
-     
+
   </div>
 
-  <!-- Quick Info -->
   <div class="sidebar-card">
     <div class="card-icon">
       <Icon name="lucide:shield-check" />
@@ -70,7 +63,6 @@ const { team, socials } = Astro.props;
     </div>
   </div>
 
-  <!-- Social Links -->
   <div class="sidebar-section social-section">
     <div class="section-header">
       <Icon name="lucide:share-2" />
@@ -117,7 +109,6 @@ const { team, socials } = Astro.props;
     color: var(--accent);
   }
 
-  /* Method Nav */
   .method-nav {
     display: flex;
     flex-direction: column;
@@ -246,7 +237,6 @@ const { team, socials } = Astro.props;
     50% { opacity: 0.5; }
   }
 
-  /* Team */
   .team-list {
     display: flex;
     flex-direction: column;
@@ -321,7 +311,6 @@ const { team, socials } = Astro.props;
     color: var(--text-muted);
   }
 
-  /* Card */
   .sidebar-card {
     display: flex;
     align-items: flex-start;
@@ -366,7 +355,6 @@ const { team, socials } = Astro.props;
     color: var(--text-secondary);
   }
 
-  /* Social */
   .social-section {
     margin-top: auto;
   }

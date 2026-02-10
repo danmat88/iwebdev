@@ -1,12 +1,12 @@
 ﻿---
- 
+
 import { Icon } from 'astro-icon/components';
 import { benefitsConfig } from '../../content/pages/membership/benefits.config';
 
-const { 
-  header, heroStats, roiCalculator, benefits, categories, 
-  comparison, achievements, memberMap, testimonials, 
-  activityFeed, events, journey, shortcuts, cta 
+const {
+  header, heroStats, roiCalculator, benefits, categories,
+  comparison, achievements, memberMap, testimonials,
+  activityFeed, events, journey, shortcuts, cta
 } = benefitsConfig;
 
 const roiInitialTotal = roiCalculator.items.reduce((sum, item) => sum + item.value, 0);
@@ -78,18 +78,15 @@ const formatEventDate = (isoDate: string) => {
 ---
 
 <section class="mb-section" id="benefits">
-  <!-- Background -->
+
   <div class="mb-bg">
     <div class="mb-bg-gradient"></div>
     <div class="mb-bg-grid"></div>
     <div class="mb-bg-glow"></div>
   </div>
 
-  <!-- Toast Container -->
   <div class="mb-toast-container" id="mb-toast-container"></div>
- 
 
-  <!-- ============ HEADER ============ -->
   <header class="mb-header">
     <div class="mb-header-badge">
       <span class="mb-badge-pulse"></span>
@@ -104,7 +101,6 @@ const formatEventDate = (isoDate: string) => {
 
     <p class="mb-header-subtitle">{header.subtitle}</p>
 
-    <!-- Hero Stats with Trends -->
     <div class="mb-hero-stats">
       {heroStats.map((stat, i) => (
         <div class="mb-hero-stat" style={`--delay: ${i * 100}ms`}>
@@ -121,9 +117,8 @@ const formatEventDate = (isoDate: string) => {
     </div>
   </header>
 
-  <!-- ============ MAIN BENTO ============ -->
   <div class="mb-bento">
-    <!-- ROI -->
+
     <div class="mb-roi-card">
       <div class="mb-card-header">
         <div class="mb-card-title">
@@ -182,7 +177,6 @@ const formatEventDate = (isoDate: string) => {
       </div>
     </div>
 
-    <!-- BENEFITS EXPLORER -->
     <div class="mb-explorer-card">
       <div class="mb-card-header">
         <div class="mb-card-title">
@@ -291,7 +285,6 @@ const formatEventDate = (isoDate: string) => {
       </div>
     </div>
 
-    <!-- COMPARISON -->
     <div class="mb-comparison-card">
       <div class="mb-card-header">
         <div class="mb-card-title">
@@ -360,7 +353,6 @@ const formatEventDate = (isoDate: string) => {
       </div>
     </div>
 
-    <!-- ACHIEVEMENTS -->
     <div class="mb-achievements-card">
       <div class="mb-card-header">
         <div class="mb-card-title">
@@ -392,7 +384,6 @@ const formatEventDate = (isoDate: string) => {
       </div>
     </div>
 
-    <!-- MAP -->
     <div class="mb-map-card">
       <div class="mb-card-header">
         <div class="mb-card-title">
@@ -441,7 +432,6 @@ const formatEventDate = (isoDate: string) => {
       </div>
     </div>
 
-    <!-- TESTIMONIALS -->
     <div class="mb-testimonials-card">
       <div class="mb-card-header">
         <div class="mb-card-title">
@@ -515,7 +505,6 @@ const formatEventDate = (isoDate: string) => {
       )}
     </div>
 
-    <!-- ACTIVITY -->
     <div class="mb-activity-card">
       <div class="mb-card-header">
         <span class="mb-live-badge">
@@ -551,7 +540,6 @@ const formatEventDate = (isoDate: string) => {
       </div>
     </div>
 
-    <!-- EVENTS -->
     <div class="mb-events-card">
       <div class="mb-card-header">
         <div class="mb-card-title">
@@ -612,7 +600,6 @@ const formatEventDate = (isoDate: string) => {
       </div>
     </div>
 
-    <!-- JOURNEY -->
     <div class="mb-journey-card" id="mb-journey-card">
       <div class="mb-card-header">
         <div class="mb-card-title">
@@ -664,7 +651,6 @@ const formatEventDate = (isoDate: string) => {
       </div>
     </div>
 
-    <!-- QUICK LINKS -->
     <div class="mb-quick-card">
       <div class="mb-quick-links">
         <a class="mb-quick-link" href={cta.primary.url}>
@@ -686,7 +672,6 @@ const formatEventDate = (isoDate: string) => {
     </div>
   </div>
 
-  <!-- CTA -->
   <div class="mb-cta-section">
     <div class="mb-cta-urgency">
       <Icon name="lucide:clock-3" />
@@ -718,7 +703,6 @@ const formatEventDate = (isoDate: string) => {
     </div>
   </div>
 
-  <!-- SHORTCUTS MODAL -->
   <div class="mb-shortcuts-modal" id="mb-shortcuts-modal">
     <div class="mb-shortcuts-content">
       <div class="mb-shortcuts-header">
@@ -740,7 +724,6 @@ const formatEventDate = (isoDate: string) => {
     </div>
   </div>
 
-  <!-- FLOATING ACTIONS -->
   <div class="mb-floating-actions">
     <button class="mb-fab" id="mb-fab-shortcuts" type="button" aria-label="Show shortcuts">
       <Icon name="lucide:keyboard" />
@@ -753,9 +736,8 @@ const formatEventDate = (isoDate: string) => {
 
 <script define:vars={{ roiMembershipCost: roiCalculator.membershipCost }}>
 document.addEventListener('DOMContentLoaded', () => {
-  // ============ TOAST SYSTEM ============
   const toastContainer = document.getElementById('mb-toast-container');
-  
+
   function showToast(message, type = 'info', duration = 3000) {
     const toast = document.createElement('div');
     toast.className = `mb-toast mb-toast-${type}`;
@@ -764,16 +746,14 @@ document.addEventListener('DOMContentLoaded', () => {
       <span class="mb-toast-msg">${message}</span>
     `;
     toastContainer?.appendChild(toast);
-    
+
     setTimeout(() => toast.classList.add('show'), 10);
     setTimeout(() => {
       toast.classList.remove('show');
       setTimeout(() => toast.remove(), 300);
     }, duration);
   }
- 
 
-  // ============ ANIMATED COUNTERS ============
   const counters = document.querySelectorAll('.mb-stat-value');
   if ('IntersectionObserver' in window) {
     const counterObserver = new IntersectionObserver((entries) => {
@@ -811,7 +791,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 30);
   }
 
-  // ============ ROI CALCULATOR ============
   const roiChecks = document.querySelectorAll('.mb-roi-check');
   const roiTotal = document.getElementById('mb-roi-total');
   const roiSavings = document.getElementById('mb-roi-savings');
@@ -825,10 +804,10 @@ document.addEventListener('DOMContentLoaded', () => {
         total += parseInt((check as HTMLElement).dataset.roiValue || '0');
       }
     });
-    
+
     const savings = total - membershipCost;
     const multiplier = membershipCost > 0 ? (total / membershipCost).toFixed(0) : '0';
-    
+
     if (roiTotal) roiTotal.textContent = `$${total.toLocaleString()}`;
     if (roiSavings) {
       roiSavings.textContent = `$${savings.toLocaleString()}`;
@@ -845,7 +824,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ============ BENEFIT EXPLORER ============
   const benefitSearch = document.getElementById('mb-benefit-search') as HTMLInputElement;
   const benefitCards = document.querySelectorAll('.mb-benefit-card');
   const filterBtns = document.querySelectorAll('.mb-filter-btn');
@@ -853,7 +831,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const explorerEmpty = document.getElementById('mb-explorer-empty');
   const favCount = document.getElementById('mb-fav-count');
   const benefitsGrid = document.getElementById('mb-benefits-grid');
-  
+
   let currentCategory = 'all';
   let searchQuery = '';
   let showOnlyPopular = false;
@@ -863,7 +841,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function filterBenefits() {
     let visible = 0;
-    
+
     benefitCards.forEach(card => {
       const c = card as HTMLElement;
       const id = c.dataset.id || '';
@@ -872,22 +850,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const isNew = c.dataset.new === 'true';
       const title = c.querySelector('.mb-benefit-title')?.textContent?.toLowerCase() || '';
       const desc = c.querySelector('.mb-benefit-desc')?.textContent?.toLowerCase() || '';
-      
+
       const matchesCategory = currentCategory === 'all' || category === currentCategory;
       const matchesSearch = !searchQuery || title.includes(searchQuery) || desc.includes(searchQuery);
       const matchesPopular = !showOnlyPopular || isPopular;
       const matchesNew = !showOnlyNew || isNew;
       const matchesFavorites = !showOnlyFavorites || favorites.includes(id);
-      
+
       const show = matchesCategory && matchesSearch && matchesPopular && matchesNew && matchesFavorites;
       c.classList.toggle('hidden', !show);
       if (show) visible++;
     });
-    
+
     if (visibleCount) visibleCount.textContent = String(visible);
     explorerEmpty?.classList.toggle('visible', visible === 0);
-    
-    // Update category counts
+
     document.querySelectorAll('.mb-filter-btn').forEach(btn => {
       const cat = (btn as HTMLElement).dataset.category;
       let count = 0;
@@ -902,13 +879,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Search
   benefitSearch?.addEventListener('input', (e) => {
     searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
     filterBenefits();
   });
 
-  // Category filters
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
@@ -918,7 +893,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Popular/New filters
   document.getElementById('mb-show-popular')?.addEventListener('click', (e) => {
     showOnlyPopular = !showOnlyPopular;
     (e.target as HTMLElement).closest('.mb-toolbar-btn')?.classList.toggle('active', showOnlyPopular);
@@ -931,11 +905,10 @@ document.addEventListener('DOMContentLoaded', () => {
     filterBenefits();
   });
 
-  // Favorites
   document.querySelectorAll('.mb-benefit-fav').forEach(btn => {
     const id = (btn as HTMLElement).dataset.fav || '';
     if (favorites.includes(id)) btn.classList.add('active');
-    
+
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const idx = favorites.indexOf(id);
@@ -962,12 +935,10 @@ document.addEventListener('DOMContentLoaded', () => {
     filterBenefits();
   });
 
-  // View toggle
   document.getElementById('mb-view-toggle')?.addEventListener('click', () => {
     benefitsGrid?.classList.toggle('list-view');
   });
 
-  // Reset
   document.getElementById('mb-reset-search')?.addEventListener('click', () => {
     if (benefitSearch) benefitSearch.value = '';
     searchQuery = '';
@@ -981,7 +952,6 @@ document.addEventListener('DOMContentLoaded', () => {
     filterBenefits();
   });
 
-  // ============ COMPARISON TOOL ============
   const comparisonBody = document.getElementById('mb-comparison-body');
   document.querySelectorAll('.mb-toggle-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -992,7 +962,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ============ TESTIMONIALS ============
   const testiSlides = document.querySelectorAll('.mb-testi-slide');
   const testiDots = document.querySelectorAll('.mb-testi-dot');
   const testiCurrent = document.getElementById('mb-testi-current');
@@ -1044,7 +1013,6 @@ document.addEventListener('DOMContentLoaded', () => {
     testiInterval = setInterval(nextTesti, 6000);
   }
 
-  // ============ ACTIVITY FEED ============
   const activityItems = document.querySelectorAll('.mb-activity-item');
   let activeActivity = 0;
 
@@ -1061,7 +1029,6 @@ document.addEventListener('DOMContentLoaded', () => {
     highlightActivity();
   }
 
-  // Online count simulation
   const onlineNum = document.getElementById('mb-online-num');
   setInterval(() => {
     if (onlineNum) {
@@ -1071,7 +1038,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 4000);
 
-  // ============ JOURNEY TIMELINE ============
   const journeySteps = document.querySelectorAll('.mb-journey-step');
   const journeyFill = document.getElementById('mb-journey-fill');
   const journeyStepNum = document.getElementById('mb-journey-step');
@@ -1084,7 +1050,7 @@ document.addEventListener('DOMContentLoaded', () => {
       step.classList.toggle('active', i <= index);
       step.classList.toggle('current', i === index);
     });
-    
+
     const stepDenominator = Math.max(journeySteps.length - 1, 1);
     const progress = (index / stepDenominator) * 100;
     if (journeyFill) journeyFill.style.width = `${progress}%`;
@@ -1096,7 +1062,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => setJourneyStep(i));
   });
 
-  // Step detail toggles
   document.querySelectorAll('.mb-step-toggle').forEach(btn => {
     btn.addEventListener('click', () => {
       const step = btn.closest('.mb-journey-step');
@@ -1106,7 +1071,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Auto-advance journey
   let journeyInterval: ReturnType<typeof setInterval> | undefined;
   if (journeySteps.length > 1) {
     journeyInterval = setInterval(() => {
@@ -1115,7 +1079,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 4000);
   }
 
-  // Pause on hover
   document.getElementById('mb-journey-card')?.addEventListener('mouseenter', () => {
     if (journeyInterval) clearInterval(journeyInterval);
   });
@@ -1127,7 +1090,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 4000);
     }
   });
- 
+
   const shortcutsModal = document.getElementById('mb-shortcuts-modal');
 
   function toggleShortcuts(show?: boolean) {
@@ -1143,7 +1106,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('mb-fab-shortcuts')?.addEventListener('click', () => toggleShortcuts());
 
   document.addEventListener('keydown', (e) => {
-    // Don't trigger if typing in input
     if ((e.target as HTMLElement).tagName === 'INPUT') return;
 
     switch (e.key) {
@@ -1169,12 +1131,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ============ FLOATING ACTIONS ============
   document.getElementById('mb-fab-top')?.addEventListener('click', () => {
     document.getElementById('benefits')?.scrollIntoView({ behavior: 'smooth' });
   });
 
-  // Show/hide back to top based on scroll
   const fabTop = document.getElementById('mb-fab-top');
   window.addEventListener('scroll', () => {
     const section = document.getElementById('benefits');
@@ -1184,7 +1144,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ============ INTERSECTION ANIMATIONS ============
   const animObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -1197,7 +1156,6 @@ document.addEventListener('DOMContentLoaded', () => {
     animObserver.observe(el);
   });
 
-  // ============ HOTSPOT HOVER ============
   document.querySelectorAll('.mb-hotspot').forEach(spot => {
     spot.addEventListener('mouseenter', () => {
       spot.classList.add('active');
@@ -1207,7 +1165,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ============ BENEFIT CARD HOVER EFFECTS ============
   benefitCards.forEach(card => {
     card.addEventListener('mouseenter', () => {
       card.classList.add('hovered');
@@ -1225,7 +1182,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <style>
-  /* ============ BASE ============ */
   .mb-section {
     position: relative;
     padding: 100px 24px;
@@ -1260,14 +1216,13 @@ document.addEventListener('DOMContentLoaded', () => {
   .mb-bg-grid {
     position: absolute;
     inset: 0;
-    background-image: 
+    background-image:
       linear-gradient(var(--border) 1px, transparent 1px),
       linear-gradient(90deg, var(--border) 1px, transparent 1px);
     background-size: 60px 60px;
     opacity: 0.03;
   }
 
-  /* ============ TOAST ============ */
   .mb-toast-container {
     position: fixed;
     top: 24px;
@@ -1298,7 +1253,6 @@ document.addEventListener('DOMContentLoaded', () => {
   .mb-toast-info .mb-toast-icon { color: var(--accent); }
   .mb-toast-msg { font-size: 13px; color: var(--text); }
 
-  /* ============ SHORTCUTS MODAL ============ */
   .mb-shortcuts-modal {
     position: fixed;
     inset: 0;
@@ -1385,7 +1339,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--text);
   }
 
-  /* ============ HEADER ============ */
   .mb-header {
     position: relative;
     text-align: center;
@@ -1456,7 +1409,6 @@ document.addEventListener('DOMContentLoaded', () => {
     margin-bottom: 40px;
   }
 
-  /* ============ HERO STATS ============ */
   .mb-hero-stats {
     display: flex;
     justify-content: center;
@@ -1536,7 +1488,6 @@ document.addEventListener('DOMContentLoaded', () => {
   .mb-hero-stat { position: relative; }
   .mb-hero-stat:hover .mb-stat-trend { opacity: 1; }
 
-  /* ============ BENTO GRID ============ */
   .mb-bento {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -1545,7 +1496,6 @@ document.addEventListener('DOMContentLoaded', () => {
     margin: 0 auto 64px;
   }
 
-  /* Card base */
   [class*="mb-"][class*="-card"] {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -1590,7 +1540,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--text-muted);
   }
 
-  /* ============ ROI CALCULATOR ============ */
   .mb-roi-card {
     grid-column: span 5;
     padding: 0 0 24px;
@@ -1755,7 +1704,6 @@ document.addEventListener('DOMContentLoaded', () => {
     background: var(--border);
   }
 
-  /* ============ BENEFIT EXPLORER ============ */
   .mb-explorer-card {
     grid-column: span 7;
     padding: 0;
@@ -1927,7 +1875,6 @@ document.addEventListener('DOMContentLoaded', () => {
   .mb-benefits-grid.list-view + .mb-view-toggle .mb-view-grid { display: none; }
   .mb-benefits-grid.list-view + .mb-view-toggle .mb-view-list { display: block; }
 
-  /* Benefits grid */
   .mb-benefits-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -2150,7 +2097,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cursor: pointer;
   }
 
-  
   .mb-comparison-card {
     grid-column: span 6;
     padding: 0;
@@ -2291,7 +2237,6 @@ document.addEventListener('DOMContentLoaded', () => {
     font-weight: 700;
   }
 
-  /* ============ ACHIEVEMENTS ============ */
   .mb-achievements-card {
     grid-column: span 6;
     padding: 0;
@@ -2410,7 +2355,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   .mb-badge-item.locked .mb-badge-xp { background: var(--bg-card); color: var(--text-muted); }
 
-  /* ============ MAP ============ */
   .mb-map-card {
     grid-column: span 7;
     padding: 0;
@@ -2577,7 +2521,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--accent);
   }
 
-  /* ============ TESTIMONIALS ============ */
   .mb-testimonials-card {
     grid-column: span 5;
     padding: 0;
@@ -2755,7 +2698,6 @@ document.addEventListener('DOMContentLoaded', () => {
     transform: scale(1.3);
   }
 
-  /* ============ ACTIVITY FEED ============ */
   .mb-activity-card {
     grid-column: span 5;
     padding: 0;
@@ -2872,7 +2814,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--text-muted);
   }
 
-  /* ============ EVENTS ============ */
   .mb-events-card {
     grid-column: span 7;
     padding: 0;
@@ -3037,7 +2978,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   .mb-event-rsvp :global(svg) { width: 14px; height: 14px; }
 
-  /* ============ JOURNEY ============ */
   .mb-journey-card {
     grid-column: span 12;
     padding: 0;
@@ -3243,7 +3183,6 @@ document.addEventListener('DOMContentLoaded', () => {
     background: linear-gradient(90deg, var(--accent), var(--border));
   }
 
-  /* ============ QUICK LINKS ============ */
   .mb-quick-card {
     grid-column: span 12;
     padding: 20px 24px;
@@ -3289,7 +3228,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   .mb-quick-badge.hot { background: rgba(var(--red-500-rgb), 0.15); color: var(--red-500); }
 
-  /* ============ CTA ============ */
   .mb-cta-section {
     max-width: 700px;
     margin: 0 auto;
@@ -3409,7 +3347,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   .mb-cta-guarantee :global(svg) { width: 14px; height: 14px; color: var(--green-500); }
 
-  /* ============ FLOATING ACTIONS ============ */
   .mb-floating-actions {
     position: fixed;
     bottom: 24px;
@@ -3455,7 +3392,6 @@ document.addEventListener('DOMContentLoaded', () => {
     transform: translateY(0);
   }
 
-  /* ============ RESPONSIVE ============ */
   @media (max-width: 1200px) {
     .mb-bento { grid-template-columns: repeat(6, 1fr); }
     .mb-roi-card { grid-column: span 6; }
@@ -3506,12 +3442,10 @@ document.addEventListener('DOMContentLoaded', () => {
     .mb-floating-actions { bottom: 16px; right: 16px; }
   }
 
-  /* ============ DAYLIGHT THEME ============ */
   :global([data-theme="daylight"]) .mb-cta-main,
   :global([data-theme="daylight"]) .mb-cta-arrow { color: var(--white); }
   :global([data-theme="daylight"]) .mb-cta-sub { color: rgba(var(--white-rgb), 0.7); }
 
- 
 .mb-section {
   padding: 3rem 0 !important;
 }
@@ -3521,7 +3455,6 @@ document.addEventListener('DOMContentLoaded', () => {
   padding: 0 1rem !important;
 }
 
-/* ===== HEADER ===== */
 .mb-header {
   margin-bottom: 2rem !important;
 }
@@ -3576,13 +3509,11 @@ document.addEventListener('DOMContentLoaded', () => {
   padding: 0.2rem 0.5rem !important;
 }
 
-/* ===== BENTO GRID ===== */
 .mb-bento {
   gap: 0.75rem !important;
   margin-bottom: 1.5rem !important;
 }
 
-/* ===== CARD HEADERS ===== */
 .mb-card-header {
   padding: 0.8rem 0.9rem !important;
   gap: 0.5rem !important;
@@ -3602,7 +3533,6 @@ document.addEventListener('DOMContentLoaded', () => {
   font-size: 0.7rem !important;
 }
 
-/* ===== ROI CALCULATOR ===== */
 .mb-roi-card {
   padding: 0 !important;
 }
@@ -3662,7 +3592,6 @@ document.addEventListener('DOMContentLoaded', () => {
   padding: 0.2rem 0.5rem !important;
 }
 
-/* ===== BENEFITS EXPLORER ===== */
 .mb-explorer-card {
   padding: 0 !important;
 }
@@ -3765,7 +3694,6 @@ document.addEventListener('DOMContentLoaded', () => {
   font-size: 0.7rem !important;
 }
 
-/* ===== COMPARISON ===== */
 .mb-comparison-card {
   padding: 0.9rem !important;
 }
@@ -3783,7 +3711,6 @@ document.addEventListener('DOMContentLoaded', () => {
   font-size: 0.7rem !important;
 }
 
-/* ===== ACHIEVEMENTS ===== */
 .mb-achievements-card {
   padding: 0.9rem !important;
 }
@@ -3826,7 +3753,6 @@ document.addEventListener('DOMContentLoaded', () => {
   font-size: 0.65rem !important;
 }
 
-/* ===== MAP ===== */
 .mb-map-card {
   padding: 0 !important;
 }
@@ -3871,7 +3797,6 @@ document.addEventListener('DOMContentLoaded', () => {
   height: 18px !important;
 }
 
-/* ===== TESTIMONIALS ===== */
 .mb-testimonials-card {
   padding: 0.9rem !important;
 }
@@ -3900,7 +3825,6 @@ document.addEventListener('DOMContentLoaded', () => {
   font-size: 0.68rem !important;
 }
 
-/* ===== ACTIVITY FEED ===== */
 .mb-activity-card {
   padding: 0.9rem !important;
 }
@@ -3928,7 +3852,6 @@ document.addEventListener('DOMContentLoaded', () => {
   font-size: 0.65rem !important;
 }
 
-/* ===== EVENTS ===== */
 .mb-events-card {
   padding: 0.9rem !important;
 }
@@ -3970,7 +3893,6 @@ document.addEventListener('DOMContentLoaded', () => {
   font-size: 0.7rem !important;
 }
 
-/* ===== JOURNEY/TIMELINE ===== */
 .mb-journey-card {
   padding: 0.9rem !important;
 }
@@ -4000,7 +3922,6 @@ document.addEventListener('DOMContentLoaded', () => {
   line-height: 1.4 !important;
 }
 
-/* ===== QUICK LINKS ===== */
 .mb-quick-card {
   padding: 0.9rem !important;
 }
@@ -4025,7 +3946,6 @@ document.addEventListener('DOMContentLoaded', () => {
   font-size: 0.6rem !important;
 }
 
-/* ===== CTA SECTION ===== */
 .mb-cta-section {
   padding: 2rem 0 !important;
 }
@@ -4071,7 +3991,6 @@ document.addEventListener('DOMContentLoaded', () => {
   gap: 0.4rem !important;
 }
 
-/* ===== FLOATING ACTIONS ===== */
 .mb-floating-actions {
   bottom: 1.2rem !important;
   right: 1.2rem !important;
@@ -4088,14 +4007,12 @@ document.addEventListener('DOMContentLoaded', () => {
   height: 16px !important;
 }
 
-/* ===== TOAST ===== */
 .mb-toast {
   padding: 0.7rem 0.9rem !important;
   gap: 0.6rem !important;
   font-size: 0.75rem !important;
 }
 
-/* ===== MODAL/DETAIL PANEL ===== */
 .mb-detail-panel {
   padding: 1.2rem !important;
 }
@@ -4118,7 +4035,6 @@ document.addEventListener('DOMContentLoaded', () => {
   line-height: 1.5 !important;
 }
 
-/* ===== ENHANCED HOVER EFFECTS ===== */
 .mb-benefit-card,
 .mb-roi-card,
 .mb-explorer-card,
@@ -4164,7 +4080,6 @@ document.addEventListener('DOMContentLoaded', () => {
   opacity: 1;
 }
 
-/* ===== RESPONSIVE OVERRIDES ===== */
 @media (max-width: 1200px) {
   .mb-benefits-grid {
     grid-template-columns: repeat(2, 1fr) !important;
@@ -4197,6 +4112,6 @@ document.addEventListener('DOMContentLoaded', () => {
   .mb-bento {
     gap: 0.6rem !important;
   }
-} 
-</style> 
+}
+</style>
 

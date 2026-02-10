@@ -7,7 +7,7 @@ import Logo from '../common/Logo.astro';
 
 <footer class="footer">
   <div class="footer-grid"></div>
-  
+
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
@@ -46,7 +46,7 @@ import Logo from '../common/Logo.astro';
         ))}
       </div>
     </div>
- 
+
     <div class="footer-bottom">
       <div class="footer-meta">
         <span class="meta-bracket">{'<'}</span>
@@ -68,38 +68,27 @@ import Logo from '../common/Logo.astro';
 </footer>
 
 <style>
-  /* ============================================= */
-  /* FOOTER VARIABLES */
-  /* ============================================= */
   .footer {
-    /* Spacing */
     --footer-padding-y: 64px;
     --footer-padding-x: 32px;
     --footer-max-width: 1200px;
     --footer-gap: 64px;
-    
-    /* Grid */
+
     --grid-size: 40px;
     --grid-color: rgba(var(--accent-rgb), 0.03);
     --grid-opacity: 0.5;
-    
-    /* Typography */
+
     --tagline-size: 13px;
     --heading-size: 11px;
     --link-size: 13px;
     --meta-size: 11px;
-    
-    /* Transitions */
+
     --footer-transition: all 0.2s ease;
-    
-    /* Social Links */
+
     --social-size: 40px;
     --social-gap: 10px;
   }
 
-  /* ============================================= */
-  /* FOOTER BASE */
-  /* ============================================= */
   .footer {
     position: relative;
     padding: var(--footer-padding-y) 0 32px;
@@ -108,11 +97,10 @@ import Logo from '../common/Logo.astro';
     overflow: hidden;
   }
 
-  /* Tech Grid Background */
   .footer-grid {
     position: absolute;
     inset: 0;
-    background-image: 
+    background-image:
       linear-gradient(var(--grid-color) 1px, transparent 1px),
       linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
     background-size: var(--grid-size) var(--grid-size);
@@ -128,9 +116,6 @@ import Logo from '../common/Logo.astro';
     padding: 0 var(--footer-padding-x);
   }
 
-  /* ============================================= */
-  /* FOOTER TOP */
-  /* ============================================= */
   .footer-top {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -138,7 +123,7 @@ import Logo from '../common/Logo.astro';
     padding-bottom: 40px;
     border-bottom: 1px solid var(--border);
   }
- 
+
   .footer-tagline {
     font-size: var(--tagline-size);
     color: var(--text-secondary);
@@ -147,9 +132,6 @@ import Logo from '../common/Logo.astro';
     margin: 20px 0 24px;
   }
 
-  /* ============================================= */
-  /* SOCIAL LINKS - Techy Style */
-  /* ============================================= */
   .footer-socials {
     display: flex;
     flex-wrap: wrap;
@@ -194,9 +176,6 @@ import Logo from '../common/Logo.astro';
     opacity: 1;
   }
 
-  /* ============================================= */
-  /* FOOTER LINKS - Terminal Style */
-  /* ============================================= */
   .footer-links {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -252,9 +231,6 @@ import Logo from '../common/Logo.astro';
     transform: translateX(0);
   }
 
-  /* ============================================= */
-  /* FOOTER BOTTOM - Code Style */
-  /* ============================================= */
   .footer-bottom {
     display: flex;
     justify-content: space-between;
@@ -302,9 +278,6 @@ import Logo from '../common/Logo.astro';
     color: var(--border-strong);
   }
 
-  /* ============================================= */
-  /* RESPONSIVE */
-  /* ============================================= */
   @media (max-width: 900px) {
     .footer {
       padding: 48px 0 28px;

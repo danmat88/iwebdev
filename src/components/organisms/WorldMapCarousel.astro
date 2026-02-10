@@ -1,15 +1,10 @@
 ---
-/**
- * WorldMapCarousel.astro v1.0
- * Combined World Map + Dev Carousel with unified container
- * Map shrinks from corners to center on exit, carousel cards enter in same space
- */
 import { Icon } from 'astro-icon/components';
 import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
 ---
 
 <div class="unified-container" data-world-map-carousel data-map-interaction-container>
-  <!-- Shared HUD corners that persist across states -->
+
   <div class="shared-hud">
     <div class="hud-corner tl"></div>
     <div class="hud-corner tr"></div>
@@ -17,44 +12,36 @@ import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
     <div class="hud-corner br"></div>
   </div>
 
-  <!-- ============ MAP STATE ============ -->
   <LiveWorldMapPanel />
 
-  <!-- ============ CAROUSEL STATE ============ -->
   <div class="carousel-state" id="carousel-state">
-    <!-- Transition glow effect -->
+
     <div class="carousel-transition-glow"></div>
-    
-    <!-- Neural network background -->
+
     <div class="neural-network" id="neural-network">
       <canvas id="neural-canvas"></canvas>
     </div>
 
-    <!-- Matrix rain -->
     <div class="matrix-rain" id="matrix-rain">
       <canvas id="matrix-canvas"></canvas>
     </div>
 
-    <!-- Holographic effects -->
     <div class="holo-scanlines"></div>
     <div class="holo-grid"></div>
 
-    <!-- Data streams -->
     <div class="data-streams">
       <div class="data-stream s1"></div>
       <div class="data-stream s2"></div>
       <div class="data-stream s3"></div>
     </div>
 
-    <!-- Terminal cards -->
     <div class="terminal-stack" id="terminal-stack">
-      
-      <!-- Card 1: Pair Programming -->
+
       <article class="terminal-card" data-index="0">
         <div class="card-hologram"></div>
         <div class="card-glitch-layer"></div>
         <div class="card-energy-field"></div>
-        
+
         <div class="terminal-header">
           <div class="terminal-controls">
             <span class="control-dot"></span>
@@ -76,7 +63,7 @@ import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
               <div class="corner-brackets"></div>
             </div>
           </div>
-          
+
           <div class="terminal-console">
             <div class="console-line">
               <span class="prompt">$</span>
@@ -106,12 +93,11 @@ import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
         </div>
       </article>
 
-      <!-- Card 2: Team Standup -->
       <article class="terminal-card" data-index="1">
         <div class="card-hologram"></div>
         <div class="card-glitch-layer"></div>
         <div class="card-energy-field"></div>
-        
+
         <div class="terminal-header">
           <div class="terminal-controls">
             <span class="control-dot"></span>
@@ -133,7 +119,7 @@ import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
               <div class="corner-brackets"></div>
             </div>
           </div>
-          
+
           <div class="terminal-console">
             <div class="console-line">
               <span class="prompt">$</span>
@@ -163,12 +149,11 @@ import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
         </div>
       </article>
 
-      <!-- Card 3: Deep Work -->
       <article class="terminal-card" data-index="2">
         <div class="card-hologram"></div>
         <div class="card-glitch-layer"></div>
         <div class="card-energy-field"></div>
-        
+
         <div class="terminal-header">
           <div class="terminal-controls">
             <span class="control-dot"></span>
@@ -190,7 +175,7 @@ import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
               <div class="corner-brackets"></div>
             </div>
           </div>
-          
+
           <div class="terminal-console">
             <div class="console-line">
               <span class="prompt">$</span>
@@ -220,12 +205,11 @@ import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
         </div>
       </article>
 
-      <!-- Card 4: Hackathon -->
       <article class="terminal-card" data-index="3">
         <div class="card-hologram"></div>
         <div class="card-glitch-layer"></div>
         <div class="card-energy-field"></div>
-        
+
         <div class="terminal-header">
           <div class="terminal-controls">
             <span class="control-dot"></span>
@@ -247,7 +231,7 @@ import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
               <div class="corner-brackets"></div>
             </div>
           </div>
-          
+
           <div class="terminal-console">
             <div class="console-line">
               <span class="prompt">$</span>
@@ -277,12 +261,11 @@ import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
         </div>
       </article>
 
-      <!-- Card 5: Brainstorming -->
       <article class="terminal-card" data-index="4">
         <div class="card-hologram"></div>
         <div class="card-glitch-layer"></div>
         <div class="card-energy-field"></div>
-        
+
         <div class="terminal-header">
           <div class="terminal-controls">
             <span class="control-dot"></span>
@@ -304,7 +287,7 @@ import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
               <div class="corner-brackets"></div>
             </div>
           </div>
-          
+
           <div class="terminal-console">
             <div class="console-line">
               <span class="prompt">$</span>
@@ -334,12 +317,11 @@ import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
         </div>
       </article>
 
-      <!-- Card 6: Code Review -->
       <article class="terminal-card" data-index="5">
         <div class="card-hologram"></div>
         <div class="card-glitch-layer"></div>
         <div class="card-energy-field"></div>
-        
+
         <div class="terminal-header">
           <div class="terminal-controls">
             <span class="control-dot"></span>
@@ -361,7 +343,7 @@ import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
               <div class="corner-brackets"></div>
             </div>
           </div>
-          
+
           <div class="terminal-console">
             <div class="console-line">
               <span class="prompt">$</span>
@@ -392,14 +374,12 @@ import LiveWorldMapPanel from '../common/maps/LiveWorldMapPanel.astro';
       </article>
     </div>
 
-    <!-- HUD stats -->
     <div class="hud-stats">
       <span class="hud-item"><span class="hud-label">ACTIVE:</span> <span class="hud-value" id="active-sessions">248</span></span>
       <span class="hud-item"><span class="hud-label">LATENCY:</span> <span class="hud-value" id="avg-latency">47ms</span></span>
       <span class="hud-item"><span class="hud-label">UPTIME:</span> <span class="hud-value">99.9%</span></span>
     </div>
 
-    <!-- Progress -->
     <div class="progress-hud" id="progress-hud">
       <div class="progress-dots" id="progress-dots"></div>
       <div class="progress-bar-container">
@@ -437,7 +417,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentIndex = 0;
   let rotateInterval = null;
 
-  // Progress dots
   if (progressDots) {
     for (let i = 0; i < totalCards; i++) {
       const dot = document.createElement('button');
@@ -451,7 +430,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Neural network
   const neuralCanvas = container.querySelector('#neural-canvas');
   const neuralCtx = neuralCanvas?.getContext('2d');
   let neuralNodes = [];
@@ -517,7 +495,6 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(animateNeuralNetwork);
   }
 
-  // Matrix rain
   const matrixCanvas = container.querySelector('#matrix-canvas');
   const matrixCtx = matrixCanvas?.getContext('2d');
   let matrixColumns = [];
@@ -558,7 +535,6 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(animateMatrixRain);
   }
 
-  // Card positioning - centered fan layout
   function positionCards(animate = true) {
     cards.forEach((card, i) => {
       let pos = i - currentIndex;
@@ -570,7 +546,6 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         card.style.transition = 'none';
       }
-      // Base transform includes centering: translate(-50%, -50%)
       if (pos === 0) {
         card.classList.add('active');
         card.style.transform = 'translate(-50%, -50%) scale(1)';
@@ -629,23 +604,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ===== TRANSITIONS =====
   function showCarousel() {
     if (!mapState || !carouselState || !mapShrinkWrapper) return;
     stopRotation();
-    
-    // Start map exit with iris close
+
     mapShrinkWrapper.classList.add('shrinking');
     mapState.classList.add('exiting');
-    
+
     setTimeout(() => {
       isMapView = false;
       mapState.classList.remove('visible', 'exiting');
       mapShrinkWrapper.classList.remove('shrinking');
-      
-      // Show carousel with cards bursting in
+
       carouselState.classList.add('visible', 'entering');
-      
+
       setTimeout(() => {
         carouselState.classList.remove('entering');
         positionCards(false);
@@ -657,18 +629,16 @@ document.addEventListener('DOMContentLoaded', () => {
   function showMap() {
     if (!mapState || !carouselState || !mapShrinkWrapper) return;
     stopRotation();
-    
-    // Cards collapse to center
+
     carouselState.classList.add('exiting');
-    
+
     setTimeout(() => {
       isMapView = true;
       carouselState.classList.remove('visible', 'exiting');
-      
-      // Map expands from center
+
       mapState.classList.add('visible', 'entering');
       mapShrinkWrapper.classList.add('expanding');
-      
+
       setTimeout(() => {
         mapState.classList.remove('entering');
         mapShrinkWrapper.classList.remove('expanding');
@@ -676,20 +646,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 700);
   }
 
-  // Initialize
   function init() {
     initNeuralNetwork();
     initMatrixRain();
     animateNeuralNetwork();
     animateMatrixRain();
-    
+
     window.addEventListener('resize', () => {
       initNeuralNetwork();
       initMatrixRain();
     });
-    
+
     positionCards(false);
-    
+
     function cycle() {
       if (isMapView) {
         setTimeout(() => {
@@ -701,7 +670,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(cycle, MAP_DISPLAY_TIME);
       }
     }
-    
+
     cycle();
   }
 
@@ -710,7 +679,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <style>
-  /* ===== UNIFIED CONTAINER ===== */
   .unified-container {
     position: relative;
     width: 100%;
@@ -719,13 +687,12 @@ document.addEventListener('DOMContentLoaded', () => {
     overflow: hidden;
     background: linear-gradient(135deg, rgba(var(--surface-800-rgb), 0.95), rgba(var(--surface-780-rgb), 0.98));
     border: 1px solid rgba(var(--cyan-400-rgb), 0.15);
-    box-shadow: 
+    box-shadow:
       0 0 60px rgba(var(--cyan-400-rgb), 0.08),
       0 8px 32px rgba(var(--black-rgb), 0.4),
       inset 0 1px 0 rgba(var(--white-rgb), 0.03);
   }
 
-  /* ===== SHARED HUD CORNERS ===== */
   .shared-hud {
     position: absolute;
     inset: 0;
@@ -768,10 +735,6 @@ document.addEventListener('DOMContentLoaded', () => {
     border-right: 2px solid var(--accent);
   }
 
-  /* ===== MAP STATE ===== */
-  /* Map state styles moved to LiveWorldMapPanel.astro */
-
-/* ===== CAROUSEL STATE ===== */
   .carousel-state {
     position: absolute;
     inset: 0;
@@ -784,7 +747,6 @@ document.addEventListener('DOMContentLoaded', () => {
     opacity: 1;
   }
 
-  /* Carousel transition glow - expanding ring */
   .carousel-transition-glow {
     position: absolute;
     top: 50%;
@@ -792,10 +754,10 @@ document.addEventListener('DOMContentLoaded', () => {
     width: 80px;
     height: 80px;
     transform: translate(-50%, -50%);
-    background: radial-gradient(circle, 
-      rgba(var(--white-rgb), 0.9) 0%, 
-      rgba(var(--cyan-400-rgb), 0.7) 25%, 
-      rgba(var(--indigo-400-rgb), 0.5) 50%, 
+    background: radial-gradient(circle,
+      rgba(var(--white-rgb), 0.9) 0%,
+      rgba(var(--cyan-400-rgb), 0.7) 25%,
+      rgba(var(--indigo-400-rgb), 0.5) 50%,
       transparent 70%
     );
     border-radius: 50%;
@@ -813,7 +775,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   @keyframes ringExpand {
-    0% { 
+    0% {
       transform: translate(-50%, -50%) scale(0);
       opacity: 1;
       filter: brightness(2);
@@ -822,7 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
       opacity: 0.9;
       filter: brightness(1.5);
     }
-    100% { 
+    100% {
       transform: translate(-50%, -50%) scale(12);
       opacity: 0;
       filter: brightness(1);
@@ -830,7 +792,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   @keyframes ringContract {
-    0% { 
+    0% {
       transform: translate(-50%, -50%) scale(12);
       opacity: 0;
     }
@@ -838,7 +800,7 @@ document.addEventListener('DOMContentLoaded', () => {
       opacity: 0.8;
       filter: brightness(1.5);
     }
-    100% { 
+    100% {
       transform: translate(-50%, -50%) scale(0);
       opacity: 1;
       filter: brightness(2);
@@ -849,7 +811,6 @@ document.addEventListener('DOMContentLoaded', () => {
     animation: carouselReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  /* Cards burst in from center */
   .carousel-state.entering .terminal-card {
     animation: cardBurstIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
   }
@@ -865,17 +826,16 @@ document.addEventListener('DOMContentLoaded', () => {
     animation: carouselCollapse 0.7s cubic-bezier(0.55, 0, 1, 0.45) forwards;
   }
 
-  /* Cards collapse to center on exit */
   .carousel-state.exiting .terminal-card {
     animation: cardCollapseOut 0.6s cubic-bezier(0.55, 0, 1, 0.45) forwards;
   }
 
   @keyframes carouselReveal {
-    0% { 
+    0% {
       opacity: 0;
     }
-    100% { 
-      opacity: 1; 
+    100% {
+      opacity: 1;
     }
   }
 
@@ -896,10 +856,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   @keyframes carouselCollapse {
-    0% { 
+    0% {
       opacity: 1;
     }
-    100% { 
+    100% {
       opacity: 0;
     }
   }
@@ -916,7 +876,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* Neural network */
   .neural-network {
     position: absolute;
     inset: 0;
@@ -928,7 +887,6 @@ document.addEventListener('DOMContentLoaded', () => {
     height: 100%;
   }
 
-  /* Matrix rain */
   .matrix-rain {
     position: absolute;
     inset: 0;
@@ -941,7 +899,6 @@ document.addEventListener('DOMContentLoaded', () => {
     height: 100%;
   }
 
-  /* Holo effects */
   .holo-scanlines {
     position: absolute;
     inset: 0;
@@ -959,7 +916,7 @@ document.addEventListener('DOMContentLoaded', () => {
   .holo-grid {
     position: absolute;
     inset: 0;
-    background: 
+    background:
       linear-gradient(90deg, rgba(var(--cyan-400-rgb), 0.02) 1px, transparent 1px),
       linear-gradient(rgba(var(--cyan-400-rgb), 0.02) 1px, transparent 1px);
     background-size: 60px 60px;
@@ -967,7 +924,6 @@ document.addEventListener('DOMContentLoaded', () => {
     opacity: 0.5;
   }
 
-  /* Data streams */
   .data-streams {
     position: absolute;
     inset: 0;
@@ -995,7 +951,6 @@ document.addEventListener('DOMContentLoaded', () => {
     100% { top: 100%; opacity: 0; }
   }
 
-  /* Terminal stack */
   .terminal-stack {
     position: absolute;
     inset: 0;
@@ -1004,7 +959,6 @@ document.addEventListener('DOMContentLoaded', () => {
     z-index: 10;
   }
 
-  /* Terminal cards */
   .terminal-card {
     position: absolute;
     top: 50%;
@@ -1015,7 +969,7 @@ document.addEventListener('DOMContentLoaded', () => {
     background: rgba(var(--surface-800-rgb), 0.95);
     border-radius: 12px;
     border: 1px solid rgba(var(--cyan-400-rgb), 0.2);
-    box-shadow: 
+    box-shadow:
       0 0 40px rgba(var(--cyan-400-rgb), 0.1),
       0 8px 32px rgba(var(--black-rgb), 0.3),
       inset 0 1px 0 rgba(var(--white-rgb), 0.03);
@@ -1029,7 +983,6 @@ document.addEventListener('DOMContentLoaded', () => {
     z-index: 10;
   }
 
-  /* Card effects */
   .card-hologram {
     position: absolute;
     inset: 0;
@@ -1084,7 +1037,6 @@ document.addEventListener('DOMContentLoaded', () => {
     50% { opacity: 0.2; }
   }
 
-  /* Terminal header */
   .terminal-header {
     display: flex;
     align-items: center;
@@ -1151,7 +1103,6 @@ document.addEventListener('DOMContentLoaded', () => {
     letter-spacing: 1px;
   }
 
-  /* Terminal body */
   .terminal-body {
     flex: 1;
     display: flex;
@@ -1208,7 +1159,6 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   }
 
-  /* Console */
   .terminal-console {
     padding: 10px 14px;
     background: rgba(var(--surface-780-rgb), 0.9);
@@ -1260,7 +1210,6 @@ document.addEventListener('DOMContentLoaded', () => {
   .inline-icon.flame { color: var(--amber-500); }
   .inline-icon.check { color: var(--green-500-light); }
 
-  /* Footer */
   .terminal-footer {
     display: flex;
     justify-content: space-between;
@@ -1308,7 +1257,6 @@ document.addEventListener('DOMContentLoaded', () => {
     opacity: 0.5;
   }
 
-  /* HUD stats */
   .hud-stats {
     position: absolute;
     top: 20%;
@@ -1341,7 +1289,6 @@ document.addEventListener('DOMContentLoaded', () => {
     font-weight: 700;
   }
 
-  /* Progress HUD */
   .progress-hud {
     position: absolute;
     bottom: 24px;
@@ -1404,7 +1351,6 @@ document.addEventListener('DOMContentLoaded', () => {
     box-shadow: 0 0 8px var(--accent);
   }
 
-  /* ===== RESPONSIVE ===== */
   @media (max-width: 1024px) {
     .terminal-card {
       width: 420px;
@@ -1442,7 +1388,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ===== DAYLIGHT THEME ===== */
   :global([data-theme="daylight"]) .unified-container {
     background: linear-gradient(135deg, rgba(var(--zinc-50-rgb), 0.95), rgba(var(--zinc-100-rgb), 0.98));
     border-color: rgba(var(--info-rgb), 0.2);

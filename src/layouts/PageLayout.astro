@@ -27,7 +27,6 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
     <title>{title} | IWebDev</title>
     <slot name="head" />
     <script is:inline>
-      // Prevent flash of wrong theme
       (function() {
         const theme = localStorage.getItem('theme') || 'midnight';
         document.documentElement.setAttribute('data-theme', theme);
@@ -35,42 +34,35 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
     </script>
   </head>
   <body class={mergedBodyClass}>
-    <!-- Enhanced ambient background system -->
+
     <div class="ambient-bg">
       <div class="ambient-glow-1"></div>
       <div class="ambient-glow-2"></div>
       <div class="ambient-glow-3"></div>
       <div class="ambient-glow-4"></div>
     </div>
-    
-    <!-- Advanced grid pattern with perspective -->
+
     <div class="grid-pattern-advanced"></div>
-    
-    <!-- Noise and grain overlay -->
+
     <div class="noise-overlay"></div>
-    
-    <!-- Tech atmosphere with multiple layers -->
+
     <div class="page-atmosphere" aria-hidden="true">
-      <!-- Enhanced tech grid with fade -->
+
       <div class="tech-grid-enhanced"></div>
-      
-      <!-- Multiple animated gradients -->
+
       <div class="tech-gradient tech-gradient-a"></div>
       <div class="tech-gradient tech-gradient-b"></div>
       <div class="tech-gradient tech-gradient-c"></div>
-      
-      <!-- Scanline effects -->
+
       <div class="scanline-primary"></div>
       <div class="scanline-secondary"></div>
-      
-      <!-- Data streams -->
+
       <div class="data-stream-container">
         <div class="data-stream stream-1"></div>
         <div class="data-stream stream-2"></div>
         <div class="data-stream stream-3"></div>
       </div>
-      
-      <!-- Floating particles -->
+
       <div class="particle-field">
         <div class="particle p1"></div>
         <div class="particle p2"></div>
@@ -78,8 +70,7 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         <div class="particle p4"></div>
         <div class="particle p5"></div>
       </div>
-      
-      <!-- Corner HUD elements -->
+
       <div class="hud-corners">
         <div class="hud-corner hud-tl"></div>
         <div class="hud-corner hud-tr"></div>
@@ -104,7 +95,6 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         position: relative;
       }
 
-      /* ===== ENHANCED AMBIENT BACKGROUND ===== */
       .ambient-bg {
         position: fixed;
         inset: 0;
@@ -179,7 +169,6 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         }
       }
 
-      /* ===== ADVANCED GRID PATTERN ===== */
       .grid-pattern-advanced {
         position: fixed;
         inset: 0;
@@ -190,7 +179,7 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
           linear-gradient(90deg, rgba(var(--cyan-400-rgb), 0.03) 1px, transparent 1px);
         background-size: 48px 48px;
         opacity: 0.2;
-        mask-image: 
+        mask-image:
           radial-gradient(ellipse 120% 80% at 50% 0%, black 0%, transparent 70%),
           radial-gradient(ellipse 100% 60% at 50% 100%, black 0%, transparent 60%);
         mask-composite: add;
@@ -202,7 +191,6 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         50% { opacity: 0.12; }
       }
 
-      /* ===== NOISE OVERLAY ===== */
       .noise-overlay {
         position: fixed;
         inset: 0;
@@ -212,7 +200,6 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
       }
 
-      /* ===== PAGE ATMOSPHERE ===== */
       .page-atmosphere {
         position: fixed;
         inset: 0;
@@ -221,7 +208,6 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         overflow: hidden;
       }
 
-      /* Enhanced Tech Grid */
       .tech-grid-enhanced {
         position: absolute;
         inset: 0;
@@ -239,7 +225,6 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         100% { background-position: 64px 64px; }
       }
 
-      /* Animated Tech Gradients */
       .tech-gradient {
         position: absolute;
         border-radius: 999px;
@@ -287,7 +272,6 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         }
       }
 
-      /* Scanline Effects */
       .scanline-primary {
         position: absolute;
         inset: 0;
@@ -318,7 +302,6 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         100% { background-position: 100px 0; }
       }
 
-      /* Data Streams */
       .data-stream-container {
         position: absolute;
         inset: 0;
@@ -371,7 +354,6 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         }
       }
 
-      /* Floating Particles */
       .particle-field {
         position: absolute;
         inset: 0;
@@ -432,7 +414,6 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         }
       }
 
-      /* HUD Corner Elements */
       .hud-corners {
         position: absolute;
         inset: 0;
@@ -522,7 +503,6 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         }
       }
 
-      /* ===== PAGE SHELL ===== */
       .page-shell {
         position: relative;
         z-index: 2;
@@ -556,7 +536,6 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         margin: 0 auto;
       }
 
-      /* Enhanced Typography */
       .page-shell :global(.page-title),
       .page-shell :global(.section-title) {
         font-family: var(--font-display);
@@ -564,17 +543,15 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         text-shadow: 0 0 40px rgba(var(--accent-rgb), 0.2);
       }
 
-      /* Enhanced Badge Styles */
       .page-shell :global(.badge),
       .page-shell :global(.section-label) {
         border: 1px solid rgba(var(--cyan-400-rgb), 0.2);
-        box-shadow: 
+        box-shadow:
           inset 0 1px 0 rgba(var(--white-rgb), 0.08),
           0 0 20px rgba(var(--cyan-400-rgb), 0.1);
         backdrop-filter: blur(8px);
       }
 
-      /* Enhanced Card Styles */
       .page-shell :global(.type-card),
       .page-shell :global(.path-card),
       .page-shell :global(.feature-card),
@@ -606,16 +583,15 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         transform: translateY(-4px);
       }
 
-      /* Enhanced Button Styles */
       .page-shell :global(.btn-primary) {
-        box-shadow: 
+        box-shadow:
           0 10px 24px var(--accent-glow),
           0 0 40px rgba(var(--accent-rgb), 0.2);
         transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       .page-shell :global(.btn-primary):hover {
-        box-shadow: 
+        box-shadow:
           0 14px 32px var(--accent-glow),
           0 0 50px rgba(var(--accent-rgb), 0.3);
       }
@@ -631,7 +607,6 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         background: rgba(var(--white-rgb), 0.05);
       }
 
-      /* Responsive */
       @media (max-width: 900px) {
         .page-shell :global(.container) {
           width: min(1200px, calc(100% - 28px));
@@ -657,7 +632,6 @@ const mergedBodyClass = ['page-layout', bodyClass].filter(Boolean).join(' ');
         }
       }
 
-      /* Reduced Motion */
       @media (prefers-reduced-motion: reduce) {
         .tech-gradient,
         .ambient-glow-1,

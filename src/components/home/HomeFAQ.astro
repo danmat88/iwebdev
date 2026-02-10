@@ -1,8 +1,4 @@
 ---
-/**
- * HomeFAQ.astro - Ultra Compact with Entrance Animations
- * Simplified FAQ preview for homepage with cascading reveals
- */
 import { faqConfig } from '../../content/pages/support/faq.config';
 import FAQItem from '../cards/FAQItem.astro';
 import { Icon } from 'astro-icon/components';
@@ -53,7 +49,6 @@ const popularFaqs = faqs.filter(faq => faq.popular).slice(0, 6);
 </section>
 
 <style>
-  /* ===== SECTION BASE ===== */
   .faq-nano {
     position: relative;
     padding: 4rem 0;
@@ -107,7 +102,6 @@ const popularFaqs = faqs.filter(faq => faq.popular).slice(0, 6);
     -webkit-mask-image: radial-gradient(ellipse 80% 65% at 50% 50%, black, transparent);
   }
 
-  /* ===== CONTAINER ===== */
   .faq-container-nano {
     position: relative;
     z-index: 1;
@@ -116,7 +110,6 @@ const popularFaqs = faqs.filter(faq => faq.popular).slice(0, 6);
     padding: 0 1.5rem;
   }
 
-  /* ===== HEADER - NANO ===== */
   .faq-header-nano {
     text-align: center;
     max-width: 650px;
@@ -169,7 +162,6 @@ const popularFaqs = faqs.filter(faq => faq.popular).slice(0, 6);
     color: var(--text-secondary);
   }
 
-  /* ===== FAQ GRID - NANO ===== */
   .faq-grid-nano {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -177,7 +169,6 @@ const popularFaqs = faqs.filter(faq => faq.popular).slice(0, 6);
     margin-bottom: 2rem;
   }
 
-  /* ===== FOOTER - NANO ===== */
   .faq-footer-nano {
     text-align: center;
     padding: 1.5rem;
@@ -244,7 +235,6 @@ const popularFaqs = faqs.filter(faq => faq.popular).slice(0, 6);
     transform: translateX(4px);
   }
 
-  /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
     .faq-nano {
       padding: 3rem 0;
@@ -260,7 +250,6 @@ const popularFaqs = faqs.filter(faq => faq.popular).slice(0, 6);
     }
   }
 
-  /* ===== REDUCED MOTION ===== */
   @media (prefers-reduced-motion: reduce) {
     .gradient-orb-nano {
       animation: none;

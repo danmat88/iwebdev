@@ -1,14 +1,3 @@
-/**
- * BENEFITS CONFIGURATION
- * ======================
- * Member benefits page configuration
- *
- * DATA SOURCES:
- * - Stats: Imported from ../../global/stats.config (single source of truth)
- * - Locations: Imported from ../../global/locations.config
- * - Testimonials: Imported from ../../global/testimonials.config
- */
-
 import { globalStats } from '../../global/stats.config';
 import { getMemberMapHotspots } from '../../global/locations.config';
 import { getBenefitsTestimonials } from '../../global/testimonials.config';
@@ -35,7 +24,6 @@ export const benefitsConfig = {
     subtitle: 'Education, mentorship, and professional growth for web developers at every level.',
   },
 
-  // Homepage preview section (consumed by HomeBenefits.astro)
   homePreview: {
     title: {
       line1: 'Everything you need to',
@@ -47,7 +35,6 @@ export const benefitsConfig = {
     benefitIds: ['webinars', 'mentorship', 'certificates', 'forums', 'jobs', 'resume'],
   },
 
-  // Animated hero stats (FROM GLOBAL STATS)
   heroStats: [
     {
       value: globalStats.members.total,
@@ -79,7 +66,6 @@ export const benefitsConfig = {
     },
   ],
 
-  // ROI Calculator data
   roiCalculator: {
     title: 'Calculate Your ROI',
     subtitle: "See what you'd save as a member",
@@ -131,9 +117,7 @@ export const benefitsConfig = {
     ctaText: "That's {x}x your investment",
   },
 
-  // Filterable benefits explorer
   benefits: [
-    // Learning
     {
       id: 'webinars',
       category: 'learning',
@@ -195,7 +179,6 @@ export const benefitsConfig = {
       new: true,
     },
 
-    // Community
     {
       id: 'forums',
       category: 'community',
@@ -257,7 +240,6 @@ export const benefitsConfig = {
       new: true,
     },
 
-    // Career
     {
       id: 'jobs',
       category: 'career',
@@ -327,7 +309,6 @@ export const benefitsConfig = {
     { id: 'career', label: 'Career', icon: 'lucide:rocket', count: 6, color: 'var(--pink-400)' },
   ],
 
-  // Comparison: Member vs Non-Member
   comparison: {
     title: 'Member vs Free',
     member: {
@@ -364,7 +345,6 @@ export const benefitsConfig = {
     },
   },
 
-  // Achievement system
   achievements: {
     title: 'Unlock Achievements',
     badges: [
@@ -377,16 +357,13 @@ export const benefitsConfig = {
     ],
   },
 
-  // World map hotspots (FROM GLOBAL LOCATIONS)
   memberMap: {
     title: 'Our Global Community',
     hotspots: getMemberMapHotspots(),
   },
 
-  // Video testimonials (FROM GLOBAL TESTIMONIALS)
   testimonials: getBenefitsTestimonials(),
 
-  // Live activity feed
   activityFeed: [
     { type: 'join', user: 'Alex M.', location: 'San Francisco', country: 'us', time: 'Just now' },
     { type: 'certificate', user: 'Yuki T.', achievement: 'React Fundamentals', country: 'jp', time: '2m ago' },
@@ -398,7 +375,6 @@ export const benefitsConfig = {
     { type: 'join', user: 'Olga K.', location: 'Warsaw', country: 'pl', time: '22m ago' },
   ],
 
-  // Upcoming events
   events: [
     {
       title: 'Modern CSS Techniques',
@@ -429,7 +405,6 @@ export const benefitsConfig = {
     },
   ],
 
-  // Journey/onboarding
   journey: [
     {
       step: 1,
@@ -473,7 +448,6 @@ export const benefitsConfig = {
     },
   ],
 
-  // Keyboard shortcuts
   shortcuts: [
     { key: '1', action: 'View Learning benefits' },
     { key: '2', action: 'View Community benefits' },
@@ -482,7 +456,6 @@ export const benefitsConfig = {
     { key: '?', action: 'Show shortcuts' },
   ],
 
-  // CTA
   cta: {
     primary: {
       text: 'Join IAWD Today',

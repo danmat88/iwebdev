@@ -20,7 +20,6 @@ function isActive(href: string): boolean {
   <nav class="nav">
     <Logo />
 
-    <!-- Center Navigation -->
     <div class="nav-center">
       <div class="nav-links">
         {navItems.map((item) => (
@@ -65,7 +64,6 @@ function isActive(href: string): boolean {
       </div>
     </div>
 
-    <!-- Right Actions -->
     <div class="nav-actions">
       <button class="cmd-palette" id="cmd-trigger" aria-label="Command Palette">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -87,7 +85,6 @@ function isActive(href: string): boolean {
       </a>
     </div>
 
-    <!-- Mobile Menu Button -->
     <button class="mobile-btn" id="mobile-btn" aria-label="Menu">
       <span class="burger">
         <span></span>
@@ -97,7 +94,6 @@ function isActive(href: string): boolean {
     </button>
   </nav>
 
-  <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobile-menu">
     <div class="mobile-bg"></div>
     <div class="mobile-content">
@@ -107,7 +103,7 @@ function isActive(href: string): boolean {
         </svg>
         <input type="text" placeholder="Search..." class="mobile-search-input" />
       </div>
-      
+
       {navItems.map((item, i) => (
         <div class="mobile-group" style={`--i: ${i}`}>
           <a href={item.href} class={`mobile-link main ${isActive(item.href) ? 'active' : ''}`}>
@@ -141,7 +137,6 @@ function isActive(href: string): boolean {
   </div>
 </header>
 
-<!-- Command Palette Modal -->
 <div class="cmd-modal" id="cmd-modal">
   <div class="cmd-backdrop" id="cmd-backdrop"></div>
   <div class="cmd-container">
@@ -150,10 +145,10 @@ function isActive(href: string): boolean {
         <svg class="cmd-search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
         </svg>
-        <input 
-          type="text" 
-          class="cmd-input" 
-          id="cmd-input" 
+        <input
+          type="text"
+          class="cmd-input"
+          id="cmd-input"
           placeholder="Search pages, docs, tutorials..."
           autocomplete="off"
           spellcheck="false"
@@ -307,29 +302,19 @@ function isActive(href: string): boolean {
 </script>
 
 <style>
-  /* ============================================= */
-  /* HEADER VARIABLES */
-  /* ============================================= */
   .header {
-    /* Dimensions */
     --header-height: 60px;
     --header-padding-x: 32px;
     --header-max-width: 1400px;
-    
-    /* Transitions */
+
     --header-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    /* Backdrop */
+
     --header-backdrop-blur: 20px;
     --header-backdrop-opacity: 0.95;
-    
-    /* Border */
+
     --header-border-gradient: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
   }
 
-  /* ============================================= */
-  /* HEADER BASE */
-  /* ============================================= */
   .header {
     position: fixed;
     top: 0;
@@ -379,28 +364,18 @@ function isActive(href: string): boolean {
     margin: 0 auto;
   }
 
-  /* ============================================= */
-  /* NAVIGATION VARIABLES */
-  /* ============================================= */
   .nav-center {
-    /* Spacing */
     --nav-gap: 2px;
     --nav-link-padding: 8px 14px;
-    
-    /* Typography */
+
     --nav-font-size: 13px;
     --nav-code-font-size: 12px;
-    
-    /* Transitions */
+
     --nav-transition: all 0.2s ease;
-    
-    /* Colors */
+
     --nav-active-bg: var(--bg-secondary);
   }
 
-  /* ============================================= */
-  /* NAVIGATION LINKS */
-  /* ============================================= */
   .nav-center {
     flex: 1;
     display: flex;
@@ -466,39 +441,27 @@ function isActive(href: string): boolean {
     transform: rotate(180deg);
   }
 
-  /* ============================================= */
-  /* DROPDOWN VARIABLES */
-  /* ============================================= */
   .dropdown {
-    /* Dimensions */
     --dropdown-min-width: 300px;
     --dropdown-padding: 6px;
-    
-    /* Spacing */
+
     --dropdown-gap: 10px;
     --dropdown-link-padding: 10px 8px;
-    
-    /* Typography */
+
     --dropdown-title-size: 11px;
     --dropdown-label-size: 13px;
     --dropdown-desc-size: 11px;
     --dropdown-linenum-size: 10px;
-    
-    /* Colors */
+
     --dropdown-bg: var(--bg-modal);
     --dropdown-header-bg: var(--bg-secondary);
-    
-    /* Effects */
+
     --dropdown-shadow: 0 20px 60px rgba(var(--black-rgb), 0.4);
     --dropdown-backdrop-blur: 20px;
-    
-    /* Transitions */
+
     --dropdown-transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* ============================================= */
-  /* DROPDOWN */
-  /* ============================================= */
   .dropdown {
     position: absolute;
     top: calc(100% + 2px);
@@ -631,30 +594,20 @@ function isActive(href: string): boolean {
     transform: translateX(2px);
   }
 
-  /* ============================================= */
-  /* NAV ACTIONS VARIABLES */
-  /* ============================================= */
   .nav-actions {
-    /* Spacing */
     --action-gap: 12px;
     --action-padding: 7px 12px;
     --cta-padding: 8px 16px;
-    
-    /* Typography */
+
     --action-font-size: 12px;
     --action-key-size: 11px;
     --cta-font-size: 13px;
-    
-    /* Transitions */
+
     --action-transition: all 0.2s ease;
-    
-    /* Effects */
+
     --action-shadow: 0 2px 12px var(--accent-glow);
   }
 
-  /* ============================================= */
-  /* NAV ACTIONS */
-  /* ============================================= */
   .nav-actions {
     display: flex;
     align-items: center;
@@ -728,24 +681,15 @@ function isActive(href: string): boolean {
     box-shadow: 0 6px 20px var(--accent-glow);
   }
 
-  /* ============================================= */
-  /* MOBILE MENU VARIABLES */
-  /* ============================================= */
   .mobile-menu {
-    /* Transitions */
     --mobile-transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    
-    /* Spacing */
+
     --mobile-padding: 72px 20px 32px;
     --mobile-gap: 6px;
-    
-    /* Link styling */
+
     --mobile-link-padding: 12px 14px;
   }
 
-  /* ============================================= */
-  /* MOBILE BUTTON */
-  /* ============================================= */
   .mobile-btn {
     display: none;
     align-items: center;
@@ -789,9 +733,6 @@ function isActive(href: string): boolean {
     transform: translateY(-6px) rotate(-45deg);
   }
 
-  /* ============================================= */
-  /* MOBILE MENU */
-  /* ============================================= */
   .mobile-menu {
     position: fixed;
     top: 0;
@@ -900,8 +841,8 @@ function isActive(href: string): boolean {
     background: var(--bg-tertiary);
   }
 
-  .mobile-icon, 
-  .sub-icon { 
+  .mobile-icon,
+  .sub-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -967,25 +908,16 @@ function isActive(href: string): boolean {
     overflow: hidden;
   }
 
-  /* ============================================= */
-  /* COMMAND PALETTE VARIABLES */
-  /* ============================================= */
   .cmd-modal {
-    /* Dimensions */
     --cmd-max-width: 640px;
     --cmd-padding-top: 12vh;
-    
-    /* Effects */
+
     --cmd-backdrop-blur: 8px;
     --cmd-shadow: 0 25px 80px rgba(var(--black-rgb), 0.5);
-    
-    /* Transitions */
+
     --cmd-transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* ============================================= */
-  /* COMMAND PALETTE */
-  /* ============================================= */
   .cmd-modal {
     position: fixed;
     inset: 0;
@@ -1190,9 +1122,6 @@ function isActive(href: string): boolean {
     color: var(--text-secondary);
   }
 
-  /* ============================================= */
-  /* RESPONSIVE */
-  /* ============================================= */
   @media (max-width: 1100px) {
     .nav-center { display: none; }
     .sign-in { display: none; }

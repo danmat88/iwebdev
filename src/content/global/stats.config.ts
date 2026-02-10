@@ -1,25 +1,4 @@
-/**
- * GLOBAL STATISTICS CONFIGURATION
- * ================================
- * THE SINGLE SOURCE OF TRUTH for all site statistics
- *
- * This file consolidates all stat references across the site to prevent inconsistencies.
- * All components should import from this file rather than hardcoding stats.
- *
- * Canonical Values (as of 2026):
- * - Members: 10,847 (display as "10K+")
- * - Countries: 80 (display as "80+")
- * - Webinars: 50/year
- * - Mentors: 200+
- * - Certifications: 12 tracks
- * - Satisfaction: 98%
- */
-
 import { z } from 'zod';
-
-// ============================================
-// VALIDATION SCHEMA
-// ============================================
 
 export const StatsSchema = z.object({
   members: z.object({
@@ -50,10 +29,6 @@ export const StatsSchema = z.object({
 
 export type Stats = z.infer<typeof StatsSchema>;
 
-// ============================================
-// CANONICAL STATISTICS
-// ============================================
-
 export const globalStats: Stats = {
   members: {
     total: 10847,
@@ -81,11 +56,6 @@ export const globalStats: Stats = {
   },
 };
 
-// ============================================
-// VALIDATION
-// ============================================
-
-// Validate on load (dev only)
 if (import.meta.env.DEV) {
   try {
     StatsSchema.parse(globalStats);
@@ -96,27 +66,14 @@ if (import.meta.env.DEV) {
   }
 }
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
-/**
- * Get member count for display
- */
 export function getMemberCount(format: 'exact' | 'display' = 'display'): string | number {
   return format === 'exact' ? globalStats.members.total : globalStats.members.display;
 }
 
-/**
- * Get country count for display
- */
 export function getCountryCount(format: 'exact' | 'display' = 'display'): string | number {
   return format === 'exact' ? globalStats.countries.total : globalStats.countries.display;
 }
 
-/**
- * Get all stats in a formatted object
- */
 export function getAllStats() {
   return {
     members: globalStats.members.display,

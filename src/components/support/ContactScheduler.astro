@@ -1,8 +1,4 @@
 ---
-/**
- * ContactScheduler.astro - Ultra Compact Edition
- * ===============================================
- */
 
 import { Icon } from 'astro-icon/components';
 import { contactConfig } from '../../content/pages/support/contact.config';
@@ -13,7 +9,7 @@ const host = team.find(m => m.status === 'online') || team[0];
 
 <div class="content-panel" data-panel="call" id="panel-call">
   <div class="scheduler">
-    <!-- Left: Calendar -->
+
     <div class="cal-section">
       <div class="cal-header">
         <div class="cal-icon"><Icon name="lucide:calendar-clock" /></div>
@@ -23,7 +19,6 @@ const host = team.find(m => m.status === 'online') || team[0];
         </div>
       </div>
 
-      <!-- Calendar -->
       <div class="calendar">
         <div class="cal-nav">
           <button class="nav-btn" id="prev-month">
@@ -80,7 +75,6 @@ const host = team.find(m => m.status === 'online') || team[0];
         </div>
       </div>
 
-      <!-- Times -->
       <div class="times">
         <div class="times-head">
           <span>Available times</span>
@@ -113,7 +107,6 @@ const host = team.find(m => m.status === 'online') || team[0];
       </div>
     </div>
 
-    <!-- Right: Booking Summary -->
     <div class="book-section">
       <div class="book-card">
         <div class="book-head">
@@ -182,7 +175,6 @@ const host = team.find(m => m.status === 'online') || team[0];
     </div>
   </div>
 
-  <!-- Success Modal -->
   <div class="modal" id="success-modal">
     <div class="modal-content">
       <div class="modal-anim">
@@ -211,7 +203,6 @@ const host = team.find(m => m.status === 'online') || team[0];
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Day selection
   document.querySelectorAll('.day.avail').forEach(d => {
     d.addEventListener('click', () => {
       document.querySelector('.day.sel')?.classList.remove('sel');
@@ -221,7 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Time selection
   document.querySelectorAll('.time-slot').forEach(t => {
     t.addEventListener('click', () => {
       document.querySelector('.time-slot.sel')?.classList.remove('sel');
@@ -229,10 +219,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Confirm
   const confirmBtn = document.getElementById('confirm-btn');
   const modal = document.getElementById('success-modal');
-  
+
   confirmBtn?.addEventListener('click', () => {
     confirmBtn.innerHTML = '<svg class="spin" viewBox="0 0 24 24" width="14" height="14"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" opacity=".25"/><path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>Confirming...';
     setTimeout(() => {
@@ -245,7 +234,6 @@ document.addEventListener('DOMContentLoaded', () => {
     modal?.classList.remove('active');
   });
 
-  // Month nav (demo)
   document.getElementById('prev-month')?.addEventListener('click', () => {
     const el = document.getElementById('cal-month');
     if (el) el.textContent = 'January 2026';
@@ -259,9 +247,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <style>
-  /* ============================================
-     PANEL BASE
-     ============================================ */
   .content-panel[data-panel="call"] {
     display: none;
   }
@@ -282,9 +267,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ============================================
-     LAYOUT
-     ============================================ */
   .scheduler {
     display: grid;
     grid-template-columns: 1fr 280px;
@@ -294,9 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
     overflow: hidden;
   }
 
-  /* ============================================
-     CALENDAR SECTION
-     ============================================ */
   .cal-section {
     padding: 24px;
     display: flex;
@@ -338,9 +317,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--text-secondary);
   }
 
-  /* ============================================
-     CALENDAR
-     ============================================ */
   .calendar {
     background: var(--bg-secondary);
     border-radius: 12px;
@@ -463,9 +439,6 @@ document.addEventListener('DOMContentLoaded', () => {
     box-shadow: 0 2px 8px var(--accent-glow);
   }
 
-  /* ============================================
-     LEGEND
-     ============================================ */
   .legend {
     display: flex;
     justify-content: center;
@@ -502,9 +475,6 @@ document.addEventListener('DOMContentLoaded', () => {
     background: var(--accent);
   }
 
-  /* ============================================
-     TIMES
-     ============================================ */
   .times {
     background: var(--bg-secondary);
     border-radius: 12px;
@@ -579,9 +549,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--black);
   }
 
-  /* ============================================
-     TIMEZONE INFO
-     ============================================ */
   .tz-info {
     display: flex;
     align-items: center;
@@ -614,9 +581,6 @@ document.addEventListener('DOMContentLoaded', () => {
     text-decoration: underline;
   }
 
-  /* ============================================
-     BOOKING SECTION
-     ============================================ */
   .book-section {
     background: var(--bg-secondary);
     padding: 20px;
@@ -659,9 +623,6 @@ document.addEventListener('DOMContentLoaded', () => {
     height: 10px;
   }
 
-  /* ============================================
-     DETAILS
-     ============================================ */
   .details {
     display: flex;
     flex-direction: column;
@@ -715,9 +676,6 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--text-muted);
   }
 
-  /* ============================================
-     BOOKING FORM
-     ============================================ */
   .book-form {
     display: flex;
     flex-direction: column;
@@ -769,9 +727,6 @@ document.addEventListener('DOMContentLoaded', () => {
     min-height: 50px;
   }
 
-  /* ============================================
-     CONFIRM BUTTON
-     ============================================ */
   .confirm-btn {
     display: flex;
     align-items: center;
@@ -810,9 +765,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ============================================
-     NOTE
-     ============================================ */
   .note {
     display: flex;
     align-items: center;
@@ -828,9 +780,6 @@ document.addEventListener('DOMContentLoaded', () => {
     height: 10px;
   }
 
-  /* ============================================
-     ALT BUTTONS
-     ============================================ */
   .alts {
     display: flex;
     gap: 8px;
@@ -863,9 +812,6 @@ document.addEventListener('DOMContentLoaded', () => {
     height: 11px;
   }
 
-  /* ============================================
-     MODAL
-     ============================================ */
   .modal {
     position: fixed;
     inset: 0;
@@ -1038,9 +984,6 @@ document.addEventListener('DOMContentLoaded', () => {
     transform: translateY(-1px);
   }
 
-  /* ============================================
-     RESPONSIVE
-     ============================================ */
   @media (max-width: 900px) {
     .scheduler {
       grid-template-columns: 1fr;

@@ -1,8 +1,4 @@
 ﻿---
-/**
- * LiveWorldMapPanel
- * Extracted map state from WorldMapCarousel for reuse.
- */
 import { Icon } from 'astro-icon/components';
 import { heroConfig } from '../../../content/pages/home/hero.config';
 
@@ -10,24 +6,22 @@ const { mapHotspots } = heroConfig;
 ---
 
 <div class="map-state visible" data-live-world-map>
-    <!-- Transition glow effect -->
+
     <div class="transition-glow"></div>
-    
-    <!-- Edge flares during transition -->
+
     <div class="edge-flares">
       <div class="edge-flare top"></div>
       <div class="edge-flare right"></div>
       <div class="edge-flare bottom"></div>
       <div class="edge-flare left"></div>
     </div>
-    
+
     <div class="map-shrink-wrapper">
-      <!-- Atmospheric effects -->
+
       <div class="map-atmosphere"></div>
       <div class="map-grid-overlay"></div>
       <div class="map-vignette"></div>
 
-      <!-- Live stats panel -->
       <div class="map-stats-panel">
         <div class="stat-item">
           <span class="stat-icon"><Icon name="lucide:users" /></span>
@@ -46,10 +40,8 @@ const { mapHotspots } = heroConfig;
         </div>
       </div>
 
-      <!-- Scan line -->
       <div class="entrance-scan-line"></div>
 
-      <!-- SVG Map -->
       <svg class="world-map" viewBox="0 0 1016.371 514.609" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -85,13 +77,12 @@ const { mapHotspots } = heroConfig;
         <circle r="80" fill="url(#spotGrad)" opacity="0" class="map-spotlight spotlight-circle" />
       </svg>
 
-      <!-- Hotspots overlay -->
       <div class="map-hotspots">
         {mapHotspots.map((hotspot, i) => (
-          <div 
-            class="hotspot" 
-            data-city={hotspot.city} 
-            data-info={hotspot.info} 
+          <div
+            class="hotspot"
+            data-city={hotspot.city}
+            data-info={hotspot.info}
             style={`left:${hotspot.left};top:${hotspot.top};--delay:${i * 0.1}s`}
           >
             <span class="hotspot-ring"></span>
@@ -101,10 +92,8 @@ const { mapHotspots } = heroConfig;
         ))}
       </div>
 
-      <!-- Pings (pointer-events: none) -->
       <div class="map-pings"></div>
 
-      <!-- Tooltip -->
       <div class="map-tooltip">
         <div class="tooltip-header">
           <span class="tooltip-icon"><Icon name="lucide:map-pin" /></span>
@@ -138,7 +127,6 @@ const { mapHotspots } = heroConfig;
 </script>
 
 <style>
-  /* ===== MAP STATE ===== */
 .map-state {
     position: absolute;
     inset: 0;
@@ -160,7 +148,6 @@ const { mapHotspots } = heroConfig;
     animation: stateExit 0.8s ease-in forwards;
   }
 
-  /* Transition glow effect - bright flash */
   .transition-glow {
     position: absolute;
     top: 50%;
@@ -168,10 +155,10 @@ const { mapHotspots } = heroConfig;
     width: 60px;
     height: 60px;
     transform: translate(-50%, -50%);
-    background: radial-gradient(circle, 
-      rgba(var(--white-rgb), 1) 0%, 
-      rgba(var(--cyan-400-rgb), 0.9) 30%, 
-      rgba(var(--cyan-400-rgb), 0.4) 60%, 
+    background: radial-gradient(circle,
+      rgba(var(--white-rgb), 1) 0%,
+      rgba(var(--cyan-400-rgb), 0.9) 30%,
+      rgba(var(--cyan-400-rgb), 0.4) 60%,
       transparent 80%
     );
     border-radius: 50%;
@@ -189,7 +176,7 @@ const { mapHotspots } = heroConfig;
   }
 
   @keyframes flashBurst {
-    0% { 
+    0% {
       transform: translate(-50%, -50%) scale(0.2);
       opacity: 0;
     }
@@ -201,14 +188,14 @@ const { mapHotspots } = heroConfig;
       transform: translate(-50%, -50%) scale(3);
       opacity: 0.8;
     }
-    100% { 
+    100% {
       transform: translate(-50%, -50%) scale(8);
       opacity: 0;
     }
   }
 
   @keyframes flashFadeIn {
-    0% { 
+    0% {
       transform: translate(-50%, -50%) scale(8);
       opacity: 0;
     }
@@ -220,13 +207,12 @@ const { mapHotspots } = heroConfig;
       transform: translate(-50%, -50%) scale(1);
       opacity: 0.8;
     }
-    100% { 
+    100% {
       transform: translate(-50%, -50%) scale(0.2);
       opacity: 0;
     }
   }
 
-  /* Edge flares during map transition */
   .edge-flares {
     position: absolute;
     inset: 0;
@@ -237,11 +223,11 @@ const { mapHotspots } = heroConfig;
 
   .edge-flare {
     position: absolute;
-    background: linear-gradient(90deg, 
-      transparent, 
-      rgba(var(--cyan-400-rgb), 0.8), 
-      rgba(var(--white-rgb), 0.9), 
-      rgba(var(--cyan-400-rgb), 0.8), 
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(var(--cyan-400-rgb), 0.8),
+      rgba(var(--white-rgb), 0.9),
+      rgba(var(--cyan-400-rgb), 0.8),
       transparent
     );
     opacity: 0;
@@ -298,14 +284,12 @@ const { mapHotspots } = heroConfig;
     to { opacity: 0; }
   }
 
-  /* ===== MAP SHRINK WRAPPER ===== */
   .map-shrink-wrapper {
     position: absolute;
     inset: 0;
     transform-origin: center center;
   }
 
-  /* Iris/aperture closing effect */
   .map-shrink-wrapper.shrinking {
     animation: irisClose 0.9s cubic-bezier(0.7, 0, 0.3, 1) forwards;
   }
@@ -360,13 +344,12 @@ const { mapHotspots } = heroConfig;
     }
   }
 
-  /* Scan line during map exit */
   .map-state.exiting .entrance-scan-line {
     animation: scanSweep 0.7s ease-in-out forwards;
   }
 
   @keyframes scanSweep {
-    0% { 
+    0% {
       top: 0;
       opacity: 0;
       height: 4px;
@@ -379,14 +362,13 @@ const { mapHotspots } = heroConfig;
       opacity: 1;
       height: 8px;
     }
-    100% { 
+    100% {
       top: 100%;
       opacity: 0;
       height: 4px;
     }
   }
 
-  /* Map atmosphere */
   .map-atmosphere {
     position: absolute;
     inset: 0;
@@ -397,7 +379,7 @@ const { mapHotspots } = heroConfig;
   .map-grid-overlay {
     position: absolute;
     inset: 0;
-    background: 
+    background:
       linear-gradient(90deg, rgba(var(--cyan-400-rgb), 0.02) 1px, transparent 1px),
       linear-gradient(rgba(var(--cyan-400-rgb), 0.02) 1px, transparent 1px);
     background-size: 40px 40px;
@@ -412,7 +394,6 @@ const { mapHotspots } = heroConfig;
     pointer-events: none;
   }
 
-  /* Stats panel */
   .map-stats-panel {
     position: absolute;
     top: 16px;
@@ -463,7 +444,6 @@ const { mapHotspots } = heroConfig;
     50% { opacity: 0.6; }
   }
 
-  /* World map SVG */
   .world-map {
     position: absolute;
     inset: 20px;
@@ -473,7 +453,6 @@ const { mapHotspots } = heroConfig;
     z-index: 3;
   }
 
-  /* Country paths - base style */
   .world-map :global(.country-path) {
     fill: rgba(var(--surface-700-rgb), 0.6) !important;
     stroke: rgba(var(--white-rgb), 0.08) !important;
@@ -488,7 +467,6 @@ const { mapHotspots } = heroConfig;
     to { fill: rgba(var(--surface-700-rgb), 0.6) !important; stroke-opacity: 1; }
   }
 
-  /* Country hover effect */
   .world-map :global(.country-path:hover),
   .world-map :global(.country-path.hovered) {
     fill: rgba(var(--cyan-400-rgb), 0.25) !important;
@@ -506,7 +484,6 @@ const { mapHotspots } = heroConfig;
     to { stroke-dashoffset: -24; }
   }
 
-  /* Connection arcs on hover */
   .world-map :global(.connection-arc) {
     transition: stroke-dashoffset 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     pointer-events: none;
@@ -518,7 +495,6 @@ const { mapHotspots } = heroConfig;
     filter: drop-shadow(0 0 8px var(--accent)) drop-shadow(0 0 16px var(--accent));
   }
 
-  /* Animated arc glow */
   .arcs-layer {
     opacity: 0.9;
   }
@@ -527,7 +503,6 @@ const { mapHotspots } = heroConfig;
     opacity: 1;
   }
 
-  /* Hotspots */
   .map-hotspots {
     position: absolute;
     top: 20px;
@@ -565,8 +540,8 @@ const { mapHotspots } = heroConfig;
     transform: translate(-50%, -50%);
     background: var(--accent);
     border-radius: 50%;
-    box-shadow: 
-      0 0 8px var(--accent), 
+    box-shadow:
+      0 0 8px var(--accent),
       0 0 16px rgba(var(--cyan-400-rgb), 0.6),
       0 0 24px rgba(var(--cyan-400-rgb), 0.3);
     transition: all 0.3s ease;
@@ -598,9 +573,9 @@ const { mapHotspots } = heroConfig;
     background: var(--white);
     width: 10px;
     height: 10px;
-    box-shadow: 
-      0 0 12px var(--accent), 
-      0 0 24px var(--accent), 
+    box-shadow:
+      0 0 12px var(--accent),
+      0 0 24px var(--accent),
       0 0 36px rgba(var(--cyan-400-rgb), 0.6);
   }
 
@@ -614,8 +589,8 @@ const { mapHotspots } = heroConfig;
 
   .hotspot.connected .hotspot-core {
     background: rgba(var(--indigo-400-rgb), 1);
-    box-shadow: 
-      0 0 8px rgba(var(--indigo-400-rgb), 0.8), 
+    box-shadow:
+      0 0 8px rgba(var(--indigo-400-rgb), 0.8),
       0 0 16px rgba(var(--indigo-400-rgb), 0.5);
   }
 
@@ -629,7 +604,6 @@ const { mapHotspots } = heroConfig;
     50% { transform: scale(1.3); opacity: 0.3; }
   }
 
-  /* Pings */
   .map-pings {
     position: absolute;
     inset: 0;
@@ -674,7 +648,6 @@ const { mapHotspots } = heroConfig;
     100% { transform: scale(5); opacity: 0; }
   }
 
-  /* Tooltip */
   .map-tooltip {
     position: absolute;
     display: flex;
@@ -759,30 +732,29 @@ const { mapHotspots } = heroConfig;
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, 
-      transparent 0%, 
-      rgba(var(--cyan-400-rgb), 0.5) 15%, 
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(var(--cyan-400-rgb), 0.5) 15%,
       rgba(var(--white-rgb), 0.95) 48%,
       rgba(var(--white-rgb), 0.95) 52%,
-      rgba(var(--cyan-400-rgb), 0.5) 85%, 
+      rgba(var(--cyan-400-rgb), 0.5) 85%,
       transparent 100%
     );
     opacity: 0;
     pointer-events: none;
     z-index: 200;
-    box-shadow: 
+    box-shadow:
       0 0 20px rgba(var(--cyan-400-rgb), 0.8),
       0 0 40px rgba(var(--cyan-400-rgb), 0.4);
   }
 
-  /* Scan line during map entrance */
   .map-state.entering .entrance-scan-line {
     animation: scanReveal 0.8s ease-out forwards;
     animation-delay: 0.1s;
   }
 
   @keyframes scanReveal {
-    0% { 
+    0% {
       top: -4px;
       opacity: 0;
     }
@@ -792,7 +764,7 @@ const { mapHotspots } = heroConfig;
     80% {
       opacity: 1;
     }
-    100% { 
+    100% {
       top: 100%;
       opacity: 0;
     }
@@ -820,7 +792,7 @@ const { mapHotspots } = heroConfig;
   }
 
   :global([data-theme="daylight"]) .map-grid-overlay {
-    background: 
+    background:
       linear-gradient(90deg, rgba(var(--info-rgb), 0.03) 1px, transparent 1px),
       linear-gradient(rgba(var(--info-rgb), 0.03) 1px, transparent 1px);
   }

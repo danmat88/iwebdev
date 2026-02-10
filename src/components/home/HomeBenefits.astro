@@ -1,8 +1,4 @@
 ---
-/**
- * HomeBenefits.astro - Ultra Compact with Spectacular Entrances
- * Homepage preview for member benefits with cascading reveal animations
- */
 import { Icon } from 'astro-icon/components';
 import { benefitsConfig } from '../../content/pages/membership/benefits.config';
 
@@ -53,7 +49,7 @@ const previewBenefits = homePreview.benefitIds
           data-category={benefit.category}
         >
           <div class="benefit-glow-nano"></div>
-          
+
           <div class="benefit-meta-nano">
             <span class="benefit-category-nano">{benefit.category}</span>
             <span class="benefit-stat-nano">{benefit.stat}</span>
@@ -81,17 +77,19 @@ const previewBenefits = homePreview.benefitIds
 </section>
 
 <style>
-  /* ===== SECTION BASE ===== */
   .benefits-nano {
     position: relative;
     padding: 4rem 0;
     overflow: hidden;
+    isolation: isolate;
     z-index: 1;
   }
 
   .benefits-atmosphere {
     position: absolute;
     inset: 0;
+    overflow: hidden;
+    contain: paint;
     pointer-events: none;
   }
 
@@ -107,7 +105,6 @@ const previewBenefits = homePreview.benefitIds
     width: 480px;
     height: 480px;
     background: radial-gradient(circle, rgba(var(--cyan-400-rgb), 0.08) 0%, transparent 70%);
-    animation: bFloat 18s ease-in-out infinite;
   }
 
   .b-orb-2 {
@@ -116,7 +113,6 @@ const previewBenefits = homePreview.benefitIds
     width: 420px;
     height: 420px;
     background: radial-gradient(circle, rgba(var(--indigo-400-rgb), 0.07) 0%, transparent 70%);
-    animation: bFloat 22s ease-in-out infinite reverse;
   }
 
   .benefits-grid-overlay {
@@ -130,11 +126,6 @@ const previewBenefits = homePreview.benefitIds
     -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 50%, black, transparent);
   }
 
-  @keyframes bFloat {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(20px, -18px); }
-  }
-
   .benefits-container {
     position: relative;
     z-index: 2;
@@ -143,7 +134,6 @@ const previewBenefits = homePreview.benefitIds
     padding: 0 1.5rem;
   }
 
-  /* ===== HEADER - NANO ===== */
   .benefits-header-nano {
     text-align: center;
     max-width: 700px;
@@ -171,12 +161,6 @@ const previewBenefits = homePreview.benefitIds
     border-radius: 50%;
     background: var(--accent);
     box-shadow: 0 0 12px var(--accent);
-    animation: tagPulse 2s ease-in-out infinite;
-  }
-
-  @keyframes tagPulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(1.3); }
   }
 
   .tag-code-nano {
@@ -208,7 +192,6 @@ const previewBenefits = homePreview.benefitIds
     color: var(--text-secondary);
   }
 
-  /* ===== BENEFITS GRID - NANO ===== */
   .benefits-grid-nano {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -232,7 +215,7 @@ const previewBenefits = homePreview.benefitIds
     inset: -80px;
     background: radial-gradient(
       circle at 50% 50%,
-      var(--benefit-color, var(--accent-rgb)) 0%,
+      color-mix(in srgb, var(--benefit-color, var(--accent)) 70%, transparent) 0%,
       transparent 60%
     );
     opacity: 0;
@@ -250,7 +233,6 @@ const previewBenefits = homePreview.benefitIds
     transform: translateY(-8px) scale(1.02);
   }
 
-  /* ===== BENEFIT META - NANO ===== */
   .benefit-meta-nano {
     display: flex;
     justify-content: space-between;
@@ -260,7 +242,7 @@ const previewBenefits = homePreview.benefitIds
 
   .benefit-category-nano {
     padding: 0.25rem 0.6rem;
-    background: rgba(var(--benefit-color, var(--accent-rgb)), 0.12);
+    background: color-mix(in srgb, var(--benefit-color, var(--accent)) 16%, transparent);
     border-radius: 6px;
     font-size: 0.65rem;
     font-weight: 700;
@@ -276,7 +258,6 @@ const previewBenefits = homePreview.benefitIds
     font-family: var(--font-code);
   }
 
-  /* ===== BENEFIT ICON - NANO ===== */
   .benefit-icon-nano {
     position: relative;
     width: 50px;
@@ -316,7 +297,6 @@ const previewBenefits = homePreview.benefitIds
     transform: scale(1.15) rotate(-8deg);
   }
 
-  /* ===== BENEFIT CONTENT - NANO ===== */
   .benefit-title-nano {
     margin: 0 0 0.5rem;
     font-size: 1rem;
@@ -333,7 +313,6 @@ const previewBenefits = homePreview.benefitIds
     color: var(--text-secondary);
   }
 
-  /* ===== FOOTER CTA - NANO ===== */
   .benefits-footer-nano {
     text-align: center;
   }
@@ -390,7 +369,6 @@ const previewBenefits = homePreview.benefitIds
     transform: translateX(4px);
   }
 
-  /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
     .benefits-nano {
       padding: 3rem 0;
@@ -406,10 +384,8 @@ const previewBenefits = homePreview.benefitIds
     }
   }
 
-  /* ===== REDUCED MOTION ===== */
   @media (prefers-reduced-motion: reduce) {
     .b-orb,
-    .tag-dot-nano,
     .icon-ring-nano {
       animation: none;
     }

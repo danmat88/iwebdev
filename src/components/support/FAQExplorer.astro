@@ -1,5 +1,5 @@
 ---
-  
+
 import { faqConfig } from '../../content/pages/support/faq.config';
 import FAQSearch from './FAQSearch.astro';
 import FAQCategories from './FAQCategories.astro';
@@ -16,7 +16,7 @@ const popularFaqs = faqs.filter(faq => faq.popular);
 ---
 
 <section class={`faq-section ${showHero ? '' : 'no-hero'}`.trim()}>
-  <!-- Atmosphere -->
+
   <div class="faq-atmosphere">
     <div class="gradient-orb orb-1"></div>
     <div class="gradient-orb orb-2"></div>
@@ -36,7 +36,7 @@ const popularFaqs = faqs.filter(faq => faq.popular);
           <span class="title-line"><span class="gradient-text-animated">help you?</span></span>
         </h1>
         <p class="hero-subtitle">{subtitle}</p>
-        
+
         <div class="hero-search">
           <FAQSearch placeholder={searchPlaceholder} />
         </div>
@@ -61,7 +61,6 @@ const popularFaqs = faqs.filter(faq => faq.popular);
     </header>
   )}
 
-  <!-- Bento Popular -->
   <div class="bento-section" id="bento-section">
     <div class="bento-container">
       <div class="bento-header">
@@ -73,7 +72,7 @@ const popularFaqs = faqs.filter(faq => faq.popular);
           View all <Icon name="lucide:arrow-down" />
         </a>
       </div>
-      
+
       <div class="bento-grid">
         {popularFaqs.slice(0, 6).map((faq, i) => (
           <button class={`bento-card bento-${i + 1}`} data-target={faq.id} style={`--delay: ${i * 50}ms`}>
@@ -90,15 +89,14 @@ const popularFaqs = faqs.filter(faq => faq.popular);
     </div>
   </div>
 
-  <!-- Main -->
   <div class="faq-main" id="all-faqs">
     <div class="faq-container">
-      <!-- Sidebar -->
+
       <aside class="faq-sidebar">
         <div class="sidebar-inner">
           <div class="sidebar-title"><Icon name="lucide:folder" /> Categories</div>
           <FAQCategories categories={categories} />
-          
+
           <div class="sidebar-help">
             <div class="help-icon"><Icon name="lucide:headphones" /></div>
             <span>Need help?</span>
@@ -109,7 +107,6 @@ const popularFaqs = faqs.filter(faq => faq.popular);
         </div>
       </aside>
 
-      <!-- Content -->
       <div class="faq-content">
         <div class="mobile-cats">
           <FAQCategories categories={categories} />
@@ -141,7 +138,7 @@ const popularFaqs = faqs.filter(faq => faq.popular);
       </div>
     </div>
   </div>
- 
+
 </section>
 
 <script define:vars={{ faqs, categories }}>
@@ -235,7 +232,7 @@ class FAQ {
   filter() {
     const list = document.getElementById('faq-list');
     const items = [...document.querySelectorAll('.faq-item')];
-    
+
     if (this.sort === 'popular') {
       items.sort((a, b) => (b.dataset.popular === 'true' ? 1 : 0) - (a.dataset.popular === 'true' ? 1 : 0));
       items.forEach(i => list.appendChild(i));
@@ -261,11 +258,11 @@ class FAQ {
     const t = this.faqs.length;
     const el = document.getElementById('faq-count');
     if (el) el.textContent = v !== undefined ? `${v} of ${t}` : `${t} questions`;
-    
+
     const all = this.faqs.filter(f => !this.query || f.question.toLowerCase().includes(this.query) || f.answer.toLowerCase().includes(this.query)).length;
     const allEl = document.getElementById('count-all');
     if (allEl) allEl.textContent = all;
-    
+
     this.categories.forEach(c => {
       const n = this.faqs.filter(f => f.category === c.id && (!this.query || f.question.toLowerCase().includes(this.query) || f.answer.toLowerCase().includes(this.query))).length;
       const el = document.getElementById(`count-${c.id}`);
@@ -373,15 +370,15 @@ class FAQ {
   goTo(id) {
     const item = document.getElementById(id);
     if (!item) return;
-    
+
     item.classList.remove('hidden');
     const wasOpen = item.classList.contains('open');
-    
+
     this.scrollingTo = id;
-    
+
     const y = item.getBoundingClientRect().top + window.pageYOffset - 100;
     window.scrollTo({ top: y, behavior: 'smooth' });
-    
+
     setTimeout(() => {
       if (!wasOpen) {
         item.classList.add('open');
@@ -404,7 +401,6 @@ document.addEventListener('DOMContentLoaded', () => new FAQ());
     width: 100%;
   }
 
-  /* Atmosphere */
   .faq-atmosphere {
     position: fixed;
     inset: 0;
@@ -451,7 +447,6 @@ document.addEventListener('DOMContentLoaded', () => new FAQ());
     opacity: 0.025;
   }
 
-  /* Hero */
   .faq-hero {
     position: relative;
     padding: 140px 24px 80px;
@@ -561,7 +556,6 @@ document.addEventListener('DOMContentLoaded', () => new FAQ());
     background: var(--border);
   }
 
-  
   .bento-section {
     position: relative;
     padding: 0 24px 72px;
@@ -717,7 +711,6 @@ document.addEventListener('DOMContentLoaded', () => new FAQ());
     height: 13px;
   }
 
-  /* Main */
   .faq-main {
     position: relative;
     padding: 0 24px 80px;
@@ -731,7 +724,6 @@ document.addEventListener('DOMContentLoaded', () => new FAQ());
     margin: 0 auto;
   }
 
-  /* Sidebar */
   .faq-sidebar {
     position: relative;
   }
@@ -813,7 +805,6 @@ document.addEventListener('DOMContentLoaded', () => new FAQ());
 
   .mobile-cats { display: none; }
 
-  /* Content */
   .faq-content {
     min-width: 0;
   }
@@ -884,14 +875,12 @@ document.addEventListener('DOMContentLoaded', () => new FAQ());
     height: 13px;
   }
 
-  /* List */
   .faq-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
 
-  /* Empty */
   .faq-empty {
     display: none;
     flex-direction: column;
@@ -960,7 +949,6 @@ document.addEventListener('DOMContentLoaded', () => new FAQ());
     height: 13px;
   }
 
-  /* Highlight */
   :global(.faq-item mark) {
     background: var(--accent-glow);
     color: var(--accent);
@@ -978,7 +966,6 @@ document.addEventListener('DOMContentLoaded', () => new FAQ());
     animation: flash 0.3s ease 2;
   }
 
-  /* Responsive */
   @media (max-width: 1000px) {
     .bento-grid {
       grid-template-columns: repeat(3, 1fr);

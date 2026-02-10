@@ -1,14 +1,9 @@
 ---
-/**
- * Terminal.astro v2.0
- * Ultra-polished terminal with SVG icons and advanced effects
- * HTML-aware typing engine preserves colored spans during reveal
- */
 import { heroConfig } from '../../content/pages/home/hero.config';
 const { terminal } = heroConfig;
 ---
 
-<div class="terminal-container"> 
+<div class="terminal-container">
   <div class="terminal-glow"></div>
   <div class="terminal-window">
     <div class="terminal-border-glow"></div>
@@ -49,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const reflection = document.getElementById('terminal-reflection-body');
   if (!body) return;
 
-  // SVG Icons as inline strings (Lucide-style)
   const icons = {
     diamond: '<svg class="t-icon t-icon-diamond" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41L13.7 2.71a2.41 2.41 0 0 0-3.41 0Z"/></svg>',
     circleEmpty: '<svg class="t-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>',
@@ -65,11 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
     chevronRight: '<svg class="t-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>'
   };
 
-  /* ============================================================
-   * HTML-AWARE TYPING ENGINE
-   * Parses HTML into frames where each frame adds one visible char
-   * Tags are injected instantly; only text chars trigger delays
-   * ============================================================ */
   function buildFrames(html) {
     const frames = [];
     const tagStack = [];
@@ -184,32 +173,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const wait = ms => new Promise(r => setTimeout(r, ms));
 
-  /* ============================================================
-   * SCRIPT — rapid typing sequence with SVG icons
-   * ============================================================ */
   async function run() {
     const FAST = 8;
     const MED  = 12;
     const CMD  = 14;
     const PAUSE = 50;
 
-    // Command
     await typeInput('npx create-career@latest', CMD, false);
     syncReflection();
     await wait(PAUSE);
 
-    // Blank
     await typeLine('', 0);
 
-    // Welcome with diamond icon
     await typeLine(`<span class="t-cyan">${icons.diamond}</span> <span class="t-bold">Welcome to Career Builder</span> <span class="t-dim">v2.0.1</span>`, MED);
     syncReflection();
     await wait(30);
 
-    // Blank
     await typeLine('', 0);
 
-    // Question + options with circle icons
     await typeLine(`<span class="t-green">${icons.loader}</span> What's your goal?`, MED);
     await wait(20);
     await typeLine(`  <span class="t-option-empty">${icons.circleEmpty}</span> Just browsing`, FAST);
@@ -218,18 +199,14 @@ document.addEventListener('DOMContentLoaded', () => {
     syncReflection();
     await wait(PAUSE);
 
-    // Blank
     await typeLine('', 0);
 
-    // Loading msg with rocket
     await typeLine(`<span class="t-dim">${icons.rocket} Creating your personalized path...</span>`, MED);
     syncReflection();
     await wait(PAUSE);
 
-    // Blank
     await typeLine('', 0);
 
-    // Checkmarks (rapid fire) with check icons
     await typeLine(`<span class="t-success">${icons.check}</span> Unlocked <span class="t-cyan">mentorship</span> access`, FAST);
     await typeLine(`<span class="t-success">${icons.check}</span> Unlocked <span class="t-cyan">certification</span> tracks`, FAST);
     await typeLine(`<span class="t-success">${icons.check}</span> Unlocked <span class="t-cyan">global</span> community`, FAST);
@@ -237,15 +214,12 @@ document.addEventListener('DOMContentLoaded', () => {
     syncReflection();
     await wait(PAUSE);
 
-    // Blank
     await typeLine('', 0);
 
-    // Success with sparkles
     await typeLine(`<span class="t-bold t-green">${icons.sparkles} Success!</span> Your journey begins now.`, MED);
     syncReflection();
     await wait(30);
 
-    // Final prompt with blinking cursor
     await typeInput('', 0, true);
     syncReflection();
   }
@@ -293,8 +267,8 @@ document.addEventListener('DOMContentLoaded', () => {
     transition: opacity 0.3s ease;
   }
 
-  .terminal-container:hover .terminal-border-glow { 
-    opacity: 0.6; 
+  .terminal-container:hover .terminal-border-glow {
+    opacity: 0.6;
   }
 
   .terminal-inner {
@@ -303,8 +277,8 @@ document.addEventListener('DOMContentLoaded', () => {
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: 
-      0 20px 50px rgba(var(--black-rgb), 0.4), 
+    box-shadow:
+      0 20px 50px rgba(var(--black-rgb), 0.4),
       0 0 60px var(--accent-glow),
       inset 0 1px 0 rgba(var(--white-rgb), 0.05);
     z-index: 1;
@@ -320,41 +294,41 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   .terminal-dots { display: flex; gap: 6px; }
-  .terminal-dots .dot { 
-    width: 10px; 
-    height: 10px; 
-    border-radius: 50%; 
-    transition: all 0.2s ease; 
-    cursor: default; 
+  .terminal-dots .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    cursor: default;
   }
-  .terminal-dots .dot:hover { 
-    transform: scale(1.25); 
-    filter: brightness(1.3); 
+  .terminal-dots .dot:hover {
+    transform: scale(1.25);
+    filter: brightness(1.3);
   }
   .dot.red { background: var(--terminal-dot-red); box-shadow: 0 0 6px rgba(var(--terminal-dot-red-rgb), 0.4); }
   .dot.yellow { background: var(--terminal-dot-yellow); box-shadow: 0 0 6px rgba(var(--terminal-dot-yellow-rgb), 0.4); }
   .dot.green { background: var(--terminal-dot-green); box-shadow: 0 0 6px rgba(var(--terminal-dot-green-rgb), 0.4); }
-  
+
   .terminal-tabs { flex: 1; display: flex; justify-content: center; }
-  .terminal-tabs .tab { 
-    padding: 3px 10px; 
-    background: var(--bg-card); 
-    border-radius: var(--radius-sm); 
-    font-size: 10px; 
-    color: var(--text-secondary); 
+  .terminal-tabs .tab {
+    padding: 3px 10px;
+    background: var(--bg-card);
+    border-radius: var(--radius-sm);
+    font-size: 10px;
+    color: var(--text-secondary);
   }
-  .terminal-tabs .tab.active { 
-    background: var(--bg-tertiary); 
-    color: var(--text); 
+  .terminal-tabs .tab.active {
+    background: var(--bg-tertiary);
+    color: var(--text);
   }
-  .terminal-badge { 
-    padding: 2px 7px; 
-    background: var(--accent); 
-    border-radius: 4px; 
-    font-size: 9px; 
-    font-weight: 700; 
-    color: var(--black); 
-    text-transform: uppercase; 
+  .terminal-badge {
+    padding: 2px 7px;
+    background: var(--accent);
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--black);
+    text-transform: uppercase;
   }
 
   .terminal-body {
@@ -388,7 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
   .terminal-grid-overlay {
     position: absolute;
     inset: 0;
-    background: 
+    background:
       linear-gradient(90deg, rgba(var(--cyan-400-rgb), 0.02) 1px, transparent 1px),
       linear-gradient(rgba(var(--cyan-400-rgb), 0.02) 1px, transparent 1px);
     background-size: 20px 20px;
@@ -408,17 +382,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   .terminal-status { display: flex; align-items: center; gap: 5px; }
-  .status-dot { 
-    width: 5px; 
-    height: 5px; 
-    background: var(--green-500-light); 
-    border-radius: 50%; 
+  .status-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--green-500-light);
+    border-radius: 50%;
     animation: statusPulse 2s ease-in-out infinite;
     box-shadow: 0 0 6px rgba(var(--green-500-light-rgb), 0.5);
   }
   @keyframes statusPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-  /* Reflection */
   .terminal-reflection {
     transform: scaleY(-1) translateY(-1px);
     height: 40px;
@@ -444,9 +417,8 @@ document.addEventListener('DOMContentLoaded', () => {
     overflow: hidden;
   }
 
-  /* Line styles */
-  .terminal-body :global(.t-line) { 
-    animation: lineIn 0.2s ease both; 
+  .terminal-body :global(.t-line) {
+    animation: lineIn 0.2s ease both;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -455,15 +427,15 @@ document.addEventListener('DOMContentLoaded', () => {
   @keyframes lineIn { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
 
   .terminal-body :global(.t-line.input),
-  .reflection-body :global(.t-line.input) { 
-    display: flex; 
-    gap: 8px; 
-    margin-top: 2px; 
+  .reflection-body :global(.t-line.input) {
+    display: flex;
+    gap: 8px;
+    margin-top: 2px;
   }
 
   .terminal-body :global(.t-prompt),
-  .reflection-body :global(.t-prompt) { 
-    color: var(--accent); 
+  .reflection-body :global(.t-prompt) {
+    color: var(--accent);
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -491,7 +463,6 @@ document.addEventListener('DOMContentLoaded', () => {
   .terminal-body :global(.t-green), .reflection-body :global(.t-green) { color: var(--green-500-light); }
   .terminal-body :global(.t-bold), .reflection-body :global(.t-bold) { font-weight: 700; color: var(--text); }
 
-  /* Icon styles */
   .terminal-body :global(.t-icon),
   .reflection-body :global(.t-icon) {
     width: 14px;
@@ -575,23 +546,22 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   @media (max-width: 768px) {
-    .terminal-body { 
-      min-height: 160px; 
-      max-height: 160px; 
-      font-size: 10px; 
-      padding: 12px 14px; 
+    .terminal-body {
+      min-height: 160px;
+      max-height: 160px;
+      font-size: 10px;
+      padding: 12px 14px;
     }
     .terminal-reflection { display: none; }
     .terminal-glow { display: none; }
   }
 
-  /* Daylight theme adjustments */
   :global([data-theme="daylight"]) .terminal-inner {
-    box-shadow: 
-      0 20px 50px rgba(var(--black-rgb), 0.15), 
+    box-shadow:
+      0 20px 50px rgba(var(--black-rgb), 0.15),
       0 0 40px rgba(var(--info-rgb), 0.1);
   }
- 
+
   :global([data-theme="daylight"]) .terminal-glow {
     opacity: 0.15;
   }

@@ -1,22 +1,8 @@
-/**
- * SOCIAL LINKS CONFIGURATION
- * ===========================
- * Social media links for the site
- */
-
-// ============================================
-// TYPE DEFINITIONS
-// ============================================
-
 export interface SocialLink {
   label: string;
   href: string;
   icon: string;
 }
-
-// ============================================
-// SOCIAL LINKS
-// ============================================
 
 export const socials: SocialLink[] = [
   {
@@ -41,20 +27,10 @@ export const socials: SocialLink[] = [
   },
 ];
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
-/**
- * Get social link by label
- */
 export function getSocialByLabel(label: string): SocialLink | undefined {
   return socials.find(s => s.label.toLowerCase() === label.toLowerCase());
 }
 
-/**
- * Get social link by platform (partial match)
- */
 export function getSocialByPlatform(platform: string): SocialLink | undefined {
   return socials.find(s =>
     s.label.toLowerCase().includes(platform.toLowerCase()) ||

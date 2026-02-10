@@ -1,17 +1,4 @@
-/**
- * GLOBAL TEAM CONFIGURATION
- * ==========================
- * THE SINGLE SOURCE OF TRUTH for team member data
- *
- * This file consolidates all team member references across the site.
- * Used for: Contact page, About page, Leadership page, etc.
- */
-
 import { z } from 'zod';
-
-// ============================================
-// VALIDATION SCHEMA
-// ============================================
 
 export const TeamMemberSchema = z.object({
   id: z.string(),
@@ -31,10 +18,6 @@ export const TeamMemberSchema = z.object({
 });
 
 export type TeamMember = z.infer<typeof TeamMemberSchema>;
-
-// ============================================
-// GLOBAL TEAM MEMBERS
-// ============================================
 
 export const teamMembers: TeamMember[] = [
   {
@@ -83,11 +66,6 @@ export const teamMembers: TeamMember[] = [
   },
 ];
 
-// ============================================
-// VALIDATION
-// ============================================
-
-// Validate on load (dev only)
 if (import.meta.env.DEV) {
   try {
     teamMembers.forEach((member) => {
@@ -100,41 +78,22 @@ if (import.meta.env.DEV) {
   }
 }
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
-/**
- * Get team member by ID
- */
 export function getTeamMemberById(id: string): TeamMember | undefined {
   return teamMembers.find(m => m.id === id);
 }
 
-/**
- * Get team members by department
- */
 export function getTeamMembersByDepartment(department: string): TeamMember[] {
   return teamMembers.filter(m => m.department === department);
 }
 
-/**
- * Get online team members
- */
 export function getOnlineTeamMembers(): TeamMember[] {
   return teamMembers.filter(m => m.status === 'online');
 }
 
-/**
- * Get team member count by status
- */
 export function getTeamMemberCountByStatus(status: 'online' | 'away' | 'offline'): number {
   return teamMembers.filter(m => m.status === status).length;
 }
 
-/**
- * Format team members for contact section
- */
 export function getContactTeam() {
   return teamMembers.map(m => ({
     name: m.name,

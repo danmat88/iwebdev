@@ -1,37 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Lora:ital,wght@0,400;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
-/* ============================================= */
-/* ROOT VARIABLES */
-/* ============================================= */
 :root {
-  /* === FONTS === */
   --font-primary: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-secondary: "Lora", Georgia, serif;
   --font-mono: "SF Mono", "Fira Code", "Consolas", monospace;
   --font-display: "Space Grotesk", var(--font-primary);
   --font-code: "JetBrains Mono", var(--font-mono);
-  
-  /* Font Weights */
+
   --font-light: 300;
   --font-normal: 400;
   --font-medium: 500;
   --font-semibold: 600;
   --font-bold: 700;
-  
-  /* Font Sizes */
-  --text-xs: 0.75rem;      /* 12px */
-  --text-sm: 0.875rem;     /* 14px */
-  --text-base: 1rem;       /* 16px */
-  --text-lg: 1.125rem;     /* 18px */
-  --text-xl: 1.25rem;      /* 20px */
-  --text-2xl: 1.5rem;      /* 24px */
-  --text-3xl: 1.875rem;    /* 30px */
-  --text-4xl: 2.25rem;     /* 36px */
-  --text-5xl: 3rem;        /* 48px */
-  --text-6xl: 3.75rem;     /* 60px */
-  
-  /* === COLORS === */
-  /* Brand Colors */
+
+  --text-xs: 0.75rem;      
+  --text-sm: 0.875rem;     
+  --text-base: 1rem;       
+  --text-lg: 1.125rem;     
+  --text-xl: 1.25rem;      
+  --text-2xl: 1.5rem;      
+  --text-3xl: 1.875rem;    
+  --text-4xl: 2.25rem;     
+  --text-5xl: 3rem;        
+  --text-6xl: 3.75rem;     
+
   --color-teal: #00b2a7;
   --color-hunter-green: #077644;
   --color-hunter-green-lite: #49866E;
@@ -39,8 +31,7 @@
   --color-pastel-turquoise: #B1DBD0;
   --color-gray-green: #5b8a7f;
   --color-steel-blue: #4e6583;
-  
-  /* Background Colors */
+
   --bg: #0a0a0f;
   --bg-secondary: #13131a;
   --bg-tertiary: #1a1a24;
@@ -48,61 +39,56 @@
   --bg-elevated: #1e1e2a;
   --bg-overlay: rgba(10, 10, 15, 0.95);
   --bg-modal: rgba(22, 22, 30, 0.98);
-  
-  /* Border Colors */
+
   --border: #2a2a36;
   --border-hover: #3a3a48;
   --border-focus: #4a4a5a;
   --border-light: rgba(177, 219, 208, 0.08);
   --border-strong: #4a4a5a;
-  
-  /* Text Colors */
+
   --text: #f5f5f7;
   --text-secondary: #a8adb5;
   --text-muted: #6b7280;
   --text-disabled: #4a4a5a;
   --text-inverse: #0a0a0f;
-  
-  /* Accent Colors */
+
   --accent: #00b2a7;
   --accent-hover: #00988f;
   --accent-active: #007d76;
   --accent-muted: rgba(0, 178, 167, 0.12);
   --accent-glow: rgba(0, 178, 167, 0.2);
   --accent-strong: rgba(0, 178, 167, 0.3);
-  
+
   --accent-2: #077644;
   --accent-2-hover: #065e37;
   --accent-2-muted: rgba(7, 118, 68, 0.12);
   --accent-2-glow: rgba(7, 118, 68, 0.2);
-  
+
   --accent-3: #22197E;
   --accent-3-hover: #1b1465;
   --accent-3-muted: rgba(34, 25, 126, 0.12);
   --accent-3-glow: rgba(34, 25, 126, 0.2);
-  
-  /* Status Colors */
+
   --success: #077644;
   --success-hover: #065e37;
   --success-muted: rgba(7, 118, 68, 0.12);
   --success-glow: rgba(7, 118, 68, 0.2);
-  
+
   --warning: #d97706;
   --warning-hover: #b45309;
   --warning-muted: rgba(217, 119, 6, 0.12);
   --warning-glow: rgba(217, 119, 6, 0.2);
-  
+
   --error: #dc2626;
   --error-hover: #b91c1c;
   --error-muted: rgba(220, 38, 38, 0.12);
   --error-glow: rgba(220, 38, 38, 0.2);
-  
+
   --info: #0891b2;
   --info-hover: #0e7490;
   --info-muted: rgba(8, 145, 178, 0.12);
   --info-glow: rgba(8, 145, 178, 0.2);
 
-  /* Extended Color Tokens */
   --cyan-400: #22d3ee;
   --cyan-500: #06b6d4;
   --indigo-400: #818cf8;
@@ -165,8 +151,7 @@
   --terminal-dot-red-alt: #ff605c;
   --terminal-dot-yellow-alt: #ffbd44;
   --terminal-dot-green-alt: #00ca4e;
-  
-  /* Utility Colors */
+
   --white: #ffffff;
   --white-alpha-10: rgba(255, 255, 255, 0.1);
   --white-alpha-20: rgba(255, 255, 255, 0.2);
@@ -177,7 +162,7 @@
   --white-alpha-70: rgba(255, 255, 255, 0.7);
   --white-alpha-80: rgba(255, 255, 255, 0.8);
   --white-alpha-90: rgba(255, 255, 255, 0.9);
-  
+
   --black: #000000;
   --black-alpha-10: rgba(0, 0, 0, 0.1);
   --black-alpha-20: rgba(0, 0, 0, 0.2);
@@ -188,38 +173,33 @@
   --black-alpha-70: rgba(0, 0, 0, 0.7);
   --black-alpha-80: rgba(0, 0, 0, 0.8);
   --black-alpha-90: rgba(0, 0, 0, 0.9);
-  
-  /* Gradients */
+
   --gradient: linear-gradient(135deg, #00b2a7 0%, #077644 100%);
   --gradient-2: linear-gradient(135deg, #077644 0%, #22197E 100%);
   --gradient-3: linear-gradient(135deg, #00b2a7 0%, #22197E 100%);
   --gradient-radial: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-  
-  /* === SPACING === */
-  --space-xs: 0.25rem;    /* 4px */
-  --space-sm: 0.5rem;     /* 8px */
-  --space-md: 1rem;       /* 16px */
-  --space-lg: 1.5rem;     /* 24px */
-  --space-xl: 2rem;       /* 32px */
-  --space-2xl: 2.5rem;    /* 40px */
-  --space-3xl: 3rem;      /* 48px */
-  --space-4xl: 4rem;      /* 64px */
-  
-  /* === BORDER RADIUS === */
-  --radius-sm: 0.375rem;  /* 6px */
-  --radius-md: 0.5rem;    /* 8px */
-  --radius-lg: 0.75rem;   /* 12px */
-  --radius-xl: 1rem;      /* 16px */
-  --radius-2xl: 1.25rem;  /* 20px */
+
+  --space-xs: 0.25rem;    
+  --space-sm: 0.5rem;     
+  --space-md: 1rem;       
+  --space-lg: 1.5rem;     
+  --space-xl: 2rem;       
+  --space-2xl: 2.5rem;    
+  --space-3xl: 3rem;      
+  --space-4xl: 4rem;      
+
+  --radius-sm: 0.375rem;  
+  --radius-md: 0.5rem;    
+  --radius-lg: 0.75rem;   
+  --radius-xl: 1rem;      
+  --radius-2xl: 1.25rem;  
   --radius-full: 9999px;
-  
-  /* === TRANSITIONS === */
+
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-smooth: 400ms cubic-bezier(0.16, 1, 0.3, 1);
-  
-  /* === SHADOWS === */
+
   --shadow-sm: 0 1px 2px 0 var(--black-alpha-10);
   --shadow-md: 0 4px 6px -1px var(--black-alpha-20);
   --shadow-lg: 0 10px 15px -3px var(--black-alpha-30);
@@ -227,8 +207,7 @@
   --shadow-2xl: 0 25px 50px -12px var(--black-alpha-50);
   --shadow-glow: 0 0 20px var(--accent-glow);
   --shadow-glow-lg: 0 0 40px var(--accent-glow);
-  
-  /* === Z-INDEX === */
+
   --z-dropdown: 1000;
   --z-sticky: 1100;
   --z-fixed: 1200;
@@ -237,7 +216,6 @@
   --z-popover: 1500;
   --z-tooltip: 1600;
 
-  /* === HEADER VARIABLES === */
   --header-height: 60px;
   --header-padding-x: 32px;
   --header-max-width: 1400px;
@@ -246,7 +224,6 @@
   --header-backdrop-opacity: 0.95;
   --header-border-gradient: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
 
-  /* Navigation */
   --nav-gap: 2px;
   --nav-link-padding: 8px 14px;
   --nav-font-size: 13px;
@@ -254,7 +231,6 @@
   --nav-transition: all 0.2s ease;
   --nav-active-bg: var(--bg-secondary);
 
-  /* Dropdown */
   --dropdown-min-width: 300px;
   --dropdown-padding: 6px;
   --dropdown-gap: 10px;
@@ -269,7 +245,6 @@
   --dropdown-backdrop-blur: 20px;
   --dropdown-transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Nav Actions */
   --action-gap: 12px;
   --action-padding: 7px 12px;
   --cta-padding: 8px 16px;
@@ -279,20 +254,17 @@
   --action-transition: all 0.2s ease;
   --action-shadow: 0 2px 12px var(--accent-glow);
 
-  /* Mobile Menu */
   --mobile-transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   --mobile-padding: 72px 20px 32px;
   --mobile-gap: 6px;
   --mobile-link-padding: 12px 14px;
 
-  /* Command Palette */
   --cmd-max-width: 640px;
   --cmd-padding-top: 12vh;
   --cmd-backdrop-blur: 8px;
   --cmd-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
   --cmd-transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* === FOOTER VARIABLES === */
   --footer-padding-y: 64px;
   --footer-padding-x: 32px;
   --footer-max-width: 1200px;
@@ -309,18 +281,13 @@
   --social-gap: 10px;
 }
 
-/* ============================================= */
-/* THEME: IAWD */
-/* ============================================= */
 [data-theme="iawd"] {
-  /* Fonts */
   --font-primary: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-secondary: "Lora", Georgia, serif;
   --font-mono: "SF Mono", "Fira Code", "Consolas", monospace;
   --font-display: "Space Grotesk", var(--font-primary);
   --font-code: "JetBrains Mono", var(--font-mono);
-  
-  /* Background Colors */
+
   --bg: #0a0a0f;
   --bg-secondary: #13131a;
   --bg-tertiary: #1a1a24;
@@ -328,70 +295,62 @@
   --bg-elevated: #1e1e2a;
   --bg-overlay: rgba(10, 10, 15, 0.95);
   --bg-modal: rgba(22, 22, 30, 0.98);
-  
-  /* Border Colors */
+
   --border: #2a2a36;
   --border-hover: #3a3a48;
   --border-focus: #4a4a5a;
   --border-light: rgba(177, 219, 208, 0.08);
   --border-strong: #4a4a5a;
-  
-  /* Text Colors */
+
   --text: #f5f5f7;
   --text-secondary: #a8adb5;
   --text-muted: #6b7280;
   --text-disabled: #4a4a5a;
   --text-inverse: #0a0a0f;
-  
-  /* Accent Colors */
+
   --accent: #00b2a7;
   --accent-hover: #00988f;
   --accent-active: #007d76;
   --accent-muted: rgba(0, 178, 167, 0.12);
   --accent-glow: rgba(0, 178, 167, 0.2);
   --accent-strong: rgba(0, 178, 167, 0.3);
-  
+
   --accent-2: #077644;
   --accent-2-hover: #065e37;
   --accent-2-muted: rgba(7, 118, 68, 0.12);
   --accent-2-glow: rgba(7, 118, 68, 0.2);
-  
+
   --accent-3: #22197E;
   --accent-3-hover: #1b1465;
   --accent-3-muted: rgba(34, 25, 126, 0.12);
   --accent-3-glow: rgba(34, 25, 126, 0.2);
-  
-  /* Status Colors */
+
   --success: #077644;
   --success-hover: #065e37;
   --success-muted: rgba(7, 118, 68, 0.12);
   --success-glow: rgba(7, 118, 68, 0.2);
-  
+
   --warning: #d97706;
   --warning-hover: #b45309;
   --warning-muted: rgba(217, 119, 6, 0.12);
   --warning-glow: rgba(217, 119, 6, 0.2);
-  
+
   --error: #dc2626;
   --error-hover: #b91c1c;
   --error-muted: rgba(220, 38, 38, 0.12);
   --error-glow: rgba(220, 38, 38, 0.2);
-  
+
   --info: #0891b2;
   --info-hover: #0e7490;
   --info-muted: rgba(8, 145, 178, 0.12);
   --info-glow: rgba(8, 145, 178, 0.2);
-  
-  /* Gradients */
+
   --gradient: linear-gradient(135deg, #00b2a7 0%, #077644 100%);
   --gradient-2: linear-gradient(135deg, #077644 0%, #22197E 100%);
   --gradient-3: linear-gradient(135deg, #00b2a7 0%, #22197E 100%);
   --gradient-radial: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
 }
 
-/* ============================================= */
-/* RESETS & DEFAULTS */
-/* ============================================= */
 * {
   margin: 0;
   padding: 0;
@@ -414,7 +373,6 @@ body {
   overflow-x: hidden;
 }
 
-/* === TYPOGRAPHY === */
 h1, h2, h3 {
   font-family: var(--font-primary);
   font-weight: var(--font-bold);
@@ -491,33 +449,30 @@ input, textarea, select {
   font-family: var(--font-primary);
 }
 
-/* ============================================= */
-/* ANIMATIONS */
-/* ============================================= */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
 @keyframes fadeInUp {
-  from { 
-    opacity: 0; 
-    transform: translateY(30px); 
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 @keyframes slideDown {
-  from { 
-    opacity: 0; 
-    transform: translateY(-20px); 
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -580,9 +535,6 @@ input, textarea, select {
 .animate-delay-4 { animation-delay: 0.4s; }
 .animate-delay-5 { animation-delay: 0.5s; }
 
-/* ============================================= */
-/* UTILITY CLASSES */
-/* ============================================= */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -702,9 +654,6 @@ input, textarea, select {
   border-radius: 2px;
 }
 
-/* ============================================= */
-/* SCROLLBAR */
-/* ============================================= */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -723,9 +672,6 @@ input, textarea, select {
   background: var(--border-hover);
 }
 
-/* ============================================= */
-/* FOCUS STYLES */
-/* ============================================= */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;

@@ -17,7 +17,7 @@ import { Icon } from 'astro-icon/components';
     { title: "Report Issue", href: "/support/report", icon: "lucide:flag" }
   ]}
 >
-  <!-- Mission Statement -->
+
   <div class="mission-statement">
     <div class="mission-glow"></div>
     <div class="mission-badge">
@@ -33,7 +33,6 @@ import { Icon } from 'astro-icon/components';
     </div>
   </div>
 
-  <!-- Core Values Grid -->
   <div class="values-grid">
     <div class="value-card" style="--i:0">
       <Icon name="lucide:handshake" />
@@ -62,8 +61,7 @@ import { Icon } from 'astro-icon/components';
   </div>
 
   <h2>1. Expected Behavior</h2>
-  
-  <!-- Behavior Matrix -->
+
   <div class="behavior-matrix">
     <div class="behavior-card do">
       <div class="card-header">
@@ -96,8 +94,7 @@ import { Icon } from 'astro-icon/components';
   </div>
 
   <h2>2. Unacceptable Behavior</h2>
-  
-  <!-- Zero Tolerance Terminal -->
+
   <div class="terminal-block warning">
     <div class="terminal-header">
       <div class="terminal-dots">
@@ -141,8 +138,7 @@ import { Icon } from 'astro-icon/components';
   </p>
 
   <h2>3. Reporting & Enforcement</h2>
-  
-  <!-- Report Methods -->
+
   <div class="report-methods">
     <a href="/support/report" class="report-card">
       <Icon name="lucide:flag" />
@@ -168,8 +164,7 @@ import { Icon } from 'astro-icon/components';
   </div>
 
   <h3>3.1 Investigation Process</h3>
-  
-  <!-- Process Steps -->
+
   <div class="process-steps">
     <div class="process-step">
       <div class="step-icon">1</div>
@@ -205,8 +200,7 @@ import { Icon } from 'astro-icon/components';
   </div>
 
   <h3>3.2 Enforcement Levels</h3>
-  
-  <!-- Enforcement Tiers -->
+
   <div class="enforcement-tiers">
     <div class="tier-item level-1">
       <div class="tier-icon">
@@ -259,7 +253,7 @@ import { Icon } from 'astro-icon/components';
   </div>
 
   <h2>4. Appeals</h2>
-  
+
   <div class="appeals-guarantee">
     <div class="guarantee-badge">
       <Icon name="lucide:scale" />
@@ -275,7 +269,7 @@ import { Icon } from 'astro-icon/components';
   </div>
 
   <h2>5. Moderator Guidelines</h2>
-  
+
   <div class="moderator-principles">
     <div class="principle">
       <Icon name="lucide:star" />
@@ -300,7 +294,6 @@ import { Icon } from 'astro-icon/components';
     Applies to all IAWD spaces: website, forums, events, social media, and when representing IAWD publicly.
   </p>
 
-  <!-- Scope Visual -->
   <div class="scope-grid">
     <div class="scope-item">
       <Icon name="lucide:globe" />
@@ -321,7 +314,7 @@ import { Icon } from 'astro-icon/components';
   </div>
 
   <h2>7. Contact</h2>
-  
+
   <div class="contact-cards">
     <a href={`mailto:conduct@${siteConfig.url.replace('https://', '').replace('http://', '')}`} class="contact-option">
       <Icon name="lucide:users-round" />
@@ -333,7 +326,6 @@ import { Icon } from 'astro-icon/components';
     </a>
   </div>
 
-  <!-- Final CTA -->
   <div class="final-cta">
     <div class="final-cta-glow"></div>
     <div class="cta-main">
@@ -353,7 +345,6 @@ import { Icon } from 'astro-icon/components';
 </LegalLayout>
 
 <style>
-  /* ===== ANIMATIONS ===== */
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -399,7 +390,6 @@ import { Icon } from 'astro-icon/components';
     animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
   }
 
-  /* ===== MISSION STATEMENT ===== */
   .mission-statement {
     display: flex;
     align-items: center;
@@ -499,7 +489,6 @@ import { Icon } from 'astro-icon/components';
     margin: 0;
   }
 
-  /* ===== VALUES GRID ===== */
   .values-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -568,7 +557,6 @@ import { Icon } from 'astro-icon/components';
     z-index: 1;
   }
 
-  /* Behavior Matrix */
   .behavior-matrix {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -682,7 +670,6 @@ import { Icon } from 'astro-icon/components';
     border-bottom: none;
   }
 
-  /* Terminal Block */
   .terminal-block {
     margin: 28px 0;
     background: var(--bg-card);
@@ -796,7 +783,6 @@ import { Icon } from 'astro-icon/components';
     color: var(--info);
   }
 
-  /* Report Methods */
   .report-methods {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -880,7 +866,6 @@ import { Icon } from 'astro-icon/components';
     color: var(--text);
   }
 
-  /* Process Steps */
   .process-steps {
     display: flex;
     align-items: center;
@@ -950,7 +935,6 @@ import { Icon } from 'astro-icon/components';
     flex-shrink: 0;
   }
 
-  /* Enforcement Tiers */
   .enforcement-tiers {
     display: flex;
     flex-direction: column;
@@ -1072,7 +1056,6 @@ import { Icon } from 'astro-icon/components';
     margin: 0;
   }
 
-  /* ===== APPEALS GUARANTEE ===== */
   .appeals-guarantee {
     display: flex;
     align-items: center;
@@ -1104,7 +1087,6 @@ import { Icon } from 'astro-icon/components';
     box-shadow: 0 12px 36px var(--accent-3-glow);
   }
 
-  /* Moderator Principles */
   .moderator-principles {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -1156,7 +1138,6 @@ import { Icon } from 'astro-icon/components';
     color: var(--text);
   }
 
-  /* Scope Grid */
   .scope-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -1206,7 +1187,6 @@ import { Icon } from 'astro-icon/components';
     color: var(--text);
   }
 
-  /* Contact Cards */
   .contact-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -1282,7 +1262,6 @@ import { Icon } from 'astro-icon/components';
     color: var(--white);
   }
 
-  /* ===== FINAL CTA ===== */
   .final-cta {
     display: flex;
     align-items: center;
@@ -1384,7 +1363,6 @@ import { Icon } from 'astro-icon/components';
     height: 14px;
   }
 
-  /* Mobile Responsive */
   @media (max-width: 768px) {
     .behavior-matrix,
     .report-methods,
@@ -1437,7 +1415,6 @@ import { Icon } from 'astro-icon/components';
     }
   }
 
-  /* Touch device improvements */
   @media (hover: none) {
     .behavior-card,
     .report-card,

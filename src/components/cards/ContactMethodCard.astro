@@ -1,9 +1,4 @@
 ---
-/**
- * ContactMethodCard.astro
- * ========================
- * Bento-style method selection card with visual preview
- */
 
 import { Icon } from 'astro-icon/components';
 import type { ContactMethod } from '../contact.types';
@@ -17,13 +12,13 @@ interface Props {
 const { method, active = false, index = 0 } = Astro.props;
 ---
 
-<button 
+<button
   class:list={['method-card', { active }]}
   data-method={method.id}
   style={`--delay: ${index * 80}ms`}
 >
   <div class="card-glow"></div>
-  
+
   <div class="card-content">
     <div class="card-preview">
       {method.preview === 'chat' && (

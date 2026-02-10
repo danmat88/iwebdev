@@ -56,7 +56,7 @@ const getTierPrice = (tier: any) => {
     { title: "Contact Support", href: "/support/contact", icon: "lucide:mail" }
   ]}
 >
-  <!-- Summary Terminal -->
+
   <div class="terminal-block animate-in">
     <div class="terminal-header">
       <div class="terminal-dots">
@@ -90,7 +90,6 @@ const getTierPrice = (tier: any) => {
     By using IAWD services, you agree to these terms. Simple as that. We're committed to transparency and fairness.
   </p>
 
-  <!-- Data Grid -->
   <div class="data-grid">
     <div class="grid-item" style="--i:0">
       <div class="grid-icon-wrap">
@@ -127,10 +126,10 @@ const getTierPrice = (tier: any) => {
   </div>
 
   <h2>2. Account & Membership</h2>
-  
+
   <h3>2.1 Registration</h3>
   <p>Create an account with accurate info. Keep it current. Pretty standard stuff.</p>
-  
+
   <div class="requirements-grid">
     <div class="req-card" style="--i:0">
       <div class="req-number">01</div>
@@ -159,8 +158,7 @@ const getTierPrice = (tier: any) => {
   </div>
 
   <h3>2.2 Membership Tiers</h3>
-  
-  <!-- Pricing Matrix -->
+
   <div class="pricing-matrix">
     {membershipTiers.map((tier) => {
       const price = getTierPrice(tier);
@@ -190,12 +188,12 @@ const getTierPrice = (tier: any) => {
   </div>
 
   <h2>3. Payment & Billing</h2>
-  
+
   <h3>3.1 Subscription Fees</h3>
   <p>Charged in advance. Monthly or annual billing. All prices in USD.</p>
 
   <h3>3.2 Refund Policy</h3>
-  
+
   <div class="refund-guarantee">
     <div class="guarantee-badge">
       <Icon name="lucide:gift" />
@@ -214,10 +212,9 @@ const getTierPrice = (tier: any) => {
   <p>Cancel anytime from settings. Access continues until end of billing period. No partial refunds for mid-cycle cancellations.</p>
 
   <h2>4. User Conduct</h2>
-  
+
   <p>Be professional. Be respectful. Don't be a jerk. Here's what's not allowed:</p>
 
-  <!-- Dual Column List -->
   <div class="dual-column-list">
     <div class="column prohibited">
       <div class="column-header">
@@ -252,13 +249,12 @@ const getTierPrice = (tier: any) => {
   </div>
 
   <h2>5. Content & IP</h2>
-  
+
   <h3>5.1 Our Content</h3>
   <p>All courses, materials, and content are protected by copyright. You get a license to use, not to redistribute.</p>
 
   <h3>5.2 Your Content</h3>
-  
-  <!-- Info Cards Row -->
+
   <div class="info-cards">
     <div class="info-card">
       <div class="info-card-glow"></div>
@@ -281,8 +277,7 @@ const getTierPrice = (tier: any) => {
   </div>
 
   <h2>6. Disclaimers</h2>
-  
-  <!-- Warning Terminal -->
+
   <div class="terminal-block warning">
     <div class="terminal-header">
       <div class="terminal-dots">
@@ -311,7 +306,7 @@ const getTierPrice = (tier: any) => {
   </p>
 
   <h2>8. Termination</h2>
-  
+
   <div class="stats-row">
     <div class="stat-box" style="--i:0">
       <div class="stat-ring">
@@ -347,8 +342,7 @@ const getTierPrice = (tier: any) => {
   </p>
 
   <h2>11. Contact</h2>
-  
-  <!-- Contact Matrix -->
+
   <div class="contact-matrix">
     <a href={`mailto:${siteConfig.email}`} class="contact-card">
       <div class="contact-icon-wrap">
@@ -373,7 +367,6 @@ const getTierPrice = (tier: any) => {
     </a>
   </div>
 
-  <!-- Final CTA -->
   <div class="final-cta">
     <div class="final-cta-glow"></div>
     <div class="cta-main">
@@ -393,7 +386,6 @@ const getTierPrice = (tier: any) => {
 </LegalLayout>
 
 <style>
-  /* ===== ANIMATIONS ===== */
   @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
@@ -439,7 +431,6 @@ const getTierPrice = (tier: any) => {
     animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
   }
 
-  /* ===== TERMINAL BLOCK ===== */
   .terminal-block {
     margin: 24px 0;
     background: var(--bg-secondary);
@@ -619,7 +610,6 @@ const getTierPrice = (tier: any) => {
     background: linear-gradient(90deg, var(--warning), transparent);
   }
 
-  /* ===== DATA GRID ===== */
   .data-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -718,7 +708,6 @@ const getTierPrice = (tier: any) => {
     color: var(--text-secondary);
   }
 
-  /* ===== REQUIREMENTS GRID ===== */
   .requirements-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -812,7 +801,6 @@ const getTierPrice = (tier: any) => {
     line-height: 1.5;
   }
 
-  /* ===== PRICING MATRIX ===== */
   .pricing-matrix {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -963,7 +951,6 @@ const getTierPrice = (tier: any) => {
     flex-shrink: 0;
   }
 
-  /* ===== REFUND GUARANTEE ===== */
   .refund-guarantee {
     display: flex;
     align-items: center;
@@ -1064,7 +1051,6 @@ const getTierPrice = (tier: any) => {
     margin: 0;
   }
 
-  /* ===== DUAL COLUMN LIST ===== */
   .dual-column-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -1175,7 +1161,6 @@ const getTierPrice = (tier: any) => {
     box-shadow: 0 0 6px color-mix(in srgb, var(--warning) 40%, transparent);
   }
 
-  /* ===== INFO CARDS ===== */
   .info-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -1256,7 +1241,6 @@ const getTierPrice = (tier: any) => {
     z-index: 1;
   }
 
-  /* ===== STATS ROW ===== */
   .stats-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -1345,7 +1329,6 @@ const getTierPrice = (tier: any) => {
     z-index: 1;
   }
 
-  /* ===== CONTACT MATRIX ===== */
   .contact-matrix {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -1436,7 +1419,6 @@ const getTierPrice = (tier: any) => {
     box-shadow: 0 16px 40px var(--accent-glow);
   }
 
-  /* ===== FINAL CTA ===== */
   .final-cta {
     display: flex;
     align-items: center;
@@ -1538,7 +1520,6 @@ const getTierPrice = (tier: any) => {
     height: 14px;
   }
 
-  /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
     .pricing-matrix,
     .info-cards,
@@ -1582,14 +1563,13 @@ const getTierPrice = (tier: any) => {
     }
   }
 
-  /* Hover enhancements */
   .promise-banner:hover,
   .trust-seal:hover,
   .commitment-seal:hover,
   .final-cta:hover {
     animation: gradient-shift 4s ease infinite;
   }
-  
+
   .quick-stat:hover :global(svg),
   .stat-icon:hover :global(svg),
   .security-layer:hover :global(svg),
@@ -1600,8 +1580,7 @@ const getTierPrice = (tier: any) => {
   .right-card:hover :global(svg) {
     transform: scale(1.1) rotate(-5deg);
   }
-  
-  /* Mobile improvements */
+
   @media (max-width: 768px) {
     .quick-stat,
     .provider-card,
@@ -1613,14 +1592,13 @@ const getTierPrice = (tier: any) => {
     }
   }
 
-  /* Touch device improvements */
   @media (hover: none) {
     .quick-stat,
     .provider-card,
     .right-card {
       transform: none !important;
     }
-    
+
     .quick-stat:active,
     .provider-card:active,
     .right-card:active {
